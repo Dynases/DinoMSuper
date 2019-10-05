@@ -25,15 +25,6 @@ Public Class ModeloF0
         End If
     End Sub
 
-    Private Sub btnModificar_Click(sender As Object, e As EventArgs) Handles btnModificar.Click
-
-    End Sub
-
-    Private Sub MRlAccion_Click(sender As Object, e As EventArgs) Handles MRlAccion.Click
-
-    End Sub
-
-
     Private Sub ModeloF0_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.WindowState = FormWindowState.Maximized
         TxtNombreUsu.Text = MGlobal.gs_usuario

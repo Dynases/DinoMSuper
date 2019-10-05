@@ -56,6 +56,7 @@ Public Class F0_Venta2
         P_prCargarParametro()
         _prValidadFactura()
         _prCargarNameLabel()
+        btnModificar.Visible = False
     End Sub
 
     Public Sub _prCargarNameLabel()
@@ -2697,8 +2698,6 @@ salirIf:
         End If
 
         Dim ef = New Efecto
-
-
         ef.tipo = 2
         ef.Context = "¿esta seguro de eliminar el registro?".ToUpper
         ef.Header = "mensaje principal".ToUpper
