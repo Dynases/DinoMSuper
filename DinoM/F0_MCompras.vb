@@ -1575,45 +1575,85 @@ salirIf:
         End If
     End Sub
     Private Sub btnEliminar_Click(sender As Object, e As EventArgs) Handles btnEliminar.Click
+        'Dim result As Boolean = L_fnVerificarSiSeContabilizo(tbCodigo.Text)
+        'If result Then
+        '    Dim img As Bitmap = New Bitmap(My.Resources.cancel, 50, 50)
+        '    ToastNotification.Show(Me, "La Compra no puede ser Eliminada porque ya fue contabilizada".ToUpper, img, 3500, eToastGlowColor.Red, eToastPosition.TopCenter)
+        'Else
+        '    Dim ef = New Efecto
+        '    ef.tipo = 2
+        '    ef.Context = "¿esta seguro de eliminar el registro?".ToUpper
+        '    ef.Header = "mensaje principal".ToUpper
+        '    ef.ShowDialog()
+        '    Dim bandera As Boolean = False
+        '    bandera = ef.band
+        '    If (bandera = True) Then
+        '        Dim mensajeError As String = ""
+        '        Dim res As Boolean = L_fnEliminarCompra(tbCodigo.Text, mensajeError)
+        '        If res Then
+
+        '            Dim img As Bitmap = New Bitmap(My.Resources.checked, 50, 50)
+        '            ToastNotification.Show(Me, "Código de Compra ".ToUpper + tbCodigo.Text + " eliminado con Exito.".ToUpper,
+        '                                      img, 2000,
+        '                                      eToastGlowColor.Green,
+        '                                      eToastPosition.TopCenter)
+
+        '            _prFiltrar()
+
+        '        Else
+        '            Dim img As Bitmap = New Bitmap(My.Resources.cancel, 50, 50)
+        '            ToastNotification.Show(Me, mensajeError, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
+        '        End If
+        '    End If
+        'End If
+        If (swTipoVenta.Value = False) Then
+            Dim res1 As Boolean = L_fnVerificarPagosCompras(tbCodigo.Text)
+            If res1 Then
+                Dim img As Bitmap = New Bitmap(My.Resources.WARNING, 50, 50)
+                ToastNotification.Show(Me, "No se puede eliminar la Compra con código ".ToUpper + tbCodigo.Text + ", porque tiene pagos realizados, por favor primero elimine los pagos correspondientes a esta compra".ToUpper,
+                                          img, 5000,
+                                          eToastGlowColor.Green,
+                                          eToastPosition.TopCenter)
+                Exit Sub
+            End If
+        End If
+
+
         Dim result As Boolean = L_fnVerificarSiSeContabilizo(tbCodigo.Text)
         If result Then
             Dim img As Bitmap = New Bitmap(My.Resources.cancel, 50, 50)
-            ToastNotification.Show(Me, "La Compra no puede ser Eliminada porque ya fue contabilizada".ToUpper, img, 3500, eToastGlowColor.Red, eToastPosition.TopCenter)
-        Else
-            Dim ef = New Efecto
+            ToastNotification.Show(Me, "La Compra no puede ser Eliminada porque ya fue contabilizada".ToUpper, img, 4500, eToastGlowColor.Red, eToastPosition.TopCenter)
+        End If
+        Dim ef = New Efecto
             ef.tipo = 2
             ef.Context = "¿esta seguro de eliminar el registro?".ToUpper
             ef.Header = "mensaje principal".ToUpper
             ef.ShowDialog()
             Dim bandera As Boolean = False
             bandera = ef.band
-            If (bandera = True) Then
-                Dim mensajeError As String = ""
-                Dim res As Boolean = L_fnEliminarCompra(tbCodigo.Text, mensajeError)
-                If res Then
+        If (bandera = True) Then
+            Dim mensajeError As String = ""
+            Dim res As Boolean = L_fnEliminarCompra(tbCodigo.Text, mensajeError)
+            If res Then
 
-                    Dim img As Bitmap = New Bitmap(My.Resources.checked, 50, 50)
-                    ToastNotification.Show(Me, "Código de Compra ".ToUpper + tbCodigo.Text + " eliminado con Exito.".ToUpper,
-                                              img, 2000,
-                                              eToastGlowColor.Green,
-                                              eToastPosition.TopCenter)
+                Dim img As Bitmap = New Bitmap(My.Resources.checked, 50, 50)
+                ToastNotification.Show(Me, "Código de Compra ".ToUpper + tbCodigo.Text + " eliminado con Exito.".ToUpper,
+                                          img, 2000,
+                                          eToastGlowColor.Green,
+                                          eToastPosition.TopCenter)
 
-                    _prFiltrar()
+                _prFiltrar()
 
-                Else
-                    Dim img As Bitmap = New Bitmap(My.Resources.cancel, 50, 50)
-                    ToastNotification.Show(Me, mensajeError, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
-                End If
+            Else
+                Dim img As Bitmap = New Bitmap(My.Resources.cancel, 50, 50)
+                ToastNotification.Show(Me, mensajeError, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
             End If
         End If
-
-
 
     End Sub
 
     Private Sub grVentas_SelectionChanged(sender As Object, e As EventArgs) Handles grCompra.SelectionChanged
         If (grCompra.RowCount >= 0 And grCompra.Row >= 0) Then
-
             _prMostrarRegistro(grCompra.Row)
         End If
 

@@ -56,7 +56,9 @@ Public Class F0_Venta2
         P_prCargarParametro()
         _prValidadFactura()
         _prCargarNameLabel()
+        'Ocultar el botón Modificar
         btnModificar.Visible = False
+
     End Sub
 
     Public Sub _prCargarNameLabel()
@@ -131,6 +133,7 @@ Public Class F0_Venta2
         swMoneda.IsReadOnly = True
         tbFechaVenc.IsInputReadOnly = True
         swTipoVenta.IsReadOnly = True
+        txtEstado.ReadOnly = True
 
         'Datos facturacion
         tbNroAutoriz.ReadOnly = True
@@ -142,7 +145,13 @@ Public Class F0_Venta2
         btnModificar.Enabled = True
         btnGrabar.Enabled = False
         btnNuevo.Enabled = True
-        btnEliminar.Enabled = True
+        'btnEliminar.Enabled = True
+
+        If grVentas.GetValue("taest") = 1 Then
+            btnEliminar.Enabled = True
+        Else
+            btnEliminar.Enabled = False
+        End If
 
         tbSubTotal.IsInputReadOnly = True
         tbIce.IsInputReadOnly = True
@@ -246,6 +255,10 @@ Public Class F0_Venta2
         txtMontoPagado1.Text = "0.00"
         tbTotalBs.Text = "0.00"
         tbTotalDo.Text = "0.00"
+
+        txtEstado.BackColor = Color.White
+        txtEstado.Clear()
+
         With grdetalle.RootTable.Columns("img")
             .Width = 80
             .Caption = "Eliminar"
@@ -293,6 +306,15 @@ Public Class F0_Venta2
             swMoneda.Value = .GetValue("tamon")
             tbFechaVenc.Value = .GetValue("tafvcr")
             swTipoVenta.Value = .GetValue("tatven")
+            If grVentas.GetValue("taest") = 1 Then
+                txtEstado.Text = "VIGENTE"
+                txtEstado.BackColor = Color.Green
+                btnEliminar.Enabled = True
+            Else
+                txtEstado.Text = "ANULADO"
+                txtEstado.BackColor = Color.Red
+                btnEliminar.Enabled = False
+            End If
             'If (gb_FacturaEmite) Then
             Dim dt As DataTable = L_fnObtenerTabla("TFV001", "fvanitcli, fvadescli1, fvadescli2, fvaautoriz, fvanfac, fvaccont, fvafec", "fvanumi=" + tbCodigo.Text.Trim)
             If (dt.Rows.Count = 1) Then
@@ -1930,9 +1952,7 @@ Public Class F0_Venta2
     End Sub
 
 #End Region
-    Private Sub PanelContent_Paint(sender As Object, e As PaintEventArgs) Handles PanelContent.Paint
 
-    End Sub
 #Region "Eventos Formulario"
     Private Sub F0_Ventas_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         _IniciarTodo()
@@ -1959,8 +1979,6 @@ Public Class F0_Venta2
         _prSalir()
 
     End Sub
-
-
 
     Private Sub tbCliente_KeyDown(sender As Object, e As KeyEventArgs) Handles tbCliente.KeyDown
         If (_fnAccesible()) Then
@@ -2652,8 +2670,6 @@ salirIf:
                 _prEliminarFila()
             End If
         End If
-
-
     End Sub
     Private Sub btnGrabar_Click(sender As Object, e As EventArgs) Handles btnGrabar.Click
         _prGuardar()
@@ -2684,19 +2700,35 @@ salirIf:
         End If
     End Sub
     Private Sub btnEliminar_Click(sender As Object, e As EventArgs) Handles btnEliminar.Click
-
         If (gb_FacturaEmite) Then
             If (P_fnValidarFacturaVigente()) Then
                 Dim img As Bitmap = New Bitmap(My.Resources.WARNING, 50, 50)
 
-                ToastNotification.Show(Me, "No se puede eliminar la venta con codigo ".ToUpper + tbCodigo.Text + ", su factura esta vigente.".ToUpper,
-                                          img, 2000,
+                ToastNotification.Show(Me, "No se puede anular la venta con código ".ToUpper + tbCodigo.Text + ", su factura esta vigente, por favor primero anule la factura".ToUpper,
+                                          img, 3000,
                                           eToastGlowColor.Green,
                                           eToastPosition.TopCenter)
                 Exit Sub
             End If
         End If
 
+        If (swTipoVenta.Value = False) Then
+            Dim res1 As Boolean = L_fnVerificarPagos(tbCodigo.Text)
+            If res1 Then
+                Dim img As Bitmap = New Bitmap(My.Resources.WARNING, 50, 50)
+                ToastNotification.Show(Me, "No se puede anular la venta con código ".ToUpper + tbCodigo.Text + ", porque tiene pagos realizados, por favor primero elimine los pagos correspondientes a esta venta".ToUpper,
+                                          img, 5000,
+                                          eToastGlowColor.Green,
+                                          eToastPosition.TopCenter)
+                Exit Sub
+            End If
+        End If
+
+        Dim result As Boolean = L_fnVerificarSiSeContabilizoVenta(tbCodigo.Text)
+        If result Then
+            Dim img As Bitmap = New Bitmap(My.Resources.cancel, 50, 50)
+            ToastNotification.Show(Me, "La Venta no puede ser anulada porque ya fue contabilizada".ToUpper, img, 4500, eToastGlowColor.Red, eToastPosition.TopCenter)
+        End If
         Dim ef = New Efecto
         ef.tipo = 2
         ef.Context = "¿esta seguro de eliminar el registro?".ToUpper
@@ -2708,17 +2740,12 @@ salirIf:
             Dim mensajeError As String = ""
             Dim res As Boolean = L_fnEliminarVenta(tbCodigo.Text, mensajeError)
             If res Then
-
-
                 Dim img As Bitmap = New Bitmap(My.Resources.checked, 50, 50)
-
                 ToastNotification.Show(Me, "Código de Venta ".ToUpper + tbCodigo.Text + " eliminado con Exito.".ToUpper,
                                           img, 2000,
                                           eToastGlowColor.Green,
                                           eToastPosition.TopCenter)
-
                 _prFiltrar()
-
             Else
                 Dim img As Bitmap = New Bitmap(My.Resources.cancel, 50, 50)
                 ToastNotification.Show(Me, mensajeError, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
@@ -2729,11 +2756,8 @@ salirIf:
 
     Private Sub grVentas_SelectionChanged(sender As Object, e As EventArgs) Handles grVentas.SelectionChanged
         If (grVentas.RowCount >= 0 And grVentas.Row >= 0) Then
-
             _prMostrarRegistro(grVentas.Row)
         End If
-
-
     End Sub
 
     Private Sub btnSiguiente_Click(sender As Object, e As EventArgs) Handles btnSiguiente.Click
@@ -2952,7 +2976,52 @@ salirIf:
         End If
     End Sub
 
-    Private Sub GroupBox1_Enter(sender As Object, e As EventArgs) Handles GroupBox1.Enter
+    Private Sub btnDuplicar_Click(sender As Object, e As EventArgs) Handles btnDuplicar.Click
+
+        Dim Nit As String = tbNit.Text
+        Dim Razon_Social As String = TbNombre1.Text
+        Dim Cliente As String = tbCliente.Text
+        Dim Vend As String = tbVendedor.Text
+        Dim TipoVenta As Boolean = swTipoVenta.Value
+        Dim FechaVenc As Date = tbFechaVenc.Value
+        Dim TotalBs As String = tbTotalBs.Text
+        Dim TotalDo As String = tbTotalDo.Text
+
+        Dim table As DataTable = grdetalle.DataSource
+
+        btnNuevo.PerformClick()
+        tbNit.Text = Nit
+        TbNombre1.Text = Razon_Social
+        tbCliente.Text = Cliente
+        tbVendedor.Text = Vend
+        swTipoVenta.Value = TipoVenta
+        tbFechaVenc.Value = FechaVenc
+        tbTotalBs.Text = TotalBs
+        tbTotalDo.Text = TotalDo
+        txtEstado.Clear()
+        'txtEstado.Text = "VIGENTE"
+        'grdetalle.DataSource = table
+
+        'Dim _detalle1 As DataTable = grdetalle.DataSource
+
+        'For j As Integer = 0 To grdetalle.RowCount - 1 Step 1
+        '    grdetalle.Row = j
+        '    _detalle1.Rows(j).Item("tbtv1numi") = 0
+        '    _detalle1.Rows(j).Item("estado") = 0
+        'Next
+        'grdetalle.DataSource = _detalle1
+
+
+        For j As Integer = 0 To table.Rows.Count - 1 Step 1
+
+            table.Rows(j).Item("tbtv1numi") = 0
+            table.Rows(j).Item("estado") = 0
+        Next
+        grdetalle.DataSource = table
+        _prCargarIconELiminar()
+
+
+
 
     End Sub
 
