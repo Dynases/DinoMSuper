@@ -463,7 +463,6 @@ Public Class P_Principal
         tab3.Icon = frm.Icon
     End Sub
 
- 
 
     Private Sub btConfDosificacion_Click(sender As Object, e As EventArgs) Handles btConfDosificacion.Click
         SideNav1.IsMenuExpanded = False

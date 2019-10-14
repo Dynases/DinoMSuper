@@ -1069,15 +1069,12 @@ Public Class F0_MCompras
         If btnGrabar.Enabled = True Then
             _prInhabiliitar()
             If grCompra.RowCount > 0 Then
-
                 _prMostrarRegistro(0)
-
             End If
         Else
             '  Public _modulo As SideNavItem
             _modulo.Select()
             _tab.Close()
-
         End If
     End Sub
     Public Sub _prCargarIconELiminar()
@@ -1098,9 +1095,6 @@ Public Class F0_MCompras
             grCompra.Row = _MPos
         End If
     End Sub
-
-
-
 
 #End Region
 

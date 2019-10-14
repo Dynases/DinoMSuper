@@ -1338,13 +1338,11 @@ Public Class F0_Venta2
         If btnGrabar.Enabled = True Then
             _prInhabiliitar()
             If grVentas.RowCount > 0 Then
-
                 _prMostrarRegistro(0)
-
             End If
         Else
-            _modulo.Select()
             _tab.Close()
+            _modulo.Select()
         End If
     End Sub
     Public Sub _prCargarIconELiminar()
@@ -1474,7 +1472,7 @@ Public Class F0_Venta2
                         "",
                         Now.Date.ToString("yyyy/MM/dd"),
                         "''",
-                        "0",
+                        cbSucursal.Value,
                         numi)
 
         'Grabar Nuevo y Modificado en la BDDiconDinoEco en la tabla TPA001
@@ -1804,9 +1802,6 @@ Public Class F0_Venta2
         ParteDecimal = total - ParteEntera
         Dim li As String = Facturacion.ConvertirLiteral.A_fnConvertirLiteral(CDbl(ParteEntera)) + " con " +
         IIf(ParteDecimal.ToString.Equals("0"), "00", ParteDecimal.ToString) + "/100 Bolivianos"
-
-
-
 
 
         Dim objrep As New R_FacturaFarmacia
