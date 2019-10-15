@@ -1073,8 +1073,8 @@ Public Class F0_MCompras
             End If
         Else
             '  Public _modulo As SideNavItem
-            _modulo.Select()
             _tab.Close()
+            _modulo.Select()
         End If
     End Sub
     Public Sub _prCargarIconELiminar()

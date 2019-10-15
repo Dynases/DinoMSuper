@@ -793,10 +793,8 @@ Public Class F0_PagosCreditoCompraUlt
 
             End If
         Else
-
-            _modulo.Select()
             _tab.Close()
-
+            _modulo.Select()
         End If
     End Sub
     Private Sub P_GenerarReporte()
@@ -950,8 +948,7 @@ Public Class F0_PagosCreditoCompraUlt
                 Dim res As Boolean = L_fnEliminarCobranzaCompras(tbnrodoc.Text, mensajeError)
                 If res Then
 
-
-                    Dim img As Bitmap = New Bitmap(My.Resources.checked, 50, 50)
+                Dim img As Bitmap = New Bitmap(My.Resources.checked, 50, 50)
 
                     ToastNotification.Show(Me, "Código de COBRANZA ".ToUpper + tbnrodoc.Text + " eliminado con Exito.".ToUpper,
                                           img, 2000,
@@ -968,8 +965,6 @@ Public Class F0_PagosCreditoCompraUlt
 
 
     End Sub
-    
-    
 
     Private Sub grfactura_Enter(sender As Object, e As EventArgs) Handles grfactura.Enter
         If (_fnAccesible()) Then
