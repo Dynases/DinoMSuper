@@ -757,53 +757,53 @@ Public Class F0_Compra
     Public Sub _GuardarNuevo()
 
 
-        '_canumi As String, _caalm As Integer, _cafdoc As String, _caTy4prov As Integer, _catven As Integer, _cafvcr As String,
-        '                                   _camon As Integer, _caobs As String,
-        '                                   _cadesc As Double, detalle As DataTable
+        ''_canumi As String, _caalm As Integer, _cafdoc As String, _caTy4prov As Integer, _catven As Integer, _cafvcr As String,
+        ''                                   _camon As Integer, _caobs As String,
+        ''                                   _cadesc As Double, detalle As DataTable
 
-        Dim res As Boolean = L_fnGrabarCompra("", cbSucursal.Value, tbFechaVenta.Value.ToString("yyyy/MM/dd"), _CodProveedor, IIf(swTipoVenta.Value = True, 1, 0), IIf(swTipoVenta.Value = True, Now.Date.ToString("yyyy/MM/dd"), tbFechaVenc.Value.ToString("yyyy/MM/dd")), 0, tbObservacion.Text, tbMdesc.Value, tbtotal.Value, CType(grdetalle.DataSource, DataTable), _detalleCompras, IIf(swEmision.Value = True, 1, 2), tbNFactura.Text)
+        'Dim res As Boolean = L_fnGrabarCompra("", cbSucursal.Value, tbFechaVenta.Value.ToString("yyyy/MM/dd"), _CodProveedor, IIf(swTipoVenta.Value = True, 1, 0), IIf(swTipoVenta.Value = True, Now.Date.ToString("yyyy/MM/dd"), tbFechaVenc.Value.ToString("yyyy/MM/dd")), 0, tbObservacion.Text, tbMdesc.Value, tbtotal.Value, CType(grdetalle.DataSource, DataTable), _detalleCompras, IIf(swEmision.Value = True, 1, 2), tbNFactura.Text)
 
 
-        If res Then
+        'If res Then
 
-            Dim img As Bitmap = New Bitmap(My.Resources.checked, 50, 50)
-            ToastNotification.Show(Me, "Código de Compra ".ToUpper + tbCodigo.Text + " Grabado con Exito.".ToUpper,
-                                      img, 2000,
-                                      eToastGlowColor.Green,
-                                      eToastPosition.TopCenter
-                                      )
+        '    Dim img As Bitmap = New Bitmap(My.Resources.checked, 50, 50)
+        '    ToastNotification.Show(Me, "Código de Compra ".ToUpper + tbCodigo.Text + " Grabado con Exito.".ToUpper,
+        '                              img, 2000,
+        '                              eToastGlowColor.Green,
+        '                              eToastPosition.TopCenter
+        '                              )
 
-            _prCargarCompra()
+        '    _prCargarCompra()
 
-            _Limpiar()
+        '    _Limpiar()
 
-        Else
-            Dim img As Bitmap = New Bitmap(My.Resources.cancel, 50, 50)
-            ToastNotification.Show(Me, "La Compra no pudo ser insertado".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
+        'Else
+        '    Dim img As Bitmap = New Bitmap(My.Resources.cancel, 50, 50)
+        '    ToastNotification.Show(Me, "La Compra no pudo ser insertado".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
 
-        End If
+        'End If
 
     End Sub
     Private Sub _prGuardarModificado()
-        Dim res As Boolean = L_fnModificarCompra("", cbSucursal.Value, tbFechaVenta.Value.ToString("yyyy/MM/dd"), _CodProveedor, IIf(swTipoVenta.Value = True, 1, 0), IIf(swTipoVenta.Value = True, Now.Date.ToString("yyyy/MM/dd"), tbFechaVenc.Value.ToString("yyyy/MM/dd")), cbSucursal.Value, tbObservacion.Text, tbMdesc.Value, tbtotal.Value, CType(grdetalle.DataSource, DataTable), _detalleCompras, IIf(swEmision.Value = True, 1, 2), tbNFactura.Text)
-        If res Then
+        'Dim res As Boolean = L_fnModificarCompra("", cbSucursal.Value, tbFechaVenta.Value.ToString("yyyy/MM/dd"), _CodProveedor, IIf(swTipoVenta.Value = True, 1, 0), IIf(swTipoVenta.Value = True, Now.Date.ToString("yyyy/MM/dd"), tbFechaVenc.Value.ToString("yyyy/MM/dd")), cbSucursal.Value, tbObservacion.Text, tbMdesc.Value, tbtotal.Value, CType(grdetalle.DataSource, DataTable), _detalleCompras, IIf(swEmision.Value = True, 1, 2), tbNFactura.Text)
+        'If res Then
 
-            Dim img As Bitmap = New Bitmap(My.Resources.checked, 50, 50)
-            ToastNotification.Show(Me, "Código de Compra ".ToUpper + tbCodigo.Text + " Modificado con Exito.".ToUpper,
-                                      img, 2000,
-                                      eToastGlowColor.Green,
-                                      eToastPosition.TopCenter
-                                      )
-            _prCargarCompra()
+        '    Dim img As Bitmap = New Bitmap(My.Resources.checked, 50, 50)
+        '    ToastNotification.Show(Me, "Código de Compra ".ToUpper + tbCodigo.Text + " Modificado con Exito.".ToUpper,
+        '                              img, 2000,
+        '                              eToastGlowColor.Green,
+        '                              eToastPosition.TopCenter
+        '                              )
+        '    _prCargarCompra()
 
-            _prSalir()
+        '    _prSalir()
 
 
-        Else
-            Dim img As Bitmap = New Bitmap(My.Resources.cancel, 50, 50)
-            ToastNotification.Show(Me, "La Compra no pudo ser Modificada".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
+        'Else
+        '    Dim img As Bitmap = New Bitmap(My.Resources.cancel, 50, 50)
+        '    ToastNotification.Show(Me, "La Compra no pudo ser Modificada".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
 
-        End If
+        'End If
     End Sub
     Private Sub _prSalir()
         If btnGrabar.Enabled = True Then

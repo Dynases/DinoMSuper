@@ -96,6 +96,7 @@ Public Class F0_MCompras
     Private Sub _prInhabiliitar()
         tbCodigo.ReadOnly = True
         tbProveedor.ReadOnly = True
+        tbCodProv.ReadOnly = True
         tbObservacion.ReadOnly = True
         tbFechaVenta.IsInputReadOnly = True
         tbFechaVenc.IsInputReadOnly = True
@@ -104,6 +105,7 @@ Public Class F0_MCompras
 
         tbNitProv.ReadOnly = True
         swEmision.IsReadOnly = True
+        swConsigna.IsReadOnly = True
         tbNFactura.ReadOnly = True
         tbNAutorizacion.ReadOnly = True
         tbCodControl.ReadOnly = True
@@ -146,6 +148,7 @@ Public Class F0_MCompras
 
         tbNitProv.ReadOnly = False
         swEmision.IsReadOnly = False
+        swConsigna.IsReadOnly = False
         tbNFactura.ReadOnly = False
         tbNAutorizacion.ReadOnly = False
         tbCodControl.ReadOnly = False
@@ -181,6 +184,7 @@ Public Class F0_MCompras
         lbCredito.Visible = True
         tbCodProv.Clear()
         swEmision.Value = True
+        swConsigna.Value = False
         tbNFactura.Clear()
         tbNAutorizacion.Clear()
         tbCodControl.Clear()
@@ -194,6 +198,7 @@ Public Class F0_MCompras
         tbPdesc.Value = 0
         tbMdesc.Value = 0
         tbtotal.Value = 0
+        tbSubtotalC.Value = 0
         With grdetalle.RootTable.Columns("img")
             .Width = 80
             .Caption = "Eliminar"
@@ -226,6 +231,7 @@ Public Class F0_MCompras
             swEmision.Value = .GetValue("caemision")
             tbNFactura.Text = .GetValue("canumemis")
             tbNitProv.Text = .GetValue("yddctnum")
+            swConsigna.Value = .GetValue("caconsigna")
 
             'If (swTipoVenta.Value = False) Then
 
@@ -570,7 +576,12 @@ Public Class F0_MCompras
             .CellStyle.TextAlignment = Janus.Windows.GridEX.TextAlignment.Far
             .Visible = False
             .Caption = "Nro. Emision"
-
+        End With
+        With grCompra.RootTable.Columns("caconsigna")
+            .Width = 120
+            .CellStyle.TextAlignment = Janus.Windows.GridEX.TextAlignment.Far
+            .Visible = False
+            .Caption = "Consigna"
         End With
         With grCompra
             .DefaultFilterRowComparison = FilterConditionOperator.Contains
@@ -943,7 +954,7 @@ Public Class F0_MCompras
         '                                   _cadesc As Double, detalle As DataTable
 
         RecuperarDatosTFC001()  'Recupera datos para grabar en la BDDiconDino en la Tabla TFC001
-        Dim res As Boolean = L_fnGrabarCompra("", cbSucursal.Value, tbFechaVenta.Value.ToString("yyyy/MM/dd"), _CodProveedor, IIf(swTipoVenta.Value = True, 1, 0), IIf(swTipoVenta.Value = True, Now.Date.ToString("yyyy/MM/dd"), tbFechaVenc.Value.ToString("yyyy/MM/dd")), 1, tbObservacion.Text, tbMdesc.Value, tbtotal.Value, CType(grdetalle.DataSource, DataTable), _detalleCompras, IIf(swEmision.Value = True, 1, 0), tbNFactura.Text)
+        Dim res As Boolean = L_fnGrabarCompra("", cbSucursal.Value, tbFechaVenta.Value.ToString("yyyy/MM/dd"), _CodProveedor, IIf(swTipoVenta.Value = True, 1, 0), IIf(swTipoVenta.Value = True, Now.Date.ToString("yyyy/MM/dd"), tbFechaVenc.Value.ToString("yyyy/MM/dd")), 1, tbObservacion.Text, tbMdesc.Value, tbtotal.Value, CType(grdetalle.DataSource, DataTable), _detalleCompras, IIf(swEmision.Value = True, 1, 0), tbNFactura.Text, IIf(swConsigna.Value = True, 1, 0))
 
 
         If res Then
@@ -1045,7 +1056,7 @@ Public Class F0_MCompras
 
     Private Sub _prGuardarModificado()
         RecuperarDatosTFC001()
-        Dim res As Boolean = L_fnModificarCompra(tbCodigo.Text, cbSucursal.Value, tbFechaVenta.Value.ToString("yyyy/MM/dd"), _CodProveedor, IIf(swTipoVenta.Value = True, 1, 0), IIf(swTipoVenta.Value = True, Now.Date.ToString("yyyy/MM/dd"), tbFechaVenc.Value.ToString("yyyy/MM/dd")), cbSucursal.Value, tbObservacion.Text, tbMdesc.Value, tbtotal.Value, CType(grdetalle.DataSource, DataTable), _detalleCompras, IIf(swEmision.Value = True, 1, 0), tbNFactura.Text)
+        Dim res As Boolean = L_fnModificarCompra(tbCodigo.Text, cbSucursal.Value, tbFechaVenta.Value.ToString("yyyy/MM/dd"), _CodProveedor, IIf(swTipoVenta.Value = True, 1, 0), IIf(swTipoVenta.Value = True, Now.Date.ToString("yyyy/MM/dd"), tbFechaVenc.Value.ToString("yyyy/MM/dd")), cbSucursal.Value, tbObservacion.Text, tbMdesc.Value, tbtotal.Value, CType(grdetalle.DataSource, DataTable), _detalleCompras, IIf(swEmision.Value = True, 1, 0), tbNFactura.Text, IIf(swConsigna.Value = True, 1, 0))
         If res Then
 
             Dim img As Bitmap = New Bitmap(My.Resources.checked, 50, 50)
@@ -1608,6 +1619,7 @@ salirIf:
                                           img, 5000,
                                           eToastGlowColor.Green,
                                           eToastPosition.TopCenter)
+
                 Exit Sub
             End If
         End If

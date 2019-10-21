@@ -204,6 +204,12 @@
     <Compile Include="F0_CodigoControl.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="F0_Compra.designer.vb">
+      <DependentUpon>F0_Compra.vb</DependentUpon>
+    </Compile>
+    <Compile Include="F0_Compra.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="F0_KardexMovimiento.Designer.vb">
       <DependentUpon>F0_KardexMovimiento.vb</DependentUpon>
     </Compile>
@@ -216,7 +222,7 @@
     <Compile Include="F0_LibroVenta.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="F0_MCompras.Designer.vb">
+    <Compile Include="F0_MCompras.designer.vb">
       <DependentUpon>F0_MCompras.vb</DependentUpon>
     </Compile>
     <Compile Include="F0_MCompras.vb">
@@ -262,12 +268,6 @@
       <DependentUpon>F0_Precios.vb</DependentUpon>
     </Compile>
     <Compile Include="F0_Precios.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="F0_Compra.Designer.vb">
-      <DependentUpon>F0_Compra.vb</DependentUpon>
-    </Compile>
-    <Compile Include="F0_Compra.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="F0_Factura.Designer.vb">
@@ -771,6 +771,9 @@
     <EmbeddedResource Include="F0_CodigoControl.resx">
       <DependentUpon>F0_CodigoControl.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="F0_Compra.resx">
+      <DependentUpon>F0_Compra.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="F0_KardexMovimiento.resx">
       <DependentUpon>F0_KardexMovimiento.vb</DependentUpon>
     </EmbeddedResource>
@@ -800,9 +803,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="F0_Precios.resx">
       <DependentUpon>F0_Precios.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="F0_Compra.resx">
-      <DependentUpon>F0_Compra.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="F0_Factura.resx">
       <DependentUpon>F0_Factura.vb</DependentUpon>

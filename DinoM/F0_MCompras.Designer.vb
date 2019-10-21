@@ -82,6 +82,8 @@ Partial Class F0_MCompras
         Me.GroupPanel2 = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.grCompra = New Janus.Windows.GridEX.GridEX()
+        Me.swConsigna = New DevComponents.DotNetBar.Controls.SwitchButton()
+        Me.LabelX12 = New DevComponents.DotNetBar.LabelX()
         Me.PanelSuperior.SuspendLayout()
         Me.PanelInferior.SuspendLayout()
         CType(Me.BubbleBarUsuario, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -646,6 +648,8 @@ Partial Class F0_MCompras
         '
         Me.Panel2.AutoScroll = True
         Me.Panel2.BackColor = System.Drawing.Color.White
+        Me.Panel2.Controls.Add(Me.swConsigna)
+        Me.Panel2.Controls.Add(Me.LabelX12)
         Me.Panel2.Controls.Add(Me.swEmision)
         Me.Panel2.Controls.Add(Me.LabelX16)
         Me.Panel2.Controls.Add(Me.GroupPanelFactura2)
@@ -680,13 +684,13 @@ Partial Class F0_MCompras
         '
         Me.swEmision.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.swEmision.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.swEmision.Location = New System.Drawing.Point(592, 136)
+        Me.swEmision.Location = New System.Drawing.Point(479, 136)
         Me.swEmision.Name = "swEmision"
         Me.swEmision.OffBackColor = System.Drawing.Color.LawnGreen
         Me.swEmision.OffText = "RECIBO"
         Me.swEmision.OnBackColor = System.Drawing.Color.Gold
         Me.swEmision.OnText = "FACTURA"
-        Me.swEmision.Size = New System.Drawing.Size(136, 22)
+        Me.swEmision.Size = New System.Drawing.Size(110, 22)
         Me.swEmision.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.swEmision.TabIndex = 367
         Me.swEmision.Value = True
@@ -702,7 +706,7 @@ Partial Class F0_MCompras
         Me.LabelX16.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(85, Byte), Integer), CType(CType(139, Byte), Integer))
         Me.LabelX16.Location = New System.Drawing.Point(415, 136)
         Me.LabelX16.Name = "LabelX16"
-        Me.LabelX16.Size = New System.Drawing.Size(75, 23)
+        Me.LabelX16.Size = New System.Drawing.Size(60, 23)
         Me.LabelX16.TabIndex = 368
         Me.LabelX16.Text = "Emisión:"
         '
@@ -1394,6 +1398,37 @@ Partial Class F0_MCompras
         Me.grCompra.TabIndex = 0
         Me.grCompra.VisualStyle = Janus.Windows.GridEX.VisualStyle.Office2007
         '
+        'swConsigna
+        '
+        '
+        '
+        '
+        Me.swConsigna.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.swConsigna.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.swConsigna.Location = New System.Drawing.Point(691, 137)
+        Me.swConsigna.Name = "swConsigna"
+        Me.swConsigna.OffBackColor = System.Drawing.Color.Teal
+        Me.swConsigna.OffText = "NO"
+        Me.swConsigna.OnBackColor = System.Drawing.Color.DodgerBlue
+        Me.swConsigna.OnText = "SI"
+        Me.swConsigna.Size = New System.Drawing.Size(65, 22)
+        Me.swConsigna.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.swConsigna.TabIndex = 369
+        '
+        'LabelX12
+        '
+        '
+        '
+        '
+        Me.LabelX12.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX12.Font = New System.Drawing.Font("Georgia", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX12.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(85, Byte), Integer), CType(CType(139, Byte), Integer))
+        Me.LabelX12.Location = New System.Drawing.Point(596, 137)
+        Me.LabelX12.Name = "LabelX12"
+        Me.LabelX12.Size = New System.Drawing.Size(90, 23)
+        Me.LabelX12.TabIndex = 370
+        Me.LabelX12.Text = "Consignación:"
+        '
         'F0_MCompras
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1508,4 +1543,6 @@ Partial Class F0_MCompras
     Friend WithEvents LabelX16 As DevComponents.DotNetBar.LabelX
     Friend WithEvents tbSubtotalC As DevComponents.Editors.DoubleInput
     Friend WithEvents LabelX10 As DevComponents.DotNetBar.LabelX
+    Friend WithEvents swConsigna As DevComponents.DotNetBar.Controls.SwitchButton
+    Friend WithEvents LabelX12 As DevComponents.DotNetBar.LabelX
 End Class
