@@ -46,7 +46,7 @@ Public Class F0_PagosCredito
     End Sub
     Private Sub _prCargarComboLibreria(mCombo As Janus.Windows.GridEX.EditControls.MultiColumnCombo, cod1 As String, cod2 As String)
         Dim dt As New DataTable
-        dt = L_prLibreriaClienteLGeneral(cod1, cod2)
+        dt = L_prListarBanco(cod1, cod2)
         With mCombo
             .DropDownList.Columns.Clear()
             .DropDownList.Columns.Add("yccod3").Width = 70
@@ -1082,7 +1082,7 @@ Public Class F0_PagosCredito
 
     Public Function _fnObtenerNumiBancoLibreria(name As String) As Integer
         Dim dt As New DataTable
-        dt = L_prLibreriaClienteLGeneral(6, 1)
+        dt = L_prListarBanco(6, 1)
         '.DropDownList.Columns("yccod3").Caption = "COD"
         '.DropDownList.Columns.Add("ycdes3").Width = 200
         For i As Integer = 0 To dt.Rows.Count - 1 Step 1

@@ -46,7 +46,7 @@ Public Class F0_PagosCreditoCompraUlt
     End Sub
     Private Sub _prCargarComboLibreria(mCombo As Janus.Windows.GridEX.EditControls.MultiColumnCombo, cod1 As String, cod2 As String)
         Dim dt As New DataTable
-        dt = L_prLibreriaClienteLGeneral(cod1, cod2)
+        dt = L_prListarBanco(cod1, cod2)
         With mCombo
             .DropDownList.Columns.Clear()
             .DropDownList.Columns.Add("yccod3").Width = 70
@@ -722,7 +722,7 @@ Public Class F0_PagosCreditoCompraUlt
 
     Public Function _fnObtenerNumiBancoLibreria(name As String) As Integer
         Dim dt As New DataTable
-        dt = L_prLibreriaClienteLGeneral(6, 1)
+        dt = L_prListarBanco(6, 1)
         '.DropDownList.Columns("yccod3").Caption = "COD"
         '.DropDownList.Columns.Add("ycdes3").Width = 200
         For i As Integer = 0 To dt.Rows.Count - 1 Step 1
@@ -762,12 +762,10 @@ Public Class F0_PagosCreditoCompraUlt
 
     End Sub
     Public Function _ValidarCampos() As Boolean
-
-
         If (grfactura.RowCount > 0) Then
             grfactura.Row = grfactura.RowCount - 1
             If (grfactura.GetValue("tcty4prov") = 0) Then
-                Dim img As Bitmap = New Bitmap(My.Resources.Mensaje, 50, 50)
+                Dim img As Bitmap = New Bitmap(My.Resources.mensaje, 50, 50)
                 ToastNotification.Show(Me, "Por Favor Seleccione  un detalle de Pagos".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
                 Return False
             End If
