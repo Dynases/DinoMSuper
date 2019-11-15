@@ -1631,7 +1631,8 @@ Public Class AccesoLogica
 
     Public Shared Function L_fnGrabarCompra(_canumi As String, _caalm As Integer, _cafdoc As String, _caTy4prov As Integer, _catven As Integer, _cafvcr As String,
                                            _camon As Integer, _caobs As String,
-                                           _cadesc As Double, _catotal As Double, detalle As DataTable, detalleCompra As DataTable, _emision As Integer, _numemision As Integer, _consigna As Integer) As Boolean
+                                           _cadesc As Double, _catotal As Double, detalle As DataTable, detalleCompra As DataTable, _emision As Integer, _numemision As Integer,
+                                           _consigna As Integer, _retenc As Integer) As Boolean
         Dim _Tabla As DataTable
         Dim _resultado As Boolean
         Dim _listParam As New List(Of Datos.DParametro)
@@ -1653,6 +1654,7 @@ Public Class AccesoLogica
         _listParam.Add(New Datos.DParametro("@caemision", _emision))
         _listParam.Add(New Datos.DParametro("@canumemis", _numemision))
         _listParam.Add(New Datos.DParametro("@caconsigna", _consigna))
+        _listParam.Add(New Datos.DParametro("@caretenc", _retenc))
         _listParam.Add(New Datos.DParametro("@TC0011", "", detalle))
         _listParam.Add(New Datos.DParametro("@TFC001", "", detalleCompra))
         _Tabla = D_ProcedimientoConParam("sp_Mam_TC001", _listParam)
@@ -1683,7 +1685,8 @@ Public Class AccesoLogica
 
     Public Shared Function L_fnModificarCompra(_canumi As String, _caalm As Integer, _cafdoc As String, _caTy4prov As Integer, _catven As Integer, _cafvcr As String,
                                            _camon As Integer, _caobs As String,
-                                           _cadesc As Double, _catotal As Double, detalle As DataTable, detalleCompra As DataTable, _emision As Integer, _numemision As Integer, _consigna As Integer) As Boolean
+                                           _cadesc As Double, _catotal As Double, detalle As DataTable, detalleCompra As DataTable, _emision As Integer, _numemision As Integer,
+                                           _consigna As Integer, _retenc As Integer) As Boolean
         Dim _Tabla As DataTable
         Dim _resultado As Boolean
         Dim _listParam As New List(Of Datos.DParametro)
@@ -1704,6 +1707,7 @@ Public Class AccesoLogica
         _listParam.Add(New Datos.DParametro("@caemision", _emision))
         _listParam.Add(New Datos.DParametro("@canumemis", _numemision))
         _listParam.Add(New Datos.DParametro("@caconsigna", _consigna))
+        _listParam.Add(New Datos.DParametro("@caretenc", _retenc))
         _listParam.Add(New Datos.DParametro("@TC0011", "", detalle))
         _listParam.Add(New Datos.DParametro("@TFC001", "", detalleCompra))
         _Tabla = D_ProcedimientoConParam("sp_Mam_TC001", _listParam)
