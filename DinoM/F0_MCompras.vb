@@ -107,6 +107,7 @@ Public Class F0_MCompras
         swEmision.IsReadOnly = True
         swConsigna.IsReadOnly = True
         swRetencion.IsReadOnly = True
+
         tbNFactura.ReadOnly = True
         tbNAutorizacion.ReadOnly = True
         tbCodControl.ReadOnly = True
@@ -188,6 +189,7 @@ Public Class F0_MCompras
         swEmision.Value = True
         swConsigna.Value = False
         swRetencion.Value = False
+
 
         tbNFactura.Clear()
         tbNAutorizacion.Clear()
@@ -881,6 +883,16 @@ Public Class F0_MCompras
         tbtotal.Value = grdetalle.GetTotal(grdetalle.RootTable.Columns("cbptot"), AggregateFunction.Sum) - montodesc
         'Agregado para que Muestre el Subtotal de la compra
         tbSubtotalC.Value = grdetalle.GetTotal(grdetalle.RootTable.Columns("cbptot"), AggregateFunction.Sum)
+
+
+        Dim ret As Double
+        If swRetencion.Value = True Then
+            'btnCalcular.Visible = True
+            ret = tbSubtotalC.Value * 0.08
+            tbSubtotalC.Text = tbSubtotalC.Value - ret
+            tbtotal.Text = tbSubtotalC.Text
+        End If
+
     End Sub
     Public Sub _prEliminarFila()
         If (grdetalle.Row >= 0) Then
@@ -1786,13 +1798,18 @@ salirIf:
 
     Private Sub swRetencion_ValueChanged(sender As Object, e As EventArgs) Handles swRetencion.ValueChanged
         Dim sw As Boolean = swRetencion.Value
-        Dim ret As Double
         If swRetencion.Value = True Then
-            ret = tbSubtotalC.Value * 0.08
-            tbSubtotalC.Text = tbSubtotalC.Value - ret
-            tbtotal.Text = tbSubtotalC.Text
+            ' btnCalcular.Visible = True
+            'ret = tbSubtotalC.Value * 0.08
+            'tbSubtotalC.Text = tbSubtotalC.Value - ret
+            'tbtotal.Text = tbSubtotalC.Text
         End If
+        If swRetencion.Value = False Then
+            _prCalcularPrecioTotal()
+        End If
+
     End Sub
+
 
 #End Region
 
