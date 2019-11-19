@@ -877,6 +877,7 @@ Public Class F0_MCompras
 
     End Sub
     Public Sub _prCalcularPrecioTotal()
+        Dim ret As Double
         Dim montodesc As Double = tbMdesc.Value
         Dim pordesc As Double = ((montodesc * 100) / grdetalle.GetTotal(grdetalle.RootTable.Columns("cbptot"), AggregateFunction.Sum))
         tbPdesc.Value = pordesc
@@ -885,9 +886,7 @@ Public Class F0_MCompras
         tbSubtotalC.Value = grdetalle.GetTotal(grdetalle.RootTable.Columns("cbptot"), AggregateFunction.Sum)
 
 
-        Dim ret As Double
         If swRetencion.Value = True Then
-            'btnCalcular.Visible = True
             ret = tbSubtotalC.Value * 0.08
             tbSubtotalC.Text = tbSubtotalC.Value - ret
             tbtotal.Text = tbSubtotalC.Text
@@ -1792,19 +1791,8 @@ salirIf:
         g_prValidarTextBox(1, e)
     End Sub
 
-    Private Sub grdetalle_KeyPress(sender As Object, e As KeyPressEventArgs) Handles grdetalle.KeyPress
-        g_prValidarTextBox(1, e)
-    End Sub
-
     Private Sub swRetencion_ValueChanged(sender As Object, e As EventArgs) Handles swRetencion.ValueChanged
-        Dim sw As Boolean = swRetencion.Value
-        If swRetencion.Value = True Then
-            ' btnCalcular.Visible = True
-            'ret = tbSubtotalC.Value * 0.08
-            'tbSubtotalC.Text = tbSubtotalC.Value - ret
-            'tbtotal.Text = tbSubtotalC.Text
-        End If
-        If swRetencion.Value = False Then
+        If swRetencion.Value = False Or swRetencion.Value = True Then
             _prCalcularPrecioTotal()
         End If
 
