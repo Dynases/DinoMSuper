@@ -120,6 +120,8 @@ Public Class F0_MCompras
         btnNuevo.Enabled = True
         btnEliminar.Enabled = True
 
+        tbSubtotalC.IsInputReadOnly = True
+        tbMdesc.IsInputReadOnly = True
         tbtotal.IsInputReadOnly = True
 
         grCompra.Enabled = True
@@ -157,6 +159,8 @@ Public Class F0_MCompras
         tbCodControl.ReadOnly = False
         tbNDui.ReadOnly = False
         tbSACF.ReadOnly = False
+
+        tbMdesc.IsInputReadOnly = False
     End Sub
     Public Sub _prFiltrar()
         'cargo el buscador
