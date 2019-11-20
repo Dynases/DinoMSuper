@@ -1009,6 +1009,23 @@ Public Class P_Principal
 
     End Sub
 
+    Private Sub btComEstadoCuentas_Click(sender As Object, e As EventArgs) Handles btComEstadoCuentas.Click
+        SideNav1.IsMenuExpanded = False
+        Ventana.Select()
+        Dim frm As New R_KardexCreditoPagos
+        Dim tab3 As SuperTabItem = superTabControl3.CreateTab(frm.Text)
+        frm._tab = tab3
+        frm._modulo = FP_COMPRAS
+        Dim panel As Panel = P_Global._fnCrearPanelVentanas(frm)
+        superTabControl3.SelectedTabIndex = superTabControl3.Tabs.Count - 1
+        tab3.AttachedControl.Controls.Add(panel)
+        frm.Show()
+        tab3.Text = "REPORTE ESTADO DE CUENTAS"
+        Dim blah As New Bitmap(New Bitmap(My.Resources.rp_estadoCuentas), 20, 20)
+        Dim ico As Icon = Icon.FromHandle(blah.GetHicon())
+        tab3.Icon = ico
+    End Sub
+
     'Private Sub btnCredPagoCliente_Click(sender As Object, e As EventArgs) Handles btnCredPagoCliente.Click
     '    SideNav1.IsMenuExpanded = False
     '    Ventana.Select()

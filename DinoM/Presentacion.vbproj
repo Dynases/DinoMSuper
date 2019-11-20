@@ -709,6 +709,12 @@
       <DependentUpon>R_VentasVendedor12Meses.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="R_KardexCreditoPagos.Designer.vb">
+      <DependentUpon>R_KardexCreditoPagos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="R_KardexCreditoPagos.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Utils\Efecto.Designer.vb">
       <DependentUpon>Efecto.vb</DependentUpon>
     </Compile>
@@ -1064,6 +1070,9 @@
     <EmbeddedResource Include="Reporte\R_VentasVendedor12Meses.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>R_VentasVendedor12Meses.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="R_KardexCreditoPagos.resx">
+      <DependentUpon>R_KardexCreditoPagos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Utils\Efecto.resx">
       <DependentUpon>Efecto.vb</DependentUpon>
