@@ -1,8 +1,7 @@
 ﻿Imports Logica.AccesoLogica
 Imports DevComponents.DotNetBar
 Imports DevComponents.DotNetBar.Controls
-
-Public Class Pr_KardexCredito
+Public Class R_KardexCreditoPagos
 
     'gb_FacturaIncluirICE
 
@@ -15,7 +14,7 @@ Public Class Pr_KardexCredito
         tbFechaI.Value = Now.Date
         tbFechaF.Value = Now.Date
         _PMIniciarTodo()
-        Me.Text = "REPORTE DE ESTADOS DE CUENTAS"
+        Me.Text = "REPORTE DE ESTADOS DE CUENTAS POR PAGAR"
         MReportViewer.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None
         _IniciarComponentes()
     End Sub
@@ -32,13 +31,13 @@ Public Class Pr_KardexCredito
     End Sub
     Public Sub _prInterpretarDatos(ByRef _dt As DataTable)
         If (swCreditoCliente.Value = True) Then
-            _dt = L_prReporteCreditoGeneral(tbFechaI.Value.ToString("yyyy/MM/dd"), tbFechaF.Value.ToString("yyyy/MM/dd"))
+            _dt = L_prReporteCreditoGeneralCompras(tbFechaI.Value.ToString("yyyy/MM/dd"), tbFechaF.Value.ToString("yyyy/MM/dd"))
         Else
             If (CheckTodosCuenta.Checked And tbCodigoCliente.Text.Length > 0) Then
-                _dt = L_prReporteCreditoClienteTodosCuentas(tbFechaI.Value.ToString("yyyy/MM/dd"), tbFechaF.Value.ToString("yyyy/MM/dd"), tbCodigoCliente.Text)
+                _dt = L_prReporteCreditoProveedoresTodosCuentas(tbFechaI.Value.ToString("yyyy/MM/dd"), tbFechaF.Value.ToString("yyyy/MM/dd"), tbCodigoCliente.Text)
             End If
             If (CheckUnaCuenta.Checked And tbCodigoCliente.Text.Length > 0 And tbcodCuenta.Text.Length > 0) Then
-                _dt = L_prReporteCreditoClienteUnaCuentas(tbcodCuenta.Text)
+                _dt = L_prReporteCreditoProveedorUnaCuentas(tbcodCuenta.Text)
             End If
 
         End If
@@ -83,8 +82,8 @@ Public Class Pr_KardexCredito
             objrep.SetParameterValue("Empresa1", ParEmp2)
             objrep.SetParameterValue("Empresa2", ParEmp3)
             objrep.SetParameterValue("Empresa3", ParEmp4)
-            objrep.SetParameterValue("Name", "Cliente:")
-            objrep.SetParameterValue("Total", "Total Venta:")
+            objrep.SetParameterValue("Name", "Proveedor:")
+            objrep.SetParameterValue("Total", "Total Compra:")
             MReportViewer.ReportSource = objrep
             MReportViewer.Show()
             MReportViewer.BringToFront()
@@ -96,61 +95,16 @@ Public Class Pr_KardexCredito
             MReportViewer.ReportSource = Nothing
         End If
     End Sub
-    Private Sub _prCargarReporte2()
-        Dim _dt As New DataTable
-        _prInterpretarDatos2(_dt)
-        If (_dt.Rows.Count > 0) Then
-            Dim dt2 As DataTable = L_fnNameReporte()
-            Dim ParEmp1 As String = ""
-            Dim ParEmp2 As String = ""
-            Dim ParEmp3 As String = ""
-            Dim ParEmp4 As String = ""
-            If (dt2.Rows.Count > 0) Then
-                ParEmp1 = dt2.Rows(0).Item("Empresa1").ToString
-                ParEmp2 = dt2.Rows(0).Item("Empresa2").ToString
-                ParEmp3 = dt2.Rows(0).Item("Empresa3").ToString
-                ParEmp4 = dt2.Rows(0).Item("Empresa4").ToString
-            End If
 
-            'Dim objrep As New KardexClienteRes
-            'objrep.SetDataSource(_dt)
-            'Dim fechaI As String = tbFechaI.Value.ToString("dd/MM/yyyy")
-            'Dim fechaF As String = tbFechaF.Value.ToString("dd/MM/yyyy")
-            ''objrep.SetParameterValue("usuario", L_Usuario)
-            'objrep.SetParameterValue("FechaDel", fechaI)
-            'objrep.SetParameterValue("FechaAl", fechaF)
-            'objrep.SetParameterValue("Empresa", ParEmp1)
-            'objrep.SetParameterValue("Empresa1", ParEmp2)
-            'objrep.SetParameterValue("Empresa2", ParEmp3)
-            'objrep.SetParameterValue("Empresa3", ParEmp4)
-            'MReportViewer.ReportSource = objrep
-            'MReportViewer.Show()
-            'MReportViewer.BringToFront()
-        Else
-            ToastNotification.Show(Me, "NO HAY DATOS PARA LOS PARAMETROS SELECCIONADOS..!!!",
-                                       My.Resources.INFORMATION, 2000,
-                                       eToastGlowColor.Blue,
-                                       eToastPosition.BottomLeft)
-            MReportViewer.ReportSource = Nothing
-        End If
-    End Sub
     Private Sub btnGenerar_Click(sender As Object, e As EventArgs) Handles btnGenerar.Click
         If swdetresum.Value = True Then
             _prCargarReporte()
-        Else
-            _prCargarReporte2()
+
         End If
     End Sub
-
-    Private Sub Pr_VentasAtendidas_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub R_KardexCreditoPagos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         _prIniciarTodo()
-
     End Sub
-
-
-
-
-
     Private Sub CheckUnaALmacen_CheckValueChanged(sender As Object, e As EventArgs) Handles CheckUnaCuenta.CheckValueChanged
         If (CheckUnaCuenta.Checked) Then
             CheckTodosCuenta.CheckValue = False
@@ -179,7 +133,7 @@ Public Class Pr_KardexCredito
         If (swCreditoCliente.Value = False) Then
             If e.KeyData = Keys.Control + Keys.Enter Then
                 Dim dt As DataTable
-                dt = L_fnListarClienteCreditos()
+                dt = L_fnListarProveedoresCreditos()
                 '              a.ydnumi, a.ydcod, a.yddesc, a.yddctnum, a.yddirec
                 ',a.ydtelf1 ,a.ydfnac 
                 Dim listEstCeldas As New List(Of Modelo.Celda)
@@ -197,7 +151,7 @@ Public Class Pr_KardexCredito
                 ef.listEstCeldas = listEstCeldas
                 ef.alto = 50
                 ef.ancho = 350
-                ef.Context = "Seleccione Cliente".ToUpper
+                ef.Context = "Seleccione Proveedor".ToUpper
                 ef.ShowDialog()
                 Dim bandera As Boolean = False
                 bandera = ef.band
@@ -254,15 +208,15 @@ Public Class Pr_KardexCredito
         If (swCreditoCliente.Value = False And tbCodigoCliente.Text.Length > 0) Then
             If e.KeyData = Keys.Control + Keys.Enter Then
                 Dim dt As DataTable
-                dt = L_prReporteCreditoListarCuentasPorCliente(tbCodigoCliente.Text)
+                dt = L_prReporteCreditoListarCuentasPorProveedor(tbCodigoCliente.Text)
                 'numiVenta,numeroFactura, fechaVenta,  FechaVencCredito, totalVenta
                 Dim listEstCeldas As New List(Of Modelo.Celda)
                 listEstCeldas.Add(New Modelo.Celda("tcnumi,", False, "CODIGO", 100))
-                listEstCeldas.Add(New Modelo.Celda("numiVenta,", True, "DOC VENTA", 100))
+                listEstCeldas.Add(New Modelo.Celda("numiVenta,", True, "DOC COMPRA", 100))
                 listEstCeldas.Add(New Modelo.Celda("numeroFactura", True, "NRO FACTURA", 100))
-                listEstCeldas.Add(New Modelo.Celda("fechaVenta", True, "FECHA VENTA", 130, "yyyy/MM/dd"))
+                listEstCeldas.Add(New Modelo.Celda("fechaVenta", True, "FECHA COMPRA", 130, "yyyy/MM/dd"))
                 listEstCeldas.Add(New Modelo.Celda("FechaVencCredito", True, "VENC.CREDITO".ToUpper, 130, "yyyy/MM/dd"))
-                listEstCeldas.Add(New Modelo.Celda("totalVenta", True, "TOTAL VENTA", 130, "0.00"))
+                listEstCeldas.Add(New Modelo.Celda("totalVenta", True, "TOTAL COMPRA", 130, "0.00"))
 
                 Dim ef = New Efecto
                 ef.tipo = 3
@@ -291,7 +245,6 @@ Public Class Pr_KardexCredito
         End If
     End Sub
 
-    Private Sub MGPFiltros_Click(sender As Object, e As EventArgs) Handles MGPFiltros.Click
 
-    End Sub
+
 End Class
