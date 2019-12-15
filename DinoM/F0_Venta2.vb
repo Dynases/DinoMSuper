@@ -862,7 +862,11 @@ Public Class F0_Venta2
             .CellStyle.TextAlignment = Janus.Windows.GridEX.TextAlignment.Near
             .Visible = False
         End With
-
+        With grProductos.RootTable.Columns("validacion")
+            .Width = 50
+            .CellStyle.TextAlignment = Janus.Windows.GridEX.TextAlignment.Near
+            .Visible = False
+        End With
         With grProductos.RootTable.Columns("yfgr4")
             .Width = 50
             .CellStyle.TextAlignment = Janus.Windows.GridEX.TextAlignment.Near
@@ -913,14 +917,14 @@ Public Class F0_Venta2
         _prAplicarCondiccionJanusSinLote()
     End Sub
     Public Sub _prAplicarCondiccionJanusSinLote()
-        Dim fc As GridEXFormatCondition
-        fc = New GridEXFormatCondition(grProductos.RootTable.Columns("stock"), ConditionOperator.Between, -9998 And 0)
-        'fc.FormatStyle.FontBold = TriState.True
-        fc.FormatStyle.ForeColor = Color.Red    'Color.Tan
-        grProductos.RootTable.FormatConditions.Add(fc)
+        'Dim fc As GridEXFormatCondition
+        'fc = New GridEXFormatCondition(grProductos.RootTable.Columns("stock"), ConditionOperator.Between, -9998 And 0)
+        ''fc.FormatStyle.FontBold = TriState.True
+        'fc.FormatStyle.ForeColor = Color.Red    'Color.Tan
+        'grProductos.RootTable.FormatConditions.Add(fc)
         Dim fr As GridEXFormatCondition
-        fr = New GridEXFormatCondition(grProductos.RootTable.Columns("stock"), ConditionOperator.Equal, -9999)
-        fr.FormatStyle.ForeColor = Color.BlueViolet
+        fr = New GridEXFormatCondition(grProductos.RootTable.Columns("validacion"), ConditionOperator.Equal, 1)
+        fr.FormatStyle.ForeColor = Color.Red
         grProductos.RootTable.FormatConditions.Add(fr)
     End Sub
 
@@ -989,7 +993,16 @@ Public Class F0_Venta2
             .FormatString = "0.00"
             .AggregateFunction = AggregateFunction.Sum
         End With
+        With grProductos.RootTable.Columns("stockMinimo")
+            .Width = 150
+            .Visible = False
 
+        End With
+        With grProductos.RootTable.Columns("fechaVencimiento")
+            .Width = 150
+            .Visible = False
+
+        End With
 
         With grProductos
             .DefaultFilterRowComparison = FilterConditionOperator.Contains
@@ -1006,19 +1019,22 @@ Public Class F0_Venta2
 
     End Sub
     Public Sub _prAplicarCondiccionJanusLote()
+
+        Dim fc2 As GridEXFormatCondition
+        fc2 = New GridEXFormatCondition(grProductos.RootTable.Columns("stockMinimo"), ConditionOperator.Equal, 1)
+        fc2.FormatStyle.BackColor = Color.Red
+        fc2.FormatStyle.FontBold = TriState.True
+        fc2.FormatStyle.ForeColor = Color.White
+        grProductos.RootTable.FormatConditions.Add(fc2)
+
         Dim fc As GridEXFormatCondition
-        fc = New GridEXFormatCondition(grProductos.RootTable.Columns("iccven"), ConditionOperator.Equal, 0)
+        fc = New GridEXFormatCondition(grProductos.RootTable.Columns("fechaVencimiento"), ConditionOperator.Equal, 1)
         fc.FormatStyle.BackColor = Color.Gold
         fc.FormatStyle.FontBold = TriState.True
         fc.FormatStyle.ForeColor = Color.White
         grProductos.RootTable.FormatConditions.Add(fc)
 
-        Dim fc2 As GridEXFormatCondition
-        fc2 = New GridEXFormatCondition(grProductos.RootTable.Columns("icfven"), ConditionOperator.LessThanOrEqualTo, Now.Date)
-        fc2.FormatStyle.BackColor = Color.Red
-        fc2.FormatStyle.FontBold = TriState.True
-        fc2.FormatStyle.ForeColor = Color.White
-        grProductos.RootTable.FormatConditions.Add(fc2)
+
     End Sub
     Private Sub _prAddDetalleVenta()
         '   a.tbnumi ,a.tbtv1numi ,a.tbty5prod ,b.yfcdprod1 as producto,a.tbest ,a.tbcmin ,a.tbumin ,Umin .ycdes3 as unidad,a.tbpbas ,a.tbptot ,a.tbobs ,

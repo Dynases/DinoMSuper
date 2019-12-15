@@ -35,7 +35,8 @@ Public Class F1_Almacen
     Private Sub _prIniciarTodo()
         L_prAbrirConexion(gs_Ip, gs_UsuarioSql, gs_ClaveSql, gs_NombreBD)
         _prCargarComboLibreriaDepositos(cbDeposito)
-        Me.Text = "ALMACEN"
+        _prCargarComboLibreriaDepositos(cbDepositoVenta)
+        Me.Text = "SUCURSALES"
         _prInicarMapa()
 
         _prMaxLength()
@@ -236,6 +237,8 @@ Public Class F1_Almacen
         _prCrearCarpetaTemporal()
         BtAdicionar.Visible = True
         cbDeposito.ReadOnly = False
+        cbDepositoVenta.ReadOnly = False
+
         tbNombre.Focus()
         ''  SuperTabItem1.Visible =True 
     End Sub
@@ -246,6 +249,7 @@ Public Class F1_Almacen
         tbDireccion.ReadOnly = True
         tbTelf1.ReadOnly = True
         cbDeposito.ReadOnly = True
+        cbDepositoVenta.ReadOnly = True
         BtAdicionar.Visible = False
         _prStyleJanus()
         JGrM_Buscador.Focus()
@@ -260,6 +264,9 @@ Public Class F1_Almacen
         If (CType(cbDeposito.DataSource, DataTable).Rows.Count > 0) Then
             cbDeposito.SelectedIndex = 0
         End If
+        If (CType(cbDepositoVenta.DataSource, DataTable).Rows.Count > 0) Then
+            cbDepositoVenta.SelectedIndex = 0
+        End If
         UsImg.pbImage.Image = My.Resources.pantalla
         _Overlay.Markers.Clear()
         _latitud = 0
@@ -270,13 +277,15 @@ Public Class F1_Almacen
     Public Overrides Sub _PMOLimpiarErrores()
         MEP.Clear()
         tbNombre.BackColor = Color.White
+        cbDeposito.BackColor = Color.White
+        cbDepositoVenta.BackColor = Color.White
     End Sub
 
     Public Overrides Function _PMOGrabarRegistro() As Boolean
 
 
         'ByRef _abnumi As String, _aata2dep As Integer, _abdesc As String, _abdir As String, _abtelf As String, _ablat As Double, _ablong As Double, _abimg As String, _abest As Integer
-        Dim res As Boolean = L_fnGrabarAlmacen(tbCodigoOriginal.Text, cbDeposito.Value, tbNombre.Text, tbDireccion.Text, tbTelf1.Text, _latitud, _longitud, nameImg)
+        Dim res As Boolean = L_fnGrabarAlmacen(tbCodigoOriginal.Text, cbDeposito.Value, cbDepositoVenta.Value, tbNombre.Text, tbDireccion.Text, tbTelf1.Text, _latitud, _longitud, nameImg)
 
 
         If res Then
@@ -306,10 +315,10 @@ Public Class F1_Almacen
 
         Dim nameImage As String = IIf(IsDBNull(JGrM_Buscador.GetValue("aaimg")), "", JGrM_Buscador.GetValue("aaimg"))
         If (Modificado = False And nameImage <> "") Then
-            res = L_fnModificarAlmacen(tbCodigoOriginal.Text, cbDeposito.Value, tbNombre.Text, tbDireccion.Text, tbTelf1.Text, _latitud, _longitud, nameImage)
+            res = L_fnModificarAlmacen(tbCodigoOriginal.Text, cbDeposito.Value, cbDepositoVenta.Value, tbNombre.Text, tbDireccion.Text, tbTelf1.Text, _latitud, _longitud, nameImage)
 
         Else
-            res = L_fnModificarAlmacen(tbCodigoOriginal.Text, cbDeposito.Value, tbNombre.Text, tbDireccion.Text, tbTelf1.Text, _latitud, _longitud, nameImg)
+            res = L_fnModificarAlmacen(tbCodigoOriginal.Text, cbDeposito.Value, cbDepositoVenta.Value, tbNombre.Text, tbDireccion.Text, tbTelf1.Text, _latitud, _longitud, nameImg)
 
 
 
@@ -405,15 +414,24 @@ Public Class F1_Almacen
 
         If cbDeposito.SelectedIndex < 0 Then
             cbDeposito.BackColor = Color.Red
-            MEP.SetError(cbDeposito, "Seleccione un Deposito por favor!".ToUpper)
+            MEP.SetError(cbDeposito, "Seleccione un Deposito para Compra por favor!".ToUpper)
             _ok = False
             Dim img As Bitmap = New Bitmap(My.Resources.Mensaje, 50, 50)
-            ToastNotification.Show(Me, "Seleccione un Deposito por favor".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
+            ToastNotification.Show(Me, "Seleccione un Deposito para Compra por favor".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
         Else
             cbDeposito.BackColor = Color.White
             MEP.SetError(cbDeposito, "")
         End If
-
+        If cbDepositoVenta.SelectedIndex < 0 Then
+            cbDepositoVenta.BackColor = Color.Red
+            MEP.SetError(cbDepositoVenta, "Seleccione un Deposito para Venta por favor!".ToUpper)
+            _ok = False
+            Dim img As Bitmap = New Bitmap(My.Resources.mensaje, 50, 50)
+            ToastNotification.Show(Me, "Seleccione un Deposito para Venta por favor".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
+        Else
+            cbDepositoVenta.BackColor = Color.White
+            MEP.SetError(cbDepositoVenta, "")
+        End If
 
 
         MHighlighterFocus.UpdateHighlights()
@@ -437,6 +455,7 @@ Public Class F1_Almacen
         listEstCeldas.Add(New Modelo.Celda("aalong", False))
         listEstCeldas.Add(New Modelo.Celda("aaimg", False))
         listEstCeldas.Add(New Modelo.Celda("aata2dep", False))
+        listEstCeldas.Add(New Modelo.Celda("aata2depVenta", False))
         listEstCeldas.Add(New Modelo.Celda("deposito", True, "deposito".ToUpper, 150))
         listEstCeldas.Add(New Modelo.Celda("aafact", False))
         listEstCeldas.Add(New Modelo.Celda("aahact", False))
@@ -459,6 +478,7 @@ Public Class F1_Almacen
             tbDireccion.Text = .GetValue("aadir")
             tbTelf1.Text = .GetValue("aatel")
             cbDeposito.Value = .GetValue("aata2dep")
+            cbDepositoVenta.Value = .GetValue("aata2depVenta")
             _latitud = IIf(IsDBNull(.GetValue("aalat")), 0, .GetValue("aalat"))
             _longitud = IIf(IsDBNull(.GetValue("aalong")), 0, .GetValue("aalong"))
             lbFecha.Text = CType(.GetValue("aafact"), Date).ToString("dd/MM/yyyy")

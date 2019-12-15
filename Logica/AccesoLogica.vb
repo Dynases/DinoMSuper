@@ -1930,7 +1930,7 @@ Public Class AccesoLogica
 
 
 
-    Public Shared Function L_fnGrabarAlmacen(ByRef _abnumi As String, _aata2dep As Integer, _abdesc As String, _abdir As String, _abtelf As String, _ablat As Double, _ablong As Double, _abimg As String) As Boolean
+    Public Shared Function L_fnGrabarAlmacen(ByRef _abnumi As String, _aata2dep As Integer, _aata2depVenta As Integer, _abdesc As String, _abdir As String, _abtelf As String, _ablat As Double, _ablong As Double, _abimg As String) As Boolean
         Dim _resultado As Boolean
 
         Dim _Tabla As DataTable
@@ -1941,6 +1941,7 @@ Public Class AccesoLogica
         _listParam.Add(New Datos.DParametro("@tipo", 1))
         _listParam.Add(New Datos.DParametro("@aanumi", _abnumi))
         _listParam.Add(New Datos.DParametro("@aata2dep", _aata2dep))
+        _listParam.Add(New Datos.DParametro("@aata2depVenta", _aata2depVenta))
         _listParam.Add(New Datos.DParametro("@aadesc", _abdesc))
         _listParam.Add(New Datos.DParametro("@aadir", _abdir))
         _listParam.Add(New Datos.DParametro("@aatelf", _abtelf))
@@ -1963,7 +1964,7 @@ Public Class AccesoLogica
         Return _resultado
     End Function
 
-    Public Shared Function L_fnModificarAlmacen(ByRef _abnumi As String, _aata2dep As Integer, _abdesc As String, _abdir As String, _abtelf As String, _ablat As Double, _ablong As Double, _abimg As String) As Boolean
+    Public Shared Function L_fnModificarAlmacen(ByRef _abnumi As String, _aata2dep As Integer, _aata2depVenta As Integer, _abdesc As String, _abdir As String, _abtelf As String, _ablat As Double, _ablong As Double, _abimg As String) As Boolean
         Dim _resultado As Boolean
 
         Dim _Tabla As DataTable
@@ -1972,6 +1973,7 @@ Public Class AccesoLogica
         _listParam.Add(New Datos.DParametro("@tipo", 2))
         _listParam.Add(New Datos.DParametro("@aanumi", _abnumi))
         _listParam.Add(New Datos.DParametro("@aata2dep", _aata2dep))
+        _listParam.Add(New Datos.DParametro("@aata2depVenta", _aata2depVenta))
         _listParam.Add(New Datos.DParametro("@aadesc", _abdesc))
         _listParam.Add(New Datos.DParametro("@aadir", _abdir))
         _listParam.Add(New Datos.DParametro("@aatelf", _abtelf))
