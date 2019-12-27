@@ -2131,95 +2131,249 @@ Public Class F0_Venta2
 
     End Sub
     Private Sub grdetalle_KeyDown(sender As Object, e As KeyEventArgs) Handles grdetalle.KeyDown
-        If (Not _fnAccesible()) Then
-            Return
-        End If
-        If (e.KeyData = Keys.Enter) Then
-            Dim f, c As Integer
-            c = grdetalle.Col
-            f = grdetalle.Row
+        '        If (Not _fnAccesible()) Then
+        '            Return
+        '        End If
+        '        If (e.KeyData = Keys.Enter) Then
+        '            Dim f, c As Integer
+        '            c = grdetalle.Col
+        '            f = grdetalle.Row
 
-            If (grdetalle.Col = grdetalle.RootTable.Columns("tbcmin").Index) Then
-                If (grdetalle.GetValue("producto") <> String.Empty) Then
-                    _prAddDetalleVenta()
-                    _HabilitarProductos()
-                Else
-                    ToastNotification.Show(Me, "Seleccione un Producto Por Favor", My.Resources.WARNING, 3000, eToastGlowColor.Red, eToastPosition.TopCenter)
-                End If
+        '            If (grdetalle.Col = grdetalle.RootTable.Columns("tbcmin").Index) Then
+        '                If (grdetalle.GetValue("producto") <> String.Empty) Then
+        '                    _prAddDetalleVenta()
+        '                    _HabilitarProductos()
+        '                Else
+        '                    ToastNotification.Show(Me, "Seleccione un Producto Por Favor", My.Resources.WARNING, 3000, eToastGlowColor.Red, eToastPosition.TopCenter)
+        '                End If
 
+        '            End If
+        '            If (grdetalle.Col = grdetalle.RootTable.Columns("producto").Index) Then
+        '                If (grdetalle.GetValue("producto") <> String.Empty) Then
+        '                    _prAddDetalleVenta()
+        '                    _HabilitarProductos()
+        '                Else
+        '                    ToastNotification.Show(Me, "Seleccione un Producto Por Favor", My.Resources.WARNING, 3000, eToastGlowColor.Red, eToastPosition.TopCenter)
+        '                End If
+
+        '            End If
+        '            If (grdetalle.Col = grdetalle.RootTable.Columns("yfcbarra").Index) Then
+        '                If (grdetalle.GetValue("yfcbarra").ToString().Trim() <> String.Empty) Then
+        '                    cargarProductos()
+        '                    If (grdetalle.Row = grdetalle.RowCount - 1) Then
+        '                        If (existeProducto(grdetalle.GetValue("yfcbarra").ToString)) Then
+        '                            If (Not verificarExistenciaUnica(grdetalle.GetValue("yfcbarra").ToString)) Then
+        '                                ponerProducto(grdetalle.GetValue("yfcbarra").ToString)
+        '                                _prAddDetalleVenta()
+        '                            Else
+        '                                sumarCantidad(grdetalle.GetValue("yfcbarra").ToString)
+        '                            End If
+        '                        Else
+        '                            grdetalle.DataChanged = False
+        '                            ToastNotification.Show(Me, "El código de barra del producto no existe", My.Resources.WARNING, 3000, eToastGlowColor.Red, eToastPosition.TopCenter)
+        '                        End If
+        '                    Else
+        '                        grdetalle.DataChanged = False
+        '                        grdetalle.Row = grdetalle.RowCount - 1
+        '                        grdetalle.Col = grdetalle.RootTable.Columns("yfcbarra").Index
+        '                        ToastNotification.Show(Me, "El cursor debe situarse en la ultima fila", My.Resources.WARNING, 3000, eToastGlowColor.Red, eToastPosition.TopCenter)
+        '                    End If
+        '                Else
+        '                    ToastNotification.Show(Me, "El código de barra no puede quedar vacio", My.Resources.WARNING, 3000, eToastGlowColor.Red, eToastPosition.TopCenter)
+        '                End If
+
+        '            End If
+        '            'opcion para cargar la grilla con el codigo de barra
+        '            'If (grdetalle.Col = grdetalle.RootTable.Columns("yfcbarra").Index) Then
+
+        '            '    If (grdetalle.GetValue("yfcbarra") <> String.Empty) Then
+        '            '        _buscarRegistro(grdetalle.GetValue("yfcbarra"))
+
+
+        '            '        '_prAddDetalleVenta()
+        '            '        '_HabilitarProductos()
+        '            '        ' MsgBox("hola de la grilla" + grdetalle.GetValue("yfcbarra") + t.Container.ToString)
+        '            '        'ojo
+        '            '    Else
+        '            '        ToastNotification.Show(Me, "Seleccione un Producto Por Favor", My.Resources.WARNING, 3000, eToastGlowColor.Red, eToastPosition.TopCenter)
+        '            '    End If
+
+        '            'End If
+        'salirIf:
+        '        End If
+
+        '        If (e.KeyData = Keys.Control + Keys.Enter And grdetalle.Row >= 0 And
+        '            grdetalle.Col = grdetalle.RootTable.Columns("producto").Index) Then
+        '            Dim indexfil As Integer = grdetalle.Row
+        '            Dim indexcol As Integer = grdetalle.Col
+        '            _HabilitarProductos()
+
+        '        End If
+        '        If (e.KeyData = Keys.Escape And grdetalle.Row >= 0) Then
+
+        '            _prEliminarFila()
+
+
+        '        End If
+        '        If (e.KeyData = Keys.Control + Keys.S) Then
+        '            tbMontoBs.Select()
+        '        End If
+
+        Try
+            If (Not _fnAccesible()) Then
+                Return
             End If
-            If (grdetalle.Col = grdetalle.RootTable.Columns("producto").Index) Then
-                If (grdetalle.GetValue("producto") <> String.Empty) Then
-                    _prAddDetalleVenta()
-                    _HabilitarProductos()
-                Else
-                    ToastNotification.Show(Me, "Seleccione un Producto Por Favor", My.Resources.WARNING, 3000, eToastGlowColor.Red, eToastPosition.TopCenter)
-                End If
+            If (e.KeyData = Keys.Enter) Then
+                Dim f, c As Integer
+                c = grdetalle.Col
+                f = grdetalle.Row
 
-            End If
-            If (grdetalle.Col = grdetalle.RootTable.Columns("yfcbarra").Index) Then
-                If (grdetalle.GetValue("yfcbarra").ToString().Trim() <> String.Empty) Then
-                    cargarProductos()
-                    If (grdetalle.Row = grdetalle.RowCount - 1) Then
-                        If (existeProducto(grdetalle.GetValue("yfcbarra").ToString)) Then
-                            If (Not verificarExistenciaUnica(grdetalle.GetValue("yfcbarra").ToString)) Then
-                                ponerProducto(grdetalle.GetValue("yfcbarra").ToString)
-                                _prAddDetalleVenta()
+                If (grdetalle.Col = grdetalle.RootTable.Columns("tbcmin").Index) Then
+                    If (grdetalle.GetValue("producto") <> String.Empty) Then
+                        _prAddDetalleVenta()
+                        _HabilitarProductos()
+                    Else
+                        ToastNotification.Show(Me, "Seleccione un Producto Por Favor", My.Resources.WARNING, 3000, eToastGlowColor.Red, eToastPosition.TopCenter)
+                    End If
+
+                End If
+                If (grdetalle.Col = grdetalle.RootTable.Columns("producto").Index) Then
+                    If (grdetalle.GetValue("producto") <> String.Empty) Then
+                        _prAddDetalleVenta()
+                        _HabilitarProductos()
+                    Else
+                        ToastNotification.Show(Me, "Seleccione un Producto Por Favor", My.Resources.WARNING, 3000, eToastGlowColor.Red, eToastPosition.TopCenter)
+                    End If
+
+                End If
+                If (grdetalle.Col = grdetalle.RootTable.Columns("yfcbarra").Index) Then
+                    If (grdetalle.GetValue("yfcbarra").ToString().Trim() <> String.Empty) Then
+                        cargarProductos()
+                        If (grdetalle.Row = grdetalle.RowCount - 1) Then
+                            Dim codigoBarras = grdetalle.GetValue("yfcbarra").ToString
+                            Dim primerDigito As String = Mid(codigoBarras, 1, 1)
+                            If primerDigito = "2" Then
+                                Dim codigoProducto = Mid(codigoBarras, 1, 6)
+                                Dim totalEntero = Mid(codigoBarras, 7, 4)
+                                Dim totalDecimal = Mid(codigoBarras, 11, 2)
+                                Dim total2 = CDbl(totalEntero).ToString() + "." + CDbl(totalDecimal).ToString()
+                                Dim total As Decimal = CDbl(total2)
+                                If (existeProducto(codigoProducto)) Then
+                                    If (Not verificarExistenciaUnica(codigoProducto)) Then
+                                        ponerProducto2(codigoProducto, total)
+                                        _prAddDetalleVenta()
+                                    Else
+                                        sumarCantidad(grdetalle.GetValue("yfcbarra").ToString)
+                                    End If
+                                Else
+                                    grdetalle.DataChanged = False
+                                    ToastNotification.Show(Me, "El código de barra del producto no existe", My.Resources.WARNING, 3000, eToastGlowColor.Red, eToastPosition.TopCenter)
+                                End If
                             Else
-                                sumarCantidad(grdetalle.GetValue("yfcbarra").ToString)
+                                If (existeProducto(grdetalle.GetValue("yfcbarra").ToString)) Then
+                                    If (Not verificarExistenciaUnica(grdetalle.GetValue("yfcbarra").ToString)) Then
+                                        ponerProducto(grdetalle.GetValue("yfcbarra").ToString)
+                                        _prAddDetalleVenta()
+                                    Else
+                                        sumarCantidad(grdetalle.GetValue("yfcbarra").ToString)
+                                    End If
+                                Else
+                                    grdetalle.DataChanged = False
+                                    ToastNotification.Show(Me, "El código de barra del producto no existe", My.Resources.WARNING, 3000, eToastGlowColor.Red, eToastPosition.TopCenter)
+                                End If
                             End If
                         Else
                             grdetalle.DataChanged = False
-                            ToastNotification.Show(Me, "El código de barra del producto no existe", My.Resources.WARNING, 3000, eToastGlowColor.Red, eToastPosition.TopCenter)
+                            grdetalle.Row = grdetalle.RowCount - 1
+                            grdetalle.Col = grdetalle.RootTable.Columns("yfcbarra").Index
+                            ToastNotification.Show(Me, "El cursor debe situarse en la ultima fila", My.Resources.WARNING, 3000, eToastGlowColor.Red, eToastPosition.TopCenter)
                         End If
                     Else
-                        grdetalle.DataChanged = False
-                        grdetalle.Row = grdetalle.RowCount - 1
-                        grdetalle.Col = grdetalle.RootTable.Columns("yfcbarra").Index
-                        ToastNotification.Show(Me, "El cursor debe situarse en la ultima fila", My.Resources.WARNING, 3000, eToastGlowColor.Red, eToastPosition.TopCenter)
+                        ToastNotification.Show(Me, "El código de barra no puede quedar vacio", My.Resources.WARNING, 3000, eToastGlowColor.Red, eToastPosition.TopCenter)
                     End If
-                Else
-                    ToastNotification.Show(Me, "El código de barra no puede quedar vacio", My.Resources.WARNING, 3000, eToastGlowColor.Red, eToastPosition.TopCenter)
+
                 End If
+                'opcion para cargar la grilla con el codigo de barra
+                'If (grdetalle.Col = grdetalle.RootTable.Columns("yfcbarra").Index) Then
+
+                '    If (grdetalle.GetValue("yfcbarra") <> String.Empty) Then
+                '        _buscarRegistro(grdetalle.GetValue("yfcbarra"))
+
+
+                '        '_prAddDetalleVenta()
+                '        '_HabilitarProductos()
+                '        ' MsgBox("hola de la grilla" + grdetalle.GetValue("yfcbarra") + t.Container.ToString)
+                '        'ojo
+                '    Else
+                '        ToastNotification.Show(Me, "Seleccione un Producto Por Favor", My.Resources.WARNING, 3000, eToastGlowColor.Red, eToastPosition.TopCenter)
+                '    End If
+
+                'End If
+salirIf:
+            End If
+
+            If (e.KeyData = Keys.Control + Keys.Enter And grdetalle.Row >= 0 And
+                grdetalle.Col = grdetalle.RootTable.Columns("producto").Index) Then
+                Dim indexfil As Integer = grdetalle.Row
+                Dim indexcol As Integer = grdetalle.Col
+                _HabilitarProductos()
 
             End If
-            'opcion para cargar la grilla con el codigo de barra
-            'If (grdetalle.Col = grdetalle.RootTable.Columns("yfcbarra").Index) Then
+            If (e.KeyData = Keys.Escape And grdetalle.Row >= 0) Then
 
-            '    If (grdetalle.GetValue("yfcbarra") <> String.Empty) Then
-            '        _buscarRegistro(grdetalle.GetValue("yfcbarra"))
+                _prEliminarFila()
 
 
-            '        '_prAddDetalleVenta()
-            '        '_HabilitarProductos()
-            '        ' MsgBox("hola de la grilla" + grdetalle.GetValue("yfcbarra") + t.Container.ToString)
-            '        'ojo
-            '    Else
-            '        ToastNotification.Show(Me, "Seleccione un Producto Por Favor", My.Resources.WARNING, 3000, eToastGlowColor.Red, eToastPosition.TopCenter)
-            '    End If
-
-            'End If
-salirIf:
-        End If
-
-        If (e.KeyData = Keys.Control + Keys.Enter And grdetalle.Row >= 0 And
-            grdetalle.Col = grdetalle.RootTable.Columns("producto").Index) Then
-            Dim indexfil As Integer = grdetalle.Row
-            Dim indexcol As Integer = grdetalle.Col
-            _HabilitarProductos()
-
-        End If
-        If (e.KeyData = Keys.Escape And grdetalle.Row >= 0) Then
-
-            _prEliminarFila()
-
-
-        End If
-        If (e.KeyData = Keys.Control + Keys.S) Then
-            tbMontoBs.Select()
-        End If
+            End If
+            If (e.KeyData = Keys.Control + Keys.S) Then
+                tbMontoBs.Select()
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.StackTrace, "Comuniquece con el administrador del sistema")
+        End Try
     End Sub
 
+    Private Sub ponerProducto2(codigo As String, total As Decimal)
+        Try
+            grdetalle.DataChanged = True
+            CType(grdetalle.DataSource, DataTable).AcceptChanges()
+            Dim fila As DataRow() = Table_Producto.Select("yfcbarra='" + codigo.Trim + "'", "")
+            If (fila.Count > 0) Then
+                Dim pos As Integer = -1
+                _fnObtenerFilaDetalle(pos, grdetalle.GetValue("tbnumi"))
+                Dim cantidad = total / CDbl(fila(0).ItemArray(15))
+                Dim precio = fila(0).ItemArray(15)
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbty5prod") = fila(0).ItemArray(0)
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("codigo") = fila(0).ItemArray(1)
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("yfcbarra") = fila(0).ItemArray(2)
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("producto") = fila(0).ItemArray(3)
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbumin") = fila(0).ItemArray(13)
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("unidad") = fila(0).ItemArray(14)
+                'tbcmin
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbpbas") = precio
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbptot") = total
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbtotdesc") = total
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbcmin") = cantidad
+                If (gb_FacturaIncluirICE) Then
+                    CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbpcos") = fila(0).ItemArray(17)
+                Else
+                    CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbpcos") = 0
+                End If
+                ''Modif
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbpcos") = fila(0).ItemArray(16)
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbptot2") = fila(0).ItemArray(16)
+                '
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("stock") = fila(0).ItemArray(17) - cantidad
+                'CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tblote") = grProductos.GetValue("iclot")
+                'CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbfechaVenc") = grProductos.GetValue("icfven")
+                'CType(grdetalle.DataSource, DataTable).Rows(pos).Item("stock") = grProductos.GetValue("iccven")
+                _prCalcularPrecioTotal()
+            End If
+        Catch ex As Exception
+            Throw New Exception
+        End Try
+
+    End Sub
     Private Sub cargarProductos()
         Dim dt As DataTable
         If (G_Lote = True) Then

@@ -963,6 +963,7 @@ Public Class F0_Movimiento
 
         If (grproducto.GetValue("stock") > 0) Then
             _prCargarLotesDeProductos(grproducto.GetValue("yfnumi"), grproducto.GetValue("yfcdprod1"))
+            'FilaSelectLote = CType(grproducto.DataSource, DataTable).Rows(0)
         Else
             Dim img As Bitmap = New Bitmap(My.Resources.Mensaje, 50, 50)
             ToastNotification.Show(Me, "El Producto: ".ToUpper + grproducto.GetValue("yfcdprod1") + " NO CUENTA CON STOCK DISPONIBLE", img, 5000, eToastGlowColor.Red, eToastPosition.BottomCenter)
@@ -1128,12 +1129,10 @@ salirIf:
                     Dim lote As String = grproducto.GetValue("iclot")
                     Dim FechaVenc As Date = grproducto.GetValue("icfven")
                     If (Not _fnExisteProductoConLote(numiProd, lote, FechaVenc)) Then
-                        'b.yfcdprod1, a.iclot, a.icfven, a.iccven
                         CType(grdetalle.DataSource, DataTable).Rows(pos).Item("iccprod") = FilaSelectLote.Item("yfnumi")
                         CType(grdetalle.DataSource, DataTable).Rows(pos).Item("producto") = FilaSelectLote.Item("yfcdprod1")
                         CType(grdetalle.DataSource, DataTable).Rows(pos).Item("iccant") = 1
 
-                        
                         CType(grdetalle.DataSource, DataTable).Rows(pos).Item("stock") = grproducto.GetValue("stock")
 
                         CType(grdetalle.DataSource, DataTable).Rows(pos).Item("iclot") = grproducto.GetValue("iclot")
@@ -1147,7 +1146,7 @@ salirIf:
                         _DesHabilitarProductos()
 
                     Else
-                        Dim img As Bitmap = New Bitmap(My.Resources.Mensaje, 50, 50)
+                        Dim img As Bitmap = New Bitmap(My.Resources.mensaje, 50, 50)
                         ToastNotification.Show(Me, "El producto con el lote ya existe modifique su cantidad".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
                     End If
 
