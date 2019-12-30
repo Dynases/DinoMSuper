@@ -101,6 +101,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\Libreria\DotNet\DevComponents.Instrumentation.dll</HintPath>
     </Reference>
+    <Reference Include="DevComponents.Instrumentation.Design, Version=12.5.0.2, Culture=neutral, PublicKeyToken=30cefae8f341f577, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\DotNetBar for Windows Forms\DevComponents.Instrumentation.Design.dll</HintPath>
+    </Reference>
     <Reference Include="DevComponents.SuperGrid.Design, Version=12.5.0.2, Culture=neutral, PublicKeyToken=1fea3f5d8d482bff, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\Libreria\DotNet\DevComponents.SuperGrid.Design.dll</HintPath>

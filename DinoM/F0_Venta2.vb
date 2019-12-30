@@ -2253,12 +2253,15 @@ Public Class F0_Venta2
                             Dim codigoBarras = grdetalle.GetValue("yfcbarra").ToString
                             Dim primerDigito As String = Mid(codigoBarras, 1, 1)
                             If primerDigito = "2" Then
-                                Dim codigoProducto = Mid(codigoBarras, 1, 6)
-                                Dim totalEntero = Mid(codigoBarras, 7, 4)
-                                Dim totalDecimal = Mid(codigoBarras, 11, 2)
-                                Dim total2 = CDbl(totalEntero).ToString() + "." + CDbl(totalDecimal).ToString()
-                                Dim total As Decimal = CDbl(total2)
+                                Dim codigoProducto As Integer
+                                Dim totalEntero, totalDecimal, total2, total As Decimal
+                                codigoProducto = Mid(codigoBarras, 1, 6)
+                                'CUANDO EL COD BARRA TENGA 6 DIGITOS  EJEM: 200001
                                 If (existeProducto(codigoProducto)) Then
+                                    totalEntero = Mid(codigoBarras, 7, 4)
+                                    totalDecimal = Mid(codigoBarras, 11, 2)
+                                    total2 = CDbl(totalEntero).ToString() + "." + CDbl(totalDecimal).ToString()
+                                    total = CDbl(total2)
                                     If (Not verificarExistenciaUnica(codigoProducto)) Then
                                         ponerProducto2(codigoProducto, total)
                                         _prAddDetalleVenta()
@@ -2266,8 +2269,23 @@ Public Class F0_Venta2
                                         sumarCantidad(grdetalle.GetValue("yfcbarra").ToString)
                                     End If
                                 Else
-                                    grdetalle.DataChanged = False
-                                    ToastNotification.Show(Me, "El código de barra del producto no existe", My.Resources.WARNING, 3000, eToastGlowColor.Red, eToastPosition.TopCenter)
+                                    ''CUANDO EL CODIGO DE BARRAS TENGA 7 DIGITOS EJEM: 2000001
+                                    codigoProducto = Mid(codigoBarras, 1, 7)
+                                    If (existeProducto(codigoProducto)) Then
+                                        totalEntero = Mid(codigoBarras, 8, 3)
+                                        totalDecimal = Mid(codigoBarras, 11, 2)
+                                        total2 = CDbl(totalEntero).ToString() + "." + CDbl(totalDecimal).ToString()
+                                        total = CDbl(total2)
+                                        If (Not verificarExistenciaUnica(codigoProducto)) Then
+                                            ponerProducto2(codigoProducto, total)
+                                            _prAddDetalleVenta()
+                                        Else
+                                            sumarCantidad(grdetalle.GetValue("yfcbarra").ToString)
+                                        End If
+                                    Else
+                                        grdetalle.DataChanged = False
+                                        ToastNotification.Show(Me, "El código de barra del producto no existe", My.Resources.WARNING, 3000, eToastGlowColor.Red, eToastPosition.TopCenter)
+                                    End If
                                 End If
                             Else
                                 If (existeProducto(grdetalle.GetValue("yfcbarra").ToString)) Then
@@ -2291,8 +2309,9 @@ Public Class F0_Venta2
                     Else
                         ToastNotification.Show(Me, "El código de barra no puede quedar vacio", My.Resources.WARNING, 3000, eToastGlowColor.Red, eToastPosition.TopCenter)
                     End If
-
                 End If
+
+
                 'opcion para cargar la grilla con el codigo de barra
                 'If (grdetalle.Col = grdetalle.RootTable.Columns("yfcbarra").Index) Then
 
