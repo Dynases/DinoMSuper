@@ -2250,37 +2250,41 @@ Public Class F0_Venta2
                     If (grdetalle.GetValue("yfcbarra").ToString().Trim() <> String.Empty) Then
                         cargarProductos()
                         If (grdetalle.Row = grdetalle.RowCount - 1) Then
-                            Dim codigoBarras = grdetalle.GetValue("yfcbarra").ToString
-                            Dim primerDigito As String = Mid(codigoBarras, 1, 1)
+                            Dim codigoBarrasCompleto = grdetalle.GetValue("yfcbarra").ToString
+                            Dim primerDigito As String = Mid(codigoBarrasCompleto, 1, 1)
                             If primerDigito = "2" Then
-                                Dim codigoProducto As Integer
+                                Dim codigoBarrasProducto As Integer
                                 Dim totalEntero, totalDecimal, total2, total As Decimal
-                                codigoProducto = Mid(codigoBarras, 1, 6)
+                                codigoBarrasProducto = Mid(codigoBarrasCompleto, 1, 6)
                                 'CUANDO EL COD BARRA TENGA 6 DIGITOS  EJEM: 200001
-                                If (existeProducto(codigoProducto)) Then
-                                    totalEntero = Mid(codigoBarras, 7, 4)
-                                    totalDecimal = Mid(codigoBarras, 11, 2)
+                                If (existeProducto(codigoBarrasProducto)) Then
+                                    totalEntero = Mid(codigoBarrasCompleto, 7, 4)
+                                    totalDecimal = Mid(codigoBarrasCompleto, 11, 2)
                                     total2 = CDbl(totalEntero).ToString() + "." + CDbl(totalDecimal).ToString()
                                     total = CDbl(total2)
-                                    If (Not verificarExistenciaUnica(codigoProducto)) Then
-                                        ponerProducto2(codigoProducto, total)
+                                    If (Not verificarExistenciaUnica(codigoBarrasProducto)) Then
+                                        ponerProducto2(codigoBarrasProducto, total, -1)
                                         _prAddDetalleVenta()
                                     Else
-                                        sumarCantidad(grdetalle.GetValue("yfcbarra").ToString)
+
+                                        ponerProducto2(codigoBarrasProducto, total, grdetalle.RowCount - 1)
+                                        _prAddDetalleVenta()
                                     End If
                                 Else
                                     ''CUANDO EL CODIGO DE BARRAS TENGA 7 DIGITOS EJEM: 2000001
-                                    codigoProducto = Mid(codigoBarras, 1, 7)
-                                    If (existeProducto(codigoProducto)) Then
-                                        totalEntero = Mid(codigoBarras, 8, 3)
-                                        totalDecimal = Mid(codigoBarras, 11, 2)
+                                    codigoBarrasProducto = Mid(codigoBarrasCompleto, 1, 7)
+                                    If (existeProducto(codigoBarrasProducto)) Then
+                                        totalEntero = Mid(codigoBarrasCompleto, 8, 3)
+                                        totalDecimal = Mid(codigoBarrasCompleto, 11, 2)
                                         total2 = CDbl(totalEntero).ToString() + "." + CDbl(totalDecimal).ToString()
                                         total = CDbl(total2)
-                                        If (Not verificarExistenciaUnica(codigoProducto)) Then
-                                            ponerProducto2(codigoProducto, total)
+                                        If (Not verificarExistenciaUnica(codigoBarrasProducto)) Then
+                                            ponerProducto2(codigoBarrasProducto, total, -1)
                                             _prAddDetalleVenta()
                                         Else
-                                            sumarCantidad(grdetalle.GetValue("yfcbarra").ToString)
+
+                                            ponerProducto2(codigoBarrasProducto, total, grdetalle.RowCount - 1)
+                                            _prAddDetalleVenta()
                                         End If
                                     Else
                                         grdetalle.DataChanged = False
@@ -2352,14 +2356,15 @@ salirIf:
         End Try
     End Sub
 
-    Private Sub ponerProducto2(codigo As String, total As Decimal)
+    Private Sub ponerProducto2(codigo As String, total As Decimal, pos As Integer)
         Try
             grdetalle.DataChanged = True
             CType(grdetalle.DataSource, DataTable).AcceptChanges()
             Dim fila As DataRow() = Table_Producto.Select("yfcbarra='" + codigo.Trim + "'", "")
             If (fila.Count > 0) Then
-                Dim pos As Integer = -1
-                _fnObtenerFilaDetalle(pos, grdetalle.GetValue("tbnumi"))
+                If pos = -1 Then
+                    _fnObtenerFilaDetalle(pos, grdetalle.GetValue("tbnumi"))
+                End If
                 Dim cantidad = total / CDbl(fila(0).ItemArray(15))
                 Dim precio = fila(0).ItemArray(15)
                 CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbty5prod") = fila(0).ItemArray(0)
@@ -2406,6 +2411,15 @@ salirIf:
 
     Private Function existeProducto(codigo As String) As Boolean
         Return (Table_Producto.Select("yfcbarra='" + codigo.Trim() + "'", "").Count > 0)
+    End Function
+    Private Function existeProducto2(codigo As String, ByRef codigoProucto As Integer) As Boolean
+        Dim resultado As Boolean = False
+        Dim fila As DataRow() = Table_Producto.Select("yfcbarra='" + codigo.Trim + "'", "")
+        If (fila.Count > 0) Then
+            codigoProucto = fila(0).ItemArray(0)
+            resultado = True
+        End If
+        Return resultado
     End Function
 
     Private Function verificarExistenciaUnica(codigo As String) As Boolean

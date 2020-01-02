@@ -23,8 +23,8 @@ Partial Class F0_AnularFactura
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(F0_AnularFactura))
-        Dim Background1 As DevComponents.DotNetBar.SuperGrid.Style.Background = New DevComponents.DotNetBar.SuperGrid.Style.Background()
-        Dim Background2 As DevComponents.DotNetBar.SuperGrid.Style.Background = New DevComponents.DotNetBar.SuperGrid.Style.Background()
+        Dim Background3 As DevComponents.DotNetBar.SuperGrid.Style.Background = New DevComponents.DotNetBar.SuperGrid.Style.Background()
+        Dim Background4 As DevComponents.DotNetBar.SuperGrid.Style.Background = New DevComponents.DotNetBar.SuperGrid.Style.Background()
         Me.TableLayoutPanelPrincipal = New System.Windows.Forms.TableLayoutPanel()
         Me.GroupPanelListaFactura = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.DgdFactura = New DevComponents.DotNetBar.SuperGrid.SuperGridControl()
@@ -60,7 +60,6 @@ Partial Class F0_AnularFactura
         Me.SuperTabItem1 = New DevComponents.DotNetBar.SuperTabItem()
         Me.SuperTabControlPanel2 = New DevComponents.DotNetBar.SuperTabControlPanel()
         Me.GroupPanelFactura = New DevComponents.DotNetBar.Controls.GroupPanel()
-        Me.ArFactura = New AxAcroPDFLib.AxAcroPDF()
         Me.PanelSuperior.SuspendLayout()
         Me.PanelInferior.SuspendLayout()
         CType(Me.BubbleBarUsuario, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -82,8 +81,6 @@ Partial Class F0_AnularFactura
         Me.GroupPanelDatosGenerales.SuspendLayout()
         Me.PanelExDatosGenerales.SuspendLayout()
         Me.SuperTabControlPanel2.SuspendLayout()
-        Me.GroupPanelFactura.SuspendLayout()
-        CType(Me.ArFactura, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'PanelSuperior
@@ -138,9 +135,9 @@ Partial Class F0_AnularFactura
         '
         'TxtNombreUsu
         '
-        Me.TxtNombreUsu.Margin = New System.Windows.Forms.Padding(5, 5, 5, 5)
+        Me.TxtNombreUsu.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.TxtNombreUsu.ReadOnly = True
-        Me.TxtNombreUsu.Size = New System.Drawing.Size(179, 38)
+        Me.TxtNombreUsu.Size = New System.Drawing.Size(135, 32)
         Me.TxtNombreUsu.Text = "DEFAULT"
         '
         'btnSalir
@@ -158,7 +155,7 @@ Partial Class F0_AnularFactura
         '
         'btnUltimo
         '
-        Me.btnUltimo.Location = New System.Drawing.Point(171, 0)
+        Me.btnUltimo.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         '
         'btnSiguiente
         '
@@ -179,11 +176,11 @@ Partial Class F0_AnularFactura
         'PanelContent
         '
         Me.PanelContent.Controls.Add(Me.TableLayoutPanelPrincipal)
-        Me.PanelContent.Size = New System.Drawing.Size(1275, 553)
+        Me.PanelContent.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         '
         'MSuperTabControlPanel1
         '
-        Me.MSuperTabControlPanel1.Size = New System.Drawing.Size(1275, 553)
+        Me.MSuperTabControlPanel1.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         '
         'MSuperTabControl
         '
@@ -203,8 +200,8 @@ Partial Class F0_AnularFactura
         Me.MSuperTabControl.Controls.Add(Me.SuperTabControlPanel2)
         Me.MSuperTabControl.SelectedTabIndex = 1
         Me.MSuperTabControl.Tabs.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.SuperTabItem1})
-        Me.MSuperTabControl.Controls.SetChildIndex(Me.SuperTabControlPanel2, 0)
         Me.MSuperTabControl.Controls.SetChildIndex(Me.MSuperTabControlPanel1, 0)
+        Me.MSuperTabControl.Controls.SetChildIndex(Me.SuperTabControlPanel2, 0)
         '
         'TableLayoutPanelPrincipal
         '
@@ -214,12 +211,11 @@ Partial Class F0_AnularFactura
         Me.TableLayoutPanelPrincipal.Controls.Add(Me.GroupPanelDatosGenerales, 0, 0)
         Me.TableLayoutPanelPrincipal.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanelPrincipal.Location = New System.Drawing.Point(0, 0)
-        Me.TableLayoutPanelPrincipal.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.TableLayoutPanelPrincipal.Name = "TableLayoutPanelPrincipal"
         Me.TableLayoutPanelPrincipal.RowCount = 2
         Me.TableLayoutPanelPrincipal.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 35.0!))
         Me.TableLayoutPanelPrincipal.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 65.0!))
-        Me.TableLayoutPanelPrincipal.Size = New System.Drawing.Size(1275, 553)
+        Me.TableLayoutPanelPrincipal.Size = New System.Drawing.Size(951, 450)
         Me.TableLayoutPanelPrincipal.TabIndex = 0
         '
         'GroupPanelListaFactura
@@ -230,10 +226,9 @@ Partial Class F0_AnularFactura
         Me.GroupPanelListaFactura.DisabledBackColor = System.Drawing.Color.Empty
         Me.GroupPanelListaFactura.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupPanelListaFactura.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupPanelListaFactura.Location = New System.Drawing.Point(4, 197)
-        Me.GroupPanelListaFactura.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupPanelListaFactura.Location = New System.Drawing.Point(3, 160)
         Me.GroupPanelListaFactura.Name = "GroupPanelListaFactura"
-        Me.GroupPanelListaFactura.Size = New System.Drawing.Size(1267, 352)
+        Me.GroupPanelListaFactura.Size = New System.Drawing.Size(945, 287)
         '
         '
         '
@@ -271,17 +266,16 @@ Partial Class F0_AnularFactura
         Me.DgdFactura.BackColor = System.Drawing.Color.WhiteSmoke
         Me.DgdFactura.DefaultVisualStyles.ColumnHeaderStyles.Default.Font = New System.Drawing.Font("Georgia", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.DgdFactura.DefaultVisualStyles.ColumnHeaderStyles.Default.TextColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(72, Byte), Integer), CType(CType(127, Byte), Integer))
-        Background1.Color1 = System.Drawing.Color.DodgerBlue
-        Me.DgdFactura.DefaultVisualStyles.RowStyles.Selected.Background = Background1
-        Me.DgdFactura.DefaultVisualStyles.RowStyles.Selected.RowHeaderStyle.Font = New System.Drawing.Font("Open Sans", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Background3.Color1 = System.Drawing.Color.DodgerBlue
+        Me.DgdFactura.DefaultVisualStyles.RowStyles.Selected.Background = Background3
+        Me.DgdFactura.DefaultVisualStyles.RowStyles.Selected.RowHeaderStyle.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.DgdFactura.DefaultVisualStyles.RowStyles.Selected.RowHeaderStyle.TextColor = System.Drawing.Color.White
-        Background2.Color1 = System.Drawing.Color.DodgerBlue
-        Me.DgdFactura.DefaultVisualStyles.RowStyles.SelectedMouseOver.Background = Background2
+        Background4.Color1 = System.Drawing.Color.DodgerBlue
+        Me.DgdFactura.DefaultVisualStyles.RowStyles.SelectedMouseOver.Background = Background4
         Me.DgdFactura.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DgdFactura.FilterExprColors.SysFunction = System.Drawing.Color.DarkRed
-        Me.DgdFactura.Font = New System.Drawing.Font("Open Sans Light", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DgdFactura.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.DgdFactura.Location = New System.Drawing.Point(0, 0)
-        Me.DgdFactura.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.DgdFactura.Name = "DgdFactura"
         '
         '
@@ -292,7 +286,7 @@ Partial Class F0_AnularFactura
         Me.DgdFactura.PrimaryGrid.MultiSelect = False
         Me.DgdFactura.PrimaryGrid.SelectionGranularity = DevComponents.DotNetBar.SuperGrid.SelectionGranularity.RowWithCellHighlight
         Me.DgdFactura.PrimaryGrid.UseAlternateRowStyle = True
-        Me.DgdFactura.Size = New System.Drawing.Size(1261, 325)
+        Me.DgdFactura.Size = New System.Drawing.Size(939, 264)
         Me.DgdFactura.TabIndex = 0
         Me.DgdFactura.Text = "SuperGridControl1"
         '
@@ -304,10 +298,9 @@ Partial Class F0_AnularFactura
         Me.GroupPanelDatosGenerales.DisabledBackColor = System.Drawing.Color.Empty
         Me.GroupPanelDatosGenerales.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupPanelDatosGenerales.Font = New System.Drawing.Font("Georgia", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupPanelDatosGenerales.Location = New System.Drawing.Point(4, 4)
-        Me.GroupPanelDatosGenerales.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupPanelDatosGenerales.Location = New System.Drawing.Point(3, 3)
         Me.GroupPanelDatosGenerales.Name = "GroupPanelDatosGenerales"
-        Me.GroupPanelDatosGenerales.Size = New System.Drawing.Size(1267, 185)
+        Me.GroupPanelDatosGenerales.Size = New System.Drawing.Size(945, 151)
         '
         '
         '
@@ -373,9 +366,8 @@ Partial Class F0_AnularFactura
         Me.PanelExDatosGenerales.DisabledBackColor = System.Drawing.Color.Empty
         Me.PanelExDatosGenerales.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PanelExDatosGenerales.Location = New System.Drawing.Point(0, 0)
-        Me.PanelExDatosGenerales.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.PanelExDatosGenerales.Name = "PanelExDatosGenerales"
-        Me.PanelExDatosGenerales.Size = New System.Drawing.Size(1261, 158)
+        Me.PanelExDatosGenerales.Size = New System.Drawing.Size(939, 128)
         Me.PanelExDatosGenerales.Style.Alignment = System.Drawing.StringAlignment.Center
         Me.PanelExDatosGenerales.Style.BackColor1.Color = System.Drawing.Color.White
         Me.PanelExDatosGenerales.Style.BackColor2.Color = System.Drawing.Color.White
@@ -392,10 +384,9 @@ Partial Class F0_AnularFactura
         Me.LabelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX1.Font = New System.Drawing.Font("Georgia", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelX1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(72, Byte), Integer), CType(CType(127, Byte), Integer))
-        Me.LabelX1.Location = New System.Drawing.Point(4, 4)
-        Me.LabelX1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.LabelX1.Location = New System.Drawing.Point(3, 3)
         Me.LabelX1.Name = "LabelX1"
-        Me.LabelX1.Size = New System.Drawing.Size(117, 28)
+        Me.LabelX1.Size = New System.Drawing.Size(88, 23)
         Me.LabelX1.TabIndex = 0
         Me.LabelX1.Text = "Código:"
         Me.LabelX1.TextAlignment = System.Drawing.StringAlignment.Far
@@ -407,13 +398,12 @@ Partial Class F0_AnularFactura
         '
         Me.Tb2NroFactura.Border.Class = "TextBoxBorder"
         Me.Tb2NroFactura.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.Tb2NroFactura.Font = New System.Drawing.Font("Open Sans Light", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb2NroFactura.Location = New System.Drawing.Point(129, 39)
-        Me.Tb2NroFactura.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Tb2NroFactura.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb2NroFactura.Location = New System.Drawing.Point(97, 32)
         Me.Tb2NroFactura.Name = "Tb2NroFactura"
         Me.Tb2NroFactura.PreventEnterBeep = True
         Me.Tb2NroFactura.ReadOnly = True
-        Me.Tb2NroFactura.Size = New System.Drawing.Size(133, 30)
+        Me.Tb2NroFactura.Size = New System.Drawing.Size(100, 22)
         Me.Tb2NroFactura.TabIndex = 26
         Me.Tb2NroFactura.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -424,13 +414,12 @@ Partial Class F0_AnularFactura
         '
         Me.Tb1Codigo.Border.Class = "TextBoxBorder"
         Me.Tb1Codigo.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.Tb1Codigo.Font = New System.Drawing.Font("Open Sans Light", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb1Codigo.Location = New System.Drawing.Point(129, 4)
-        Me.Tb1Codigo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Tb1Codigo.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb1Codigo.Location = New System.Drawing.Point(97, 3)
         Me.Tb1Codigo.Name = "Tb1Codigo"
         Me.Tb1Codigo.PreventEnterBeep = True
         Me.Tb1Codigo.ReadOnly = True
-        Me.Tb1Codigo.Size = New System.Drawing.Size(133, 30)
+        Me.Tb1Codigo.Size = New System.Drawing.Size(100, 22)
         Me.Tb1Codigo.TabIndex = 1
         Me.Tb1Codigo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -442,10 +431,9 @@ Partial Class F0_AnularFactura
         Me.LabelX13.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX13.Font = New System.Drawing.Font("Georgia", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelX13.ForeColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(72, Byte), Integer), CType(CType(127, Byte), Integer))
-        Me.LabelX13.Location = New System.Drawing.Point(4, 39)
-        Me.LabelX13.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.LabelX13.Location = New System.Drawing.Point(3, 32)
         Me.LabelX13.Name = "LabelX13"
-        Me.LabelX13.Size = New System.Drawing.Size(117, 28)
+        Me.LabelX13.Size = New System.Drawing.Size(88, 23)
         Me.LabelX13.TabIndex = 25
         Me.LabelX13.Text = "Nro. Factura:"
         Me.LabelX13.TextAlignment = System.Drawing.StringAlignment.Far
@@ -458,10 +446,9 @@ Partial Class F0_AnularFactura
         Me.LabelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX2.Font = New System.Drawing.Font("Georgia", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelX2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(72, Byte), Integer), CType(CType(127, Byte), Integer))
-        Me.LabelX2.Location = New System.Drawing.Point(4, 75)
-        Me.LabelX2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.LabelX2.Location = New System.Drawing.Point(3, 61)
         Me.LabelX2.Name = "LabelX2"
-        Me.LabelX2.Size = New System.Drawing.Size(117, 28)
+        Me.LabelX2.Size = New System.Drawing.Size(88, 23)
         Me.LabelX2.TabIndex = 2
         Me.LabelX2.Text = "Fecha:"
         Me.LabelX2.TextAlignment = System.Drawing.StringAlignment.Far
@@ -473,10 +460,9 @@ Partial Class F0_AnularFactura
         Me.Bt1Guardar.Font = New System.Drawing.Font("Georgia", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Bt1Guardar.Image = Global.DinoM.My.Resources.Resources.OK
         Me.Bt1Guardar.ImageFixedSize = New System.Drawing.Size(40, 40)
-        Me.Bt1Guardar.Location = New System.Drawing.Point(953, 111)
-        Me.Bt1Guardar.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Bt1Guardar.Location = New System.Drawing.Point(715, 90)
         Me.Bt1Guardar.Name = "Bt1Guardar"
-        Me.Bt1Guardar.Size = New System.Drawing.Size(301, 62)
+        Me.Bt1Guardar.Size = New System.Drawing.Size(226, 50)
         Me.Bt1Guardar.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.Bt1Guardar.TabIndex = 24
         Me.Bt1Guardar.Text = "Guardar"
@@ -489,13 +475,12 @@ Partial Class F0_AnularFactura
         '
         Me.Tb2Fecha.Border.Class = "TextBoxBorder"
         Me.Tb2Fecha.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.Tb2Fecha.Font = New System.Drawing.Font("Open Sans Light", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb2Fecha.Location = New System.Drawing.Point(129, 75)
-        Me.Tb2Fecha.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Tb2Fecha.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb2Fecha.Location = New System.Drawing.Point(97, 61)
         Me.Tb2Fecha.Name = "Tb2Fecha"
         Me.Tb2Fecha.PreventEnterBeep = True
         Me.Tb2Fecha.ReadOnly = True
-        Me.Tb2Fecha.Size = New System.Drawing.Size(133, 30)
+        Me.Tb2Fecha.Size = New System.Drawing.Size(100, 22)
         Me.Tb2Fecha.TabIndex = 3
         Me.Tb2Fecha.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -505,14 +490,13 @@ Partial Class F0_AnularFactura
         '
         '
         Me.Sb1Estado.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.Sb1Estado.Location = New System.Drawing.Point(1121, 76)
-        Me.Sb1Estado.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Sb1Estado.Location = New System.Drawing.Point(841, 62)
         Me.Sb1Estado.Name = "Sb1Estado"
         Me.Sb1Estado.OffBackColor = System.Drawing.Color.IndianRed
         Me.Sb1Estado.OffText = "ANULADA"
         Me.Sb1Estado.OnBackColor = System.Drawing.Color.ForestGreen
         Me.Sb1Estado.OnText = "VIGENTE"
-        Me.Sb1Estado.Size = New System.Drawing.Size(133, 27)
+        Me.Sb1Estado.Size = New System.Drawing.Size(100, 22)
         Me.Sb1Estado.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.Sb1Estado.TabIndex = 23
         Me.Sb1Estado.Value = True
@@ -526,10 +510,9 @@ Partial Class F0_AnularFactura
         Me.LabelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX3.Font = New System.Drawing.Font("Georgia", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelX3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(72, Byte), Integer), CType(CType(127, Byte), Integer))
-        Me.LabelX3.Location = New System.Drawing.Point(4, 111)
-        Me.LabelX3.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.LabelX3.Location = New System.Drawing.Point(3, 90)
         Me.LabelX3.Name = "LabelX3"
-        Me.LabelX3.Size = New System.Drawing.Size(117, 28)
+        Me.LabelX3.Size = New System.Drawing.Size(88, 23)
         Me.LabelX3.TabIndex = 4
         Me.LabelX3.Text = "Cod Cliente:"
         Me.LabelX3.TextAlignment = System.Drawing.StringAlignment.Far
@@ -541,13 +524,12 @@ Partial Class F0_AnularFactura
         '
         Me.Tb6Nit.Border.Class = "TextBoxBorder"
         Me.Tb6Nit.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.Tb6Nit.Font = New System.Drawing.Font("Open Sans Light", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb6Nit.Location = New System.Drawing.Point(396, 75)
-        Me.Tb6Nit.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Tb6Nit.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb6Nit.Location = New System.Drawing.Point(297, 61)
         Me.Tb6Nit.Name = "Tb6Nit"
         Me.Tb6Nit.PreventEnterBeep = True
         Me.Tb6Nit.ReadOnly = True
-        Me.Tb6Nit.Size = New System.Drawing.Size(200, 30)
+        Me.Tb6Nit.Size = New System.Drawing.Size(150, 22)
         Me.Tb6Nit.TabIndex = 11
         Me.Tb6Nit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -558,13 +540,12 @@ Partial Class F0_AnularFactura
         '
         Me.Tb3CodCliente.Border.Class = "TextBoxBorder"
         Me.Tb3CodCliente.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.Tb3CodCliente.Font = New System.Drawing.Font("Open Sans Light", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb3CodCliente.Location = New System.Drawing.Point(129, 111)
-        Me.Tb3CodCliente.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Tb3CodCliente.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb3CodCliente.Location = New System.Drawing.Point(97, 90)
         Me.Tb3CodCliente.Name = "Tb3CodCliente"
         Me.Tb3CodCliente.PreventEnterBeep = True
         Me.Tb3CodCliente.ReadOnly = True
-        Me.Tb3CodCliente.Size = New System.Drawing.Size(133, 30)
+        Me.Tb3CodCliente.Size = New System.Drawing.Size(100, 22)
         Me.Tb3CodCliente.TabIndex = 5
         Me.Tb3CodCliente.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -575,13 +556,12 @@ Partial Class F0_AnularFactura
         '
         Me.Tb11FechaLim.Border.Class = "TextBoxBorder"
         Me.Tb11FechaLim.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.Tb11FechaLim.Font = New System.Drawing.Font("Open Sans Light", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb11FechaLim.Location = New System.Drawing.Point(1121, 39)
-        Me.Tb11FechaLim.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Tb11FechaLim.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb11FechaLim.Location = New System.Drawing.Point(841, 32)
         Me.Tb11FechaLim.Name = "Tb11FechaLim"
         Me.Tb11FechaLim.PreventEnterBeep = True
         Me.Tb11FechaLim.ReadOnly = True
-        Me.Tb11FechaLim.Size = New System.Drawing.Size(133, 30)
+        Me.Tb11FechaLim.Size = New System.Drawing.Size(100, 22)
         Me.Tb11FechaLim.TabIndex = 21
         Me.Tb11FechaLim.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -594,10 +574,9 @@ Partial Class F0_AnularFactura
         Me.LabelX4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX4.Font = New System.Drawing.Font("Georgia", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelX4.ForeColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(72, Byte), Integer), CType(CType(127, Byte), Integer))
-        Me.LabelX4.Location = New System.Drawing.Point(271, 4)
-        Me.LabelX4.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.LabelX4.Location = New System.Drawing.Point(203, 3)
         Me.LabelX4.Name = "LabelX4"
-        Me.LabelX4.Size = New System.Drawing.Size(112, 20)
+        Me.LabelX4.Size = New System.Drawing.Size(90, 16)
         Me.LabelX4.TabIndex = 6
         Me.LabelX4.Text = "Descripción 1:"
         Me.LabelX4.TextAlignment = System.Drawing.StringAlignment.Far
@@ -609,13 +588,12 @@ Partial Class F0_AnularFactura
         '
         Me.Tb7SubTotal.Border.Class = "TextBoxBorder"
         Me.Tb7SubTotal.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.Tb7SubTotal.Font = New System.Drawing.Font("Open Sans Light", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb7SubTotal.Location = New System.Drawing.Point(812, 4)
-        Me.Tb7SubTotal.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Tb7SubTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb7SubTotal.Location = New System.Drawing.Point(609, 3)
         Me.Tb7SubTotal.Name = "Tb7SubTotal"
         Me.Tb7SubTotal.PreventEnterBeep = True
         Me.Tb7SubTotal.ReadOnly = True
-        Me.Tb7SubTotal.Size = New System.Drawing.Size(133, 30)
+        Me.Tb7SubTotal.Size = New System.Drawing.Size(100, 22)
         Me.Tb7SubTotal.TabIndex = 13
         Me.Tb7SubTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -627,10 +605,9 @@ Partial Class F0_AnularFactura
         Me.LabelX10.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX10.Font = New System.Drawing.Font("Georgia", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelX10.ForeColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(72, Byte), Integer), CType(CType(127, Byte), Integer))
-        Me.LabelX10.Location = New System.Drawing.Point(671, 75)
-        Me.LabelX10.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.LabelX10.Location = New System.Drawing.Point(503, 61)
         Me.LabelX10.Name = "LabelX10"
-        Me.LabelX10.Size = New System.Drawing.Size(133, 28)
+        Me.LabelX10.Size = New System.Drawing.Size(100, 23)
         Me.LabelX10.TabIndex = 16
         Me.LabelX10.Text = "Total:"
         Me.LabelX10.TextAlignment = System.Drawing.StringAlignment.Far
@@ -642,13 +619,12 @@ Partial Class F0_AnularFactura
         '
         Me.Tb10CodControl.Border.Class = "TextBoxBorder"
         Me.Tb10CodControl.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.Tb10CodControl.Font = New System.Drawing.Font("Open Sans Light", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb10CodControl.Location = New System.Drawing.Point(1121, 4)
-        Me.Tb10CodControl.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Tb10CodControl.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb10CodControl.Location = New System.Drawing.Point(841, 3)
         Me.Tb10CodControl.Name = "Tb10CodControl"
         Me.Tb10CodControl.PreventEnterBeep = True
         Me.Tb10CodControl.ReadOnly = True
-        Me.Tb10CodControl.Size = New System.Drawing.Size(200, 30)
+        Me.Tb10CodControl.Size = New System.Drawing.Size(150, 22)
         Me.Tb10CodControl.TabIndex = 19
         '
         'LabelX9
@@ -659,10 +635,9 @@ Partial Class F0_AnularFactura
         Me.LabelX9.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX9.Font = New System.Drawing.Font("Georgia", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelX9.ForeColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(72, Byte), Integer), CType(CType(127, Byte), Integer))
-        Me.LabelX9.Location = New System.Drawing.Point(953, 4)
-        Me.LabelX9.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.LabelX9.Location = New System.Drawing.Point(715, 3)
         Me.LabelX9.Name = "LabelX9"
-        Me.LabelX9.Size = New System.Drawing.Size(160, 28)
+        Me.LabelX9.Size = New System.Drawing.Size(120, 23)
         Me.LabelX9.TabIndex = 18
         Me.LabelX9.Text = "Código de Control:"
         Me.LabelX9.TextAlignment = System.Drawing.StringAlignment.Far
@@ -674,13 +649,12 @@ Partial Class F0_AnularFactura
         '
         Me.Tb8Descuento.Border.Class = "TextBoxBorder"
         Me.Tb8Descuento.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.Tb8Descuento.Font = New System.Drawing.Font("Open Sans Light", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb8Descuento.Location = New System.Drawing.Point(812, 39)
-        Me.Tb8Descuento.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Tb8Descuento.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb8Descuento.Location = New System.Drawing.Point(609, 32)
         Me.Tb8Descuento.Name = "Tb8Descuento"
         Me.Tb8Descuento.PreventEnterBeep = True
         Me.Tb8Descuento.ReadOnly = True
-        Me.Tb8Descuento.Size = New System.Drawing.Size(133, 30)
+        Me.Tb8Descuento.Size = New System.Drawing.Size(100, 22)
         Me.Tb8Descuento.TabIndex = 15
         Me.Tb8Descuento.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -691,13 +665,12 @@ Partial Class F0_AnularFactura
         '
         Me.Tb4Desc1.Border.Class = "TextBoxBorder"
         Me.Tb4Desc1.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.Tb4Desc1.Font = New System.Drawing.Font("Open Sans Light", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb4Desc1.Location = New System.Drawing.Point(396, 4)
-        Me.Tb4Desc1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Tb4Desc1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb4Desc1.Location = New System.Drawing.Point(297, 3)
         Me.Tb4Desc1.Name = "Tb4Desc1"
         Me.Tb4Desc1.PreventEnterBeep = True
         Me.Tb4Desc1.ReadOnly = True
-        Me.Tb4Desc1.Size = New System.Drawing.Size(267, 30)
+        Me.Tb4Desc1.Size = New System.Drawing.Size(200, 22)
         Me.Tb4Desc1.TabIndex = 7
         '
         'Tb9Total
@@ -707,13 +680,12 @@ Partial Class F0_AnularFactura
         '
         Me.Tb9Total.Border.Class = "TextBoxBorder"
         Me.Tb9Total.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.Tb9Total.Font = New System.Drawing.Font("Open Sans Light", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb9Total.Location = New System.Drawing.Point(812, 75)
-        Me.Tb9Total.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Tb9Total.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb9Total.Location = New System.Drawing.Point(609, 61)
         Me.Tb9Total.Name = "Tb9Total"
         Me.Tb9Total.PreventEnterBeep = True
         Me.Tb9Total.ReadOnly = True
-        Me.Tb9Total.Size = New System.Drawing.Size(133, 30)
+        Me.Tb9Total.Size = New System.Drawing.Size(100, 22)
         Me.Tb9Total.TabIndex = 17
         Me.Tb9Total.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -726,10 +698,9 @@ Partial Class F0_AnularFactura
         Me.LabelX5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX5.Font = New System.Drawing.Font("Georgia", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelX5.ForeColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(72, Byte), Integer), CType(CType(127, Byte), Integer))
-        Me.LabelX5.Location = New System.Drawing.Point(271, 39)
-        Me.LabelX5.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.LabelX5.Location = New System.Drawing.Point(203, 32)
         Me.LabelX5.Name = "LabelX5"
-        Me.LabelX5.Size = New System.Drawing.Size(114, 20)
+        Me.LabelX5.Size = New System.Drawing.Size(92, 16)
         Me.LabelX5.TabIndex = 8
         Me.LabelX5.Text = "Descripción 2:"
         Me.LabelX5.TextAlignment = System.Drawing.StringAlignment.Far
@@ -742,10 +713,9 @@ Partial Class F0_AnularFactura
         Me.LabelX7.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX7.Font = New System.Drawing.Font("Georgia", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelX7.ForeColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(72, Byte), Integer), CType(CType(127, Byte), Integer))
-        Me.LabelX7.Location = New System.Drawing.Point(953, 75)
-        Me.LabelX7.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.LabelX7.Location = New System.Drawing.Point(715, 61)
         Me.LabelX7.Name = "LabelX7"
-        Me.LabelX7.Size = New System.Drawing.Size(160, 28)
+        Me.LabelX7.Size = New System.Drawing.Size(120, 23)
         Me.LabelX7.TabIndex = 22
         Me.LabelX7.Text = "Estado:"
         Me.LabelX7.TextAlignment = System.Drawing.StringAlignment.Far
@@ -758,10 +728,9 @@ Partial Class F0_AnularFactura
         Me.LabelX11.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX11.Font = New System.Drawing.Font("Georgia", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelX11.ForeColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(72, Byte), Integer), CType(CType(127, Byte), Integer))
-        Me.LabelX11.Location = New System.Drawing.Point(671, 39)
-        Me.LabelX11.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.LabelX11.Location = New System.Drawing.Point(503, 32)
         Me.LabelX11.Name = "LabelX11"
-        Me.LabelX11.Size = New System.Drawing.Size(133, 28)
+        Me.LabelX11.Size = New System.Drawing.Size(100, 23)
         Me.LabelX11.TabIndex = 14
         Me.LabelX11.Text = "Descuento:"
         Me.LabelX11.TextAlignment = System.Drawing.StringAlignment.Far
@@ -774,10 +743,9 @@ Partial Class F0_AnularFactura
         Me.LabelX12.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX12.Font = New System.Drawing.Font("Georgia", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelX12.ForeColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(72, Byte), Integer), CType(CType(127, Byte), Integer))
-        Me.LabelX12.Location = New System.Drawing.Point(671, 4)
-        Me.LabelX12.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.LabelX12.Location = New System.Drawing.Point(503, 3)
         Me.LabelX12.Name = "LabelX12"
-        Me.LabelX12.Size = New System.Drawing.Size(133, 28)
+        Me.LabelX12.Size = New System.Drawing.Size(100, 23)
         Me.LabelX12.TabIndex = 12
         Me.LabelX12.Text = "SubTotal"
         Me.LabelX12.TextAlignment = System.Drawing.StringAlignment.Far
@@ -790,10 +758,9 @@ Partial Class F0_AnularFactura
         Me.LabelX8.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX8.Font = New System.Drawing.Font("Georgia", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelX8.ForeColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(72, Byte), Integer), CType(CType(127, Byte), Integer))
-        Me.LabelX8.Location = New System.Drawing.Point(953, 39)
-        Me.LabelX8.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.LabelX8.Location = New System.Drawing.Point(715, 32)
         Me.LabelX8.Name = "LabelX8"
-        Me.LabelX8.Size = New System.Drawing.Size(160, 28)
+        Me.LabelX8.Size = New System.Drawing.Size(120, 23)
         Me.LabelX8.TabIndex = 20
         Me.LabelX8.Text = "Fecha Limite:"
         Me.LabelX8.TextAlignment = System.Drawing.StringAlignment.Far
@@ -806,10 +773,9 @@ Partial Class F0_AnularFactura
         Me.LabelX6.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX6.Font = New System.Drawing.Font("Georgia", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelX6.ForeColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(72, Byte), Integer), CType(CType(127, Byte), Integer))
-        Me.LabelX6.Location = New System.Drawing.Point(271, 75)
-        Me.LabelX6.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.LabelX6.Location = New System.Drawing.Point(203, 61)
         Me.LabelX6.Name = "LabelX6"
-        Me.LabelX6.Size = New System.Drawing.Size(117, 28)
+        Me.LabelX6.Size = New System.Drawing.Size(88, 23)
         Me.LabelX6.TabIndex = 10
         Me.LabelX6.Text = "Nit:"
         Me.LabelX6.TextAlignment = System.Drawing.StringAlignment.Far
@@ -821,13 +787,12 @@ Partial Class F0_AnularFactura
         '
         Me.Tb5Desc2.Border.Class = "TextBoxBorder"
         Me.Tb5Desc2.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.Tb5Desc2.Font = New System.Drawing.Font("Open Sans Light", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb5Desc2.Location = New System.Drawing.Point(396, 39)
-        Me.Tb5Desc2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Tb5Desc2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb5Desc2.Location = New System.Drawing.Point(297, 32)
         Me.Tb5Desc2.Name = "Tb5Desc2"
         Me.Tb5Desc2.PreventEnterBeep = True
         Me.Tb5Desc2.ReadOnly = True
-        Me.Tb5Desc2.Size = New System.Drawing.Size(267, 30)
+        Me.Tb5Desc2.Size = New System.Drawing.Size(200, 22)
         Me.Tb5Desc2.TabIndex = 9
         '
         'SuperTabItem1
@@ -842,9 +807,8 @@ Partial Class F0_AnularFactura
         Me.SuperTabControlPanel2.Controls.Add(Me.GroupPanelFactura)
         Me.SuperTabControlPanel2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SuperTabControlPanel2.Location = New System.Drawing.Point(0, 0)
-        Me.SuperTabControlPanel2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.SuperTabControlPanel2.Name = "SuperTabControlPanel2"
-        Me.SuperTabControlPanel2.Size = New System.Drawing.Size(1275, 553)
+        Me.SuperTabControlPanel2.Size = New System.Drawing.Size(951, 450)
         Me.SuperTabControlPanel2.TabIndex = 0
         Me.SuperTabControlPanel2.TabItem = Me.SuperTabItem1
         '
@@ -853,15 +817,13 @@ Partial Class F0_AnularFactura
         Me.GroupPanelFactura.BackColor = System.Drawing.Color.Transparent
         Me.GroupPanelFactura.CanvasColor = System.Drawing.SystemColors.Control
         Me.GroupPanelFactura.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
-        Me.GroupPanelFactura.Controls.Add(Me.ArFactura)
         Me.GroupPanelFactura.DisabledBackColor = System.Drawing.Color.Empty
         Me.GroupPanelFactura.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupPanelFactura.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupPanelFactura.Location = New System.Drawing.Point(0, 0)
-        Me.GroupPanelFactura.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.GroupPanelFactura.Name = "GroupPanelFactura"
-        Me.GroupPanelFactura.Padding = New System.Windows.Forms.Padding(7, 6, 7, 6)
-        Me.GroupPanelFactura.Size = New System.Drawing.Size(1275, 553)
+        Me.GroupPanelFactura.Padding = New System.Windows.Forms.Padding(5, 5, 5, 5)
+        Me.GroupPanelFactura.Size = New System.Drawing.Size(951, 450)
         '
         '
         '
@@ -893,23 +855,12 @@ Partial Class F0_AnularFactura
         Me.GroupPanelFactura.TabIndex = 2
         Me.GroupPanelFactura.Text = "PDF FACTURA"
         '
-        'ArFactura
-        '
-        Me.ArFactura.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ArFactura.Enabled = True
-        Me.ArFactura.Location = New System.Drawing.Point(7, 6)
-        Me.ArFactura.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
-        Me.ArFactura.Name = "ArFactura"
-        Me.ArFactura.OcxState = CType(resources.GetObject("ArFactura.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.ArFactura.Size = New System.Drawing.Size(1255, 514)
-        Me.ArFactura.TabIndex = 1
-        '
         'F0_AnularFactura
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1312, 690)
-        Me.Margin = New System.Windows.Forms.Padding(5, 5, 5, 5)
+        Me.ClientSize = New System.Drawing.Size(984, 561)
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Name = "F0_AnularFactura"
         Me.Text = "F0_AnularFactura"
         Me.Controls.SetChildIndex(Me.PanelPrincipal, 0)
@@ -937,8 +888,6 @@ Partial Class F0_AnularFactura
         Me.PanelExDatosGenerales.ResumeLayout(False)
         Me.PanelExDatosGenerales.PerformLayout()
         Me.SuperTabControlPanel2.ResumeLayout(False)
-        Me.GroupPanelFactura.ResumeLayout(False)
-        CType(Me.ArFactura, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -976,6 +925,5 @@ Partial Class F0_AnularFactura
     Friend WithEvents DgdFactura As DevComponents.DotNetBar.SuperGrid.SuperGridControl
     Friend WithEvents SuperTabControlPanel2 As DevComponents.DotNetBar.SuperTabControlPanel
     Friend WithEvents GroupPanelFactura As DevComponents.DotNetBar.Controls.GroupPanel
-    Friend WithEvents ArFactura As AxAcroPDFLib.AxAcroPDF
     Friend WithEvents SuperTabItem1 As DevComponents.DotNetBar.SuperTabItem
 End Class
