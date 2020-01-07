@@ -2160,7 +2160,7 @@ Public Class AccesoLogica
                                        _NitCli As String, _CodCli As String, _DesCli1 As String, _DesCli2 As String,
                                        _A As String, _B As String, _C As String, _D As String, _E As String, _F As String,
                                        _G As String, _H As String, _CodCon As String, _FecLim As String,
-                                       _Imgqr As String, _Alm As String, _Numi2 As String)
+                                       _Imgqr As String, _Alm As String, _Numi2 As String, _hora As String)
         Dim Sql As String
         Try
             Sql = "" + _Numi + ", " _
@@ -2184,8 +2184,8 @@ Public Class AccesoLogica
                 + "'" + _FecLim + "', " _
                 + "" + _Imgqr + ", " _
                 + "" + _Alm + ", " _
-                + "" + _Numi2 + ""
-
+                + "" + _Numi2 + ", " _
+                + "'" + _hora + "'"
             D_Insertar_Datos("TFV001", Sql)
         Catch ex As Exception
             MsgBox(ex.Message)

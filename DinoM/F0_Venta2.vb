@@ -1467,6 +1467,7 @@ Public Class F0_Venta2
         Dim h As Double = g * (gi_IVA / 100)
 
         Dim res As Boolean = False
+        Dim _Hora As String = Now.Hour.ToString + ":" + Now.Minute.ToString
         'Grabado de Cabesera Factura
         L_Grabar_Factura(numi,
                         dtiFechaFactura.Value.ToString("yyyy/MM/dd"),
@@ -1489,7 +1490,8 @@ Public Class F0_Venta2
                         Now.Date.ToString("yyyy/MM/dd"),
                         "''",
                         cbSucursal.Value,
-                        numi)
+                        numi,
+                       _Hora)
 
         'Grabar Nuevo y Modificado en la BDDiconDinoEco en la tabla TPA001
         If (tbCodigo.Text = String.Empty) Then
@@ -1664,7 +1666,7 @@ Public Class F0_Venta2
                                        My.Resources.WARNING, 5 * 1000,
                                        eToastGlowColor.Blue, eToastPosition.BottomRight)
             Else
-                objrep.PrintOptions.PrinterName = "EPSON TM-U330 Receipt" '_Ds3.Tables(0).Rows(0).Item("cbrut").ToString '"EPSON TM-T20II Receipt5 (1)"
+                objrep.PrintOptions.PrinterName = _Ds3.Tables(0).Rows(0).Item("cbrut").ToString '"EPSON TM-T20II Receipt5 (1)"
                 objrep.PrintToPrinter(1, True, 0, 0)
                 'crystalReportDocument.PrintOptions.PrinterName = "your printer name"
                 'objrep.PrintTicket("EPSON TM-T20II Receipt")
@@ -1681,6 +1683,161 @@ Public Class F0_Venta2
         End If
         L_Actualiza_Dosificacion(_numidosif, _NumFac, numi)
     End Sub
+    Private Sub ReimprimirFactura(numi As String, impFactura As Boolean, grabarPDF As Boolean)
+        Try
+            Dim _Fecha, _FechaAl As Date
+            Dim _Ds, _Ds1, _Ds2, _Ds3 As New DataSet
+            Dim _Autorizacion, _Nit, _Fechainv, _Total, _Key, _Cod_Control, _Hora,
+                _Literal, _TotalDecimal, _TotalDecimal2 As String
+            Dim I, _NumFac, _numidosif, _TotalCC As Integer
+            Dim ice, _Desc, _TotalLi As Decimal
+            Dim _VistaPrevia As Integer = 0
+
+
+            _Desc = CDbl(tbMdesc.Value)
+            If Not IsNothing(P_Global.Visualizador) Then
+                P_Global.Visualizador.Close()
+            End If
+
+            _Ds1 = L_Dosificacion("1", "1", _Fecha)
+            _Ds = L_Reporte_Factura(numi, numi)
+            _Fecha = _Ds.Tables(0).Rows(0).Item("fvafec").ToString
+            _Hora = _Ds.Tables(0).Rows(0).Item("fvahora").ToString
+            _Autorizacion = _Ds1.Tables(0).Rows(0).Item("sbautoriz").ToString
+            _NumFac = CInt(_Ds.Tables(0).Rows(0).Item("fvanfac").ToString)
+            '_NumFac = CInt(_Ds1.Tables(0).Rows(0).Item("sbnfac"))
+            _Nit = _Ds.Tables(0).Rows(0).Item("fvanitcli").ToString
+
+            _Fechainv = Microsoft.VisualBasic.Right(_Fecha.ToShortDateString, 4) +
+                        Microsoft.VisualBasic.Right(Microsoft.VisualBasic.Left(_Fecha.ToShortDateString, 5), 2) +
+                        Microsoft.VisualBasic.Left(_Fecha.ToShortDateString, 2)
+            _Total = _Ds.Tables(0).Rows(0).Item("fvatotal").ToString
+            '_Total = _Ds.Tables(0).Rows(0).Item("fvastot").ToString
+            ice = _Ds.Tables(0).Rows(0).Item("fvaimpsi")
+            _numidosif = _Ds1.Tables(0).Rows(0).Item("sbnumi").ToString
+            _Key = _Ds1.Tables(0).Rows(0).Item("sbkey")
+            _FechaAl = _Ds1.Tables(0).Rows(0).Item("sbfal")
+
+            'Dim maxNFac As Integer = L_fnObtenerMaxIdTabla("TFV001", "fvanfac", "fvaautoriz = " + _Autorizacion)
+            '_NumFac = maxNFac + 1
+
+            _TotalCC = Math.Round(CDbl(_Total), MidpointRounding.AwayFromZero)
+            _Cod_Control = ControlCode.generateControlCode(_Autorizacion, _NumFac, _Nit, _Fechainv, CStr(_TotalCC), _Key)
+
+            'Literal 
+            _TotalLi = _Ds.Tables(0).Rows(0).Item("fvastot") - _Ds.Tables(0).Rows(0).Item("fvadesc")
+            _TotalDecimal = _TotalLi - Math.Truncate(_TotalLi)
+            _TotalDecimal2 = CDbl(_TotalDecimal) * 100
+
+            'Dim li As String = Facturacion.ConvertirLiteral.A_fnConvertirLiteral(CDbl(_Total) - CDbl(_TotalDecimal)) + " con " + IIf(_TotalDecimal2.Equals("0"), "00", _TotalDecimal2) + "/100 Bolivianos"
+            _Literal = Facturacion.ConvertirLiteral.A_fnConvertirLiteral(CDbl(_TotalLi) - CDbl(_TotalDecimal)) + "  " + IIf(_TotalDecimal2.Equals("0"), "00", _TotalDecimal2) + "/100 Bolivianos"
+            _Ds2 = L_Reporte_Factura_Cia("2")
+            QrFactura.Text = _Ds2.Tables(0).Rows(0).Item("scnit").ToString + "|" + Str(_NumFac).Trim + "|" + _Autorizacion + "|" + _Fecha + "|" + _Total + "|" + _TotalLi.ToString + "|" + _Cod_Control + "|" + tbNit.Text.Trim + "|" + ice.ToString + "|0|0|" + Str(_Desc).Trim
+
+            L_Modificar_Factura("fvanumi = " + CStr(numi),
+                                "",
+                                CStr(_NumFac),
+                                CStr(_Autorizacion),
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                _Cod_Control,
+                                _FechaAl.ToString("yyyy/MM/dd"),
+                                "",
+                                "",
+                                CStr(numi))
+
+            _Ds = L_Reporte_Factura(numi, numi)
+
+            For I = 0 To _Ds.Tables(0).Rows.Count - 1
+                _Ds.Tables(0).Rows(I).Item("fvaimgqr") = P_fnImageToByteArray(QrFactura.Image)
+            Next
+            If (impFactura) Then
+                _Ds3 = L_ObtenerRutaImpresora("1") ' Datos de Impresion de Facturación
+                If (_Ds3.Tables(0).Rows(0).Item("cbvp")) Then 'Vista Previa de la Ventana de Vizualización 1 = True 0 = False
+                    P_Global.Visualizador = New Visualizador 'Comentar
+                End If
+                Dim objrep As Object = Nothing
+                If (gi_FacturaTipo = 1) Then
+                    'objrep = New R_FacturaG
+                ElseIf (gi_FacturaTipo = 2) Then
+                    objrep = New R_Factura_7_5x100
+                    'If (Not _Ds.Tables(0).Rows.Count = gi_FacturaCantidadItems) Then
+                    '    For index = _Ds.Tables(0).Rows.Count To gi_FacturaCantidadItems - 1
+                    '        'Insertamos la primera fila con el saldo Inicial
+                    '        Dim f As DataRow = _Ds.Tables(0).NewRow
+                    '        f.ItemArray() = _Ds.Tables(0).Rows(0).ItemArray
+                    '        f.Item("fvbcant") = -1
+                    '        _Ds.Tables(0).Rows.Add(f)
+                    '    Next
+                    'End If
+                End If
+
+                objrep.SetDataSource(_Ds.Tables(0))
+                objrep.SetParameterValue("Hora", _Hora)
+                objrep.SetParameterValue("Direccionpr", _Ds2.Tables(0).Rows(0).Item("scdir").ToString)
+                objrep.SetParameterValue("Telefonopr", _Ds2.Tables(0).Rows(0).Item("sctelf").ToString)
+                objrep.SetParameterValue("Literal1", _Literal)
+                objrep.SetParameterValue("Literal2", " ")
+                objrep.SetParameterValue("Literal3", " ")
+                objrep.SetParameterValue("NroFactura", _NumFac)
+                objrep.SetParameterValue("NroAutoriz", _Autorizacion)
+                objrep.SetParameterValue("ENombre", _Ds2.Tables(0).Rows(0).Item("scneg").ToString) '?
+                objrep.SetParameterValue("ECasaMatriz", _Ds2.Tables(0).Rows(0).Item("scsuc").ToString)
+                objrep.SetParameterValue("ECiudadPais", _Ds2.Tables(0).Rows(0).Item("scpai").ToString)
+                objrep.SetParameterValue("ESFC", _Ds1.Tables(0).Rows(0).Item("sbsfc").ToString)
+                objrep.SetParameterValue("ENit", _Ds2.Tables(0).Rows(0).Item("scnit").ToString)
+                objrep.SetParameterValue("EActividad", _Ds2.Tables(0).Rows(0).Item("scact").ToString)
+                ' objrep.SetParameterValue("ESms", "''" + _Ds1.Tables(0).Rows(0).Item("sbnota").ToString + "''")
+                'objrep.SetParameterValue("ESms2", "''" + _Ds1.Tables(0).Rows(0).Item("sbnota2").ToString + "''")
+                objrep.SetParameterValue("EDuenho", _Ds2.Tables(0).Rows(0).Item("scnom").ToString) '?
+                'objrep.SetParameterValue("URLImageLogo", gs_CarpetaRaiz + "\LogoFactura.jpg")
+                'objrep.SetParameterValue("URLImageMarcaAgua", gs_CarpetaRaiz + "\MarcaAguaFactura.jpg")
+                objrep.SetParameterValue("ENota", "''" + "ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAÍS EL USO ILÍCITO DE ÉSTA SERÁ SANCIONADO DE ACUERDO A LA LEY" + "''")
+                objrep.SetParameterValue("ELey", "''" + "Ley N° 453: " + "El proveedor debe brindar atención sin discriminación, con respeto, calidez y cordialidad a los usuarios y consumidores." + "''")
+
+                If (_Ds3.Tables(0).Rows(0).Item("cbvp")) Then 'Vista Previa de la Ventana de Vizualización 1 = True 0 = False
+                    P_Global.Visualizador.CrGeneral.ReportSource = objrep 'Comentar
+                    P_Global.Visualizador.ShowDialog() 'Comentar
+                    P_Global.Visualizador.BringToFront() 'Comentar
+                Else
+                    Dim pd As New PrintDocument()
+                    pd.PrinterSettings.PrinterName = _Ds3.Tables(0).Rows(0).Item("cbrut").ToString
+                    If (Not pd.PrinterSettings.IsValid) Then
+                        ToastNotification.Show(Me, "La Impresora ".ToUpper + _Ds3.Tables(0).Rows(0).Item("cbrut").ToString + Chr(13) + "No Existe".ToUpper,
+                                               My.Resources.WARNING, 5 * 1000,
+                                               eToastGlowColor.Blue, eToastPosition.BottomRight)
+                    Else
+                        objrep.PrintOptions.PrinterName = _Ds3.Tables(0).Rows(0).Item("cbrut").ToString
+                        '"EPSON TM-U330 Receipt"
+                        objrep.PrintToPrinter(1, True, 0, 0)
+                        'crystalReportDocument.PrintOptions.PrinterName = "your printer name"
+                        'objrep.PrintTicket("EPSON TM-T20II Receipt")
+                    End If
+                End If
+                'If (grabarPDF) Then
+                'Copia de Factura en PDF
+                'If (Not Directory.Exists(gs_CarpetaRaiz + "\Facturas")) Then
+                'Directory.CreateDirectory(gs_CarpetaRaiz + "\Facturas")
+                'End If
+                '  objrep.ExportToDisk(ExportFormatType.PortableDocFormat, gs_CarpetaRaiz + "\Facturas\" + CStr(_NumFac) + "_" + CStr(_Autorizacion) + ".pdf")
+                'End If
+            End If
+            '  L_Actualiza_Dosificacion(_numidosif, _NumFac, numi)
+        Catch ex As Exception
+            MostrarMensajeError(ex.Message)
+        End Try
+    End Sub
 
     Public Function P_fnImageToByteArray(ByVal imageIn As Image) As Byte()
         Dim ms As New System.IO.MemoryStream()
@@ -1691,7 +1848,7 @@ Public Class F0_Venta2
 
     Private Function P_fnValidarFacturaVigente() As Boolean
         Dim est As String = L_fnObtenerDatoTabla("TFV001", "fvaest", "fvanumi=" + tbCodigo.Text.Trim)
-        Return (est.Equals("True") Or est = String.Empty)
+        Return (est.Equals("True"))
     End Function
 
     Private Sub P_prCargarVariablesIndispensables()
@@ -1961,7 +2118,23 @@ Public Class F0_Venta2
             End If
         End If
     End Sub
+    Private Sub MostrarMensajeError(mensaje As String)
+        ToastNotification.Show(Me,
+                               mensaje.ToUpper,
+                               My.Resources.WARNING,
+                               5000,
+                               eToastGlowColor.Red,
+                               eToastPosition.TopCenter)
 
+    End Sub
+    Private Sub MostrarMensajeOk(mensaje As String)
+        ToastNotification.Show(Me,
+                               mensaje.ToUpper,
+                               My.Resources.OK,
+                               5000,
+                               eToastGlowColor.Green,
+                               eToastPosition.TopCenter)
+    End Sub
 #End Region
 
 #Region "Eventos Formulario"
@@ -2046,14 +2219,8 @@ Public Class F0_Venta2
 
                     End If
                 End If
-
             End If
-
         End If
-
-
-
-
     End Sub
     Private Sub tbVendedor_KeyDown(sender As Object, e As KeyEventArgs) Handles tbVendedor.KeyDown
         If (_fnAccesible()) Then
@@ -2258,6 +2425,7 @@ Public Class F0_Venta2
                                 codigoBarrasProducto = Mid(codigoBarrasCompleto, 1, 6)
                                 'CUANDO EL COD BARRA TENGA 6 DIGITOS  EJEM: 200001
                                 If (existeProducto(codigoBarrasProducto)) Then
+
                                     totalEntero = Mid(codigoBarrasCompleto, 7, 4)
                                     totalDecimal = Mid(codigoBarrasCompleto, 11, 2)
                                     total2 = CDbl(totalEntero).ToString() + "." + CDbl(totalDecimal).ToString()
@@ -2266,10 +2434,10 @@ Public Class F0_Venta2
                                         ponerProducto2(codigoBarrasProducto, total, -1)
                                         _prAddDetalleVenta()
                                     Else
-
                                         ponerProducto2(codigoBarrasProducto, total, grdetalle.RowCount - 1)
                                         _prAddDetalleVenta()
                                     End If
+
                                 Else
                                     ''CUANDO EL CODIGO DE BARRAS TENGA 7 DIGITOS EJEM: 2000001
                                     codigoBarrasProducto = Mid(codigoBarrasCompleto, 1, 7)
@@ -2282,7 +2450,6 @@ Public Class F0_Venta2
                                             ponerProducto2(codigoBarrasProducto, total, -1)
                                             _prAddDetalleVenta()
                                         Else
-
                                             ponerProducto2(codigoBarrasProducto, total, grdetalle.RowCount - 1)
                                             _prAddDetalleVenta()
                                         End If
@@ -2292,12 +2459,22 @@ Public Class F0_Venta2
                                     End If
                                 End If
                             Else
+
                                 If (existeProducto(grdetalle.GetValue("yfcbarra").ToString)) Then
                                     If (Not verificarExistenciaUnica(grdetalle.GetValue("yfcbarra").ToString)) Then
-                                        ponerProducto(grdetalle.GetValue("yfcbarra").ToString)
-                                        _prAddDetalleVenta()
+                                        Dim resultado As Boolean = False
+                                        ponerProducto(grdetalle.GetValue("yfcbarra").ToString, resultado)
+                                        If resultado Then
+                                            _prAddDetalleVenta()
+                                        End If
                                     Else
+                                        'If (grdetalle.GetValue("producto").ToString <> String.Empty) Then
                                         sumarCantidad(grdetalle.GetValue("yfcbarra").ToString)
+                                        'Else
+                                        '    Dim img As Bitmap = New Bitmap(My.Resources.mensaje, 50, 50)
+                                        '    ToastNotification.Show(Me, "El Producto: NO CUENTA CON STOCK DISPONIBLE", img, 5000, eToastGlowColor.Red, eToastPosition.BottomCenter)
+                                        '    FilaSelectLote = Nothing
+                                        'End If
                                     End If
                                 Else
                                     grdetalle.DataChanged = False
@@ -2408,18 +2585,8 @@ salirIf:
             Table_Producto = dt.Copy
         End If
     End Sub
-
     Private Function existeProducto(codigo As String) As Boolean
         Return (Table_Producto.Select("yfcbarra='" + codigo.Trim() + "'", "").Count > 0)
-    End Function
-    Private Function existeProducto2(codigo As String, ByRef codigoProucto As Integer) As Boolean
-        Dim resultado As Boolean = False
-        Dim fila As DataRow() = Table_Producto.Select("yfcbarra='" + codigo.Trim + "'", "")
-        If (fila.Count > 0) Then
-            codigoProucto = fila(0).ItemArray(0)
-            resultado = True
-        End If
-        Return resultado
     End Function
 
     Private Function verificarExistenciaUnica(codigo As String) As Boolean
@@ -2432,36 +2599,46 @@ salirIf:
         Return (cont >= 1)
     End Function
 
-    Private Sub ponerProducto(codigo As String)
+    Private Sub ponerProducto(codigo As String, ByRef resultado As Boolean)
         grdetalle.DataChanged = True
         CType(grdetalle.DataSource, DataTable).AcceptChanges()
         Dim fila As DataRow() = Table_Producto.Select("yfcbarra='" + codigo.Trim + "'", "")
         If (fila.Count > 0) Then
-            Dim pos As Integer = -1
-            _fnObtenerFilaDetalle(pos, grdetalle.GetValue("tbnumi"))
-            CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbty5prod") = fila(0).ItemArray(0)
-            CType(grdetalle.DataSource, DataTable).Rows(pos).Item("codigo") = fila(0).ItemArray(1)
-            CType(grdetalle.DataSource, DataTable).Rows(pos).Item("yfcbarra") = fila(0).ItemArray(2)
-            CType(grdetalle.DataSource, DataTable).Rows(pos).Item("producto") = fila(0).ItemArray(3)
-            CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbumin") = fila(0).ItemArray(13)
-            CType(grdetalle.DataSource, DataTable).Rows(pos).Item("unidad") = fila(0).ItemArray(14)
-            CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbpbas") = fila(0).ItemArray(15)
-            CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbptot") = fila(0).ItemArray(15)
-            CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbtotdesc") = fila(0).ItemArray(15)
-            CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbcmin") = 1
-            If (gb_FacturaIncluirICE) Then
-                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbpcos") = fila(0).ItemArray(17)
+            'Si tiene stock > 0
+            If fila(0).ItemArray(17) > 0 Then
+                Dim pos As Integer = -1
+                _fnObtenerFilaDetalle(pos, grdetalle.GetValue("tbnumi"))
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbty5prod") = fila(0).ItemArray(0)
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("codigo") = fila(0).ItemArray(1)
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("yfcbarra") = fila(0).ItemArray(2)
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("producto") = fila(0).ItemArray(3)
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbumin") = fila(0).ItemArray(13)
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("unidad") = fila(0).ItemArray(14)
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbpbas") = fila(0).ItemArray(15)
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbptot") = fila(0).ItemArray(15)
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbtotdesc") = fila(0).ItemArray(15)
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbcmin") = 1
+                If (gb_FacturaIncluirICE) Then
+                    CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbpcos") = fila(0).ItemArray(17)
+                Else
+                    CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbpcos") = 0
+                End If
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbpcos") = fila(0).ItemArray(16)
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbptot2") = fila(0).ItemArray(16)
+                'CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbptot2") = fila(0).ItemArray(17)
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("stock") = fila(0).ItemArray(17)
+                'CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tblote") = grProductos.GetValue("iclot")
+                'CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbfechaVenc") = grProductos.GetValue("icfven")
+                'CType(grdetalle.DataSource, DataTable).Rows(pos).Item("stock") = grProductos.GetValue("iccven")
+                _prCalcularPrecioTotal()
+                resultado = True
             Else
-                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbpcos") = 0
+                Dim img As Bitmap = New Bitmap(My.Resources.mensaje, 50, 50)
+                ToastNotification.Show(Me, "El Producto: ".ToUpper + fila(0).ItemArray(3) + " NO CUENTA CON STOCK DISPONIBLE", img, 5000, eToastGlowColor.Red, eToastPosition.BottomCenter)
+                FilaSelectLote = Nothing
+                resultado = False
             End If
-            CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbpcos") = fila(0).ItemArray(16)
-            CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbptot2") = fila(0).ItemArray(16)
-            'CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbptot2") = fila(0).ItemArray(17)
-            CType(grdetalle.DataSource, DataTable).Rows(pos).Item("stock") = fila(0).ItemArray(17)
-            'CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tblote") = grProductos.GetValue("iclot")
-            'CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbfechaVenc") = grProductos.GetValue("icfven")
-            'CType(grdetalle.DataSource, DataTable).Rows(pos).Item("stock") = grProductos.GetValue("iccven")
-            _prCalcularPrecioTotal()
+
         End If
     End Sub
 
@@ -3015,8 +3192,18 @@ salirIf:
     End Sub
     Private Sub btnImprimir_Click(sender As Object, e As EventArgs) Handles btnImprimir.Click
         If (Not _fnAccesible()) Then
-            P_GenerarReporte(tbCodigo.Text)
+            If (gb_FacturaEmite) Then
+                If (Not P_fnValidarFacturaVigente()) Then
+                    Dim img As Bitmap = New Bitmap(My.Resources.WARNING, 50, 50)
 
+                    ToastNotification.Show(Me, "No se puede imprimir la factura con numero ".ToUpper + tbNroFactura.Text + ", su factura esta anulada".ToUpper,
+                                          img, 3000,
+                                          eToastGlowColor.Green,
+                                          eToastPosition.TopCenter)
+                    Exit Sub
+                End If
+            End If
+            ReimprimirFactura(tbCodigo.Text, True, True) '_Codigo de a tabla TV001
         End If
     End Sub
 

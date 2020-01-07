@@ -1105,6 +1105,7 @@ Public Class F0_Factura
         Dim h As Double = g * (gi_IVA / 100)
 
         Dim res As Boolean = False
+        Dim _Hora As String = Now.Hour.ToString + ":" + Now.Minute.ToString
         'Grabado de Cabesera Factura
         L_Grabar_Factura(numi,
                         Now.Date.ToString("yyyy/MM/dd"),
@@ -1127,7 +1128,8 @@ Public Class F0_Factura
                         Now.Date.ToString("yyyy/MM/dd"),
                         "''",
                         "0",
-                        numi)
+                        numi,
+                         _Hora)
 
         'Grabado de Detalle de Factura
         grProductos.Update()
