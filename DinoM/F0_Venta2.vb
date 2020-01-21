@@ -2390,6 +2390,7 @@ Public Class F0_Venta2
             If (Not _fnAccesible()) Then
                 Return
             End If
+
             If (e.KeyData = Keys.Enter) Then
                 Dim f, c As Integer
                 c = grdetalle.Col
