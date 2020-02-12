@@ -755,6 +755,12 @@
     </Compile>
     <Compile Include="P_Encrypt.vb" />
     <Compile Include="P_Global.vb" />
+    <Compile Include="Utils\F_Inventario.Designer.vb">
+      <DependentUpon>F_Inventario.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\F_Inventario.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Visualizador.Designer.vb">
       <DependentUpon>Visualizador.vb</DependentUpon>
     </Compile>
@@ -1093,6 +1099,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utils\F_Inventario.resx">
+      <DependentUpon>F_Inventario.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Visualizador.resx">
       <DependentUpon>Visualizador.vb</DependentUpon>

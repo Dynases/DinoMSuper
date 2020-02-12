@@ -3022,6 +3022,86 @@ Public Class AccesoLogica
 
         Return _Tabla
     End Function
+
+    Public Shared Function L_fnResetearTI001(deposito As Integer) As DataTable
+        Dim _Tabla As DataTable
+
+        Dim _listParam As New List(Of Datos.DParametro)
+
+        _listParam.Add(New Datos.DParametro("@tipo", 35))
+        _listParam.Add(New Datos.DParametro("@depositoInventario", deposito))
+        _listParam.Add(New Datos.DParametro("@ibuact", L_Usuario))
+        _Tabla = D_ProcedimientoConParam("sp_Mam_TI002", _listParam)
+
+        Return _Tabla
+    End Function
+
+    Public Shared Function L_fnObtenerCabezeraCompras() As DataTable
+        Dim _Tabla As DataTable
+
+        Dim _listParam As New List(Of Datos.DParametro)
+
+        _listParam.Add(New Datos.DParametro("@tipo", 36))
+        _listParam.Add(New Datos.DParametro("@ibuact", L_Usuario))
+        _Tabla = D_ProcedimientoConParam("sp_Mam_TI002", _listParam)
+
+        Return _Tabla
+    End Function
+
+    Public Shared Function L_fnObtenerCabezeraVentas() As DataTable
+        Dim _Tabla As DataTable
+
+        Dim _listParam As New List(Of Datos.DParametro)
+
+        _listParam.Add(New Datos.DParametro("@tipo", 39))
+        _listParam.Add(New Datos.DParametro("@ibuact", L_Usuario))
+        _Tabla = D_ProcedimientoConParam("sp_Mam_TI002", _listParam)
+
+        Return _Tabla
+    End Function
+
+    Public Shared Function L_fnObteniendoDetalleCompra(numi As Integer) As DataTable
+        Dim _Tabla As DataTable
+
+        Dim _listParam As New List(Of Datos.DParametro)
+
+        _listParam.Add(New Datos.DParametro("@tipo", 37))
+        _listParam.Add(New Datos.DParametro("@numi", numi))
+        _listParam.Add(New Datos.DParametro("@ibuact", L_Usuario))
+        _Tabla = D_ProcedimientoConParam("sp_Mam_TI002", _listParam)
+
+        Return _Tabla
+    End Function
+
+    Public Shared Function L_fnObteniendoDetalleVentas(numi As Integer) As DataTable
+        Dim _Tabla As DataTable
+
+        Dim _listParam As New List(Of Datos.DParametro)
+
+        _listParam.Add(New Datos.DParametro("@tipo", 40))
+        _listParam.Add(New Datos.DParametro("@numi", numi))
+        _listParam.Add(New Datos.DParametro("@ibuact", L_Usuario))
+        _Tabla = D_ProcedimientoConParam("sp_Mam_TI002", _listParam)
+
+        Return _Tabla
+    End Function
+
+
+
+    Public Shared Function L_fnObteniendoSaldosTI001(producto As Integer, deposito As Integer) As DataTable
+        Dim _Tabla As DataTable
+
+        Dim _listParam As New List(Of Datos.DParametro)
+
+        _listParam.Add(New Datos.DParametro("@tipo", 41))
+        _listParam.Add(New Datos.DParametro("@cbty5prod", producto))
+        _listParam.Add(New Datos.DParametro("@depositoInventario", deposito))
+        _listParam.Add(New Datos.DParametro("@ibuact", L_Usuario))
+        _Tabla = D_ProcedimientoConParam("sp_Mam_TI002", _listParam)
+
+        Return _Tabla
+    End Function
+
     Public Shared Function L_prMovimientoConcepto() As DataTable
         Dim _Tabla As DataTable
 
@@ -3120,6 +3200,78 @@ Public Class AccesoLogica
         Return _resultado
     End Function
 
+
+    Public Shared Function L_prGrabarTI002(obs As String, deposito As Integer,
+                    cbnumi As Integer, fact As Date, hact As String, uact As String, cbty5prod As Integer,
+                    cbcmin As Double, cblote As String, cbfechavenc As Date) As Boolean
+        Dim _resultado As Boolean
+        Dim _Tabla As DataTable
+
+        Try
+            Dim _listParam As New List(Of Datos.DParametro)
+            _listParam.Add(New Datos.DParametro("@tipo", 38))
+            _listParam.Add(New Datos.DParametro("@obs", obs))
+            _listParam.Add(New Datos.DParametro("@depositoInventario", deposito))
+            _listParam.Add(New Datos.DParametro("@cbnumi", cbnumi))
+            _listParam.Add(New Datos.DParametro("@fact", fact))
+            _listParam.Add(New Datos.DParametro("@hact", hact))
+            _listParam.Add(New Datos.DParametro("@uact", uact))
+            _listParam.Add(New Datos.DParametro("@cbty5prod", cbty5prod))
+            _listParam.Add(New Datos.DParametro("@cbcmin", cbcmin))
+            _listParam.Add(New Datos.DParametro("@cblote", cblote))
+            _listParam.Add(New Datos.DParametro("@cbfechavenc", cbfechavenc))
+            '_listParam.Add(New Datos.DParametro("@ibuact", L_Usuario))
+            _Tabla = D_ProcedimientoConParam("sp_Mam_TI002", _listParam)
+            If _Tabla.Rows.Count > 0 Then
+
+                _resultado = True
+            Else
+                _resultado = False
+            End If
+        Catch ex As Exception
+            Dim mens As String = ex.Message
+        End Try
+
+
+
+        Return _resultado
+    End Function
+
+    Public Shared Function L_prGrabarTI002Venta(obs As String, deposito As Integer,
+                    cbnumi As Integer, fact As Date, hact As String, uact As String, cbty5prod As Integer,
+                    cbcmin As Double, cblote As String, cbfechavenc As Date) As Boolean
+        Dim _resultado As Boolean
+        Dim _Tabla As DataTable
+
+        Try
+            Dim _listParam As New List(Of Datos.DParametro)
+            _listParam.Add(New Datos.DParametro("@tipo", 42))
+            _listParam.Add(New Datos.DParametro("@obs", obs))
+            _listParam.Add(New Datos.DParametro("@depositoInventario", deposito))
+            _listParam.Add(New Datos.DParametro("@cbnumi", cbnumi))
+            _listParam.Add(New Datos.DParametro("@fact", fact))
+            _listParam.Add(New Datos.DParametro("@hact", hact))
+            _listParam.Add(New Datos.DParametro("@uact", uact))
+            _listParam.Add(New Datos.DParametro("@cbty5prod", cbty5prod))
+            _listParam.Add(New Datos.DParametro("@cbcmin", cbcmin))
+            _listParam.Add(New Datos.DParametro("@cblote", cblote))
+            _listParam.Add(New Datos.DParametro("@cbfechavenc", cbfechavenc))
+            '_listParam.Add(New Datos.DParametro("@ibuact", L_Usuario))
+            _Tabla = D_ProcedimientoConParam("sp_Mam_TI002", _listParam)
+            If _Tabla.Rows.Count > 0 Then
+
+                _resultado = True
+            Else
+                _resultado = False
+            End If
+        Catch ex As Exception
+            Dim mens As String = ex.Message
+        End Try
+
+
+
+        Return _resultado
+    End Function
 
     Public Shared Function L_prMovimientoModificar(ByRef _ibid As String, _ibfdoc As String, _ibconcep As Integer, _ibobs As String, _almacen As Integer) As Boolean
         Dim _resultado As Boolean
