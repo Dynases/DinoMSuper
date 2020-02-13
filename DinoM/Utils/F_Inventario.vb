@@ -7,9 +7,10 @@ Imports System.Drawing
 Imports DevComponents.DotNetBar.Controls
 Public Class F_Inventario
 
-    Dim bw As New ComponentModel.BackgroundWorker
+
     Private Sub _IniciarTodo()
-        L_prAbrirConexion(gs_Ip, gs_UsuarioSql, gs_ClaveSql, gs_NombreBD)
+        Dim dbname As String = "BDPuertoAzul"
+        L_prAbrirConexion(gs_Ip, gs_UsuarioSql, gs_ClaveSql, dbname)
 
         _prCargarComboLibreriaDeposito(cbDeposito)
 
@@ -66,7 +67,7 @@ Public Class F_Inventario
                 Try
                     Dim obs As String = "I - Compra numiprod: " + Str(dtDetalle.Rows(j).Item("cbty5prod")) + "|" + dtCompras.Rows(i).Item("proveedor")
 
-                    L_prGrabarTI002(obs, cbDeposito.Value, dtDetalle.Rows(j).Item("cbnumi"), dtCompras.Rows(i).Item("cafact"),
+                    L_prGrabarTI002(obs, cbDeposito.Value, dtCompras.Rows(i).Item("canumi"), dtCompras.Rows(i).Item("cafact"),
                                 dtCompras.Rows(i).Item("cahact"), dtCompras.Rows(i).Item("cauact"),
                                 dtDetalle.Rows(j).Item("cbty5prod"), dtDetalle.Rows(j).Item("cbcmin"),
                                 dtDetalle.Rows(j).Item("cblote"), dtDetalle.Rows(j).Item("cbfechavenc"))
@@ -96,7 +97,7 @@ Public Class F_Inventario
                 '    cbcmin As Double, cblote As String, cbfechavenc As Date)
                 Try
 
-                    Dim obs As String = "I - Venta numiprod: " + Str(dtDetalle.Rows(j).Item("tbty5prod")) + "|" + dtVentas.Rows(i).Item("cliente")
+                    Dim obs As String = "I - Venta numiprod: " + Str(dtVentas.Rows(i).Item("tanumi")) + "|" + dtVentas.Rows(i).Item("cliente")
 
                     Dim dtSaldos As DataTable = L_fnObteniendoSaldosTI001(dtDetalle.Rows(j).Item("tbty5prod"), cbDeposito.Value)
                     Dim cantidad As Double = dtDetalle.Rows(j).Item("tbcmin")
@@ -119,7 +120,7 @@ Public Class F_Inventario
                             saldo = 0
 
                         Else
-                            If (k + 1 <> dtSaldos.Rows.Count - 1 And inventario > 0) Then
+                            If (k < dtSaldos.Rows.Count - 1 Or inventario > 0) Then
                                 L_prGrabarTI002Venta(obs, cbDeposito.Value, dtDetalle.Rows(j).Item("tbnumi"),
                             dtVentas.Rows(i).Item("tafact"),
                           dtVentas.Rows(i).Item("tahact"), dtVentas.Rows(i).Item("tauact"),
@@ -166,32 +167,17 @@ Public Class F_Inventario
         btnEgresos.Enabled = False
         btnGenerar.Enabled = True
 
-        AddHandler bw.DoWork, AddressOf Generate_UI_DoWork
-        AddHandler bw.RunWorkerCompleted, AddressOf Generate_OpsMarket_Complete
         'bw.RunWorkerAsync()
     End Sub
 
-    Private Sub Generate_UI_DoWork(sender As Object, e As ComponentModel.DoWorkEventArgs)
-        ' Pass our arguments to the Complete routine.
-        e.Result = e.Argument
-    End Sub
 
-    Private Sub Generate_OpsMarket_Complete(sender As Object, e As ComponentModel.RunWorkerCompletedEventArgs)
-        Dim IDs() As Integer
-        IDs = e.Result
-        Dim img As Bitmap = New Bitmap(My.Resources.mensaje, 50, 50)
-        ToastNotification.Show(Me, "Espere mientras se ejecuta el proceso de egresos".ToUpper, img, 2000, eToastGlowColor.Green, eToastPosition.BottomCenter)
+
+
+    Private Sub btnEgresos_Click(sender As Object, e As EventArgs) Handles btnEgresos.Click
 
         ArmarVentas()
 
         btnEgresos.Enabled = False
         btnGenerar.Enabled = True
-
-    End Sub
-
-    Private Sub btnEgresos_Click(sender As Object, e As EventArgs) Handles btnEgresos.Click
-        bw.RunWorkerAsync()
-        btnEgresos.Enabled = False
-        btnGenerar.Enabled = False
     End Sub
 End Class
