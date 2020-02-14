@@ -105,49 +105,59 @@ Public Class F_Inventario
                     Dim saldo As Double = cantidad
 
                     Dim k As Integer = 0
+                    If (dtSaldos.Rows.Count <= 0) Then
+                        L_prGrabarTI002Venta(obs, cbDeposito.Value, dtDetalle.Rows(j).Item("tbnumi"),
+                         dtVentas.Rows(i).Item("tafact"),
+                       dtVentas.Rows(i).Item("tahact"), dtVentas.Rows(i).Item("tauact"),
+                       dtDetalle.Rows(j).Item("tbty5prod"), saldo,
+                      "20170101", CDate("2017/01/01"))
 
-                    While (k <= dtSaldos.Rows.Count - 1 And saldo > 0)
+                    Else
+                        While (k <= dtSaldos.Rows.Count - 1 And saldo > 0)
 
-                        Dim inventario As Double = dtSaldos.Rows(k).Item("iccven")
-                        If (inventario >= saldo) Then
+                            Dim inventario As Double = dtSaldos.Rows(k).Item("iccven")
+                            If (inventario >= saldo) Then
 
-                            L_prGrabarTI002Venta(obs, cbDeposito.Value, dtDetalle.Rows(j).Item("tbnumi"),
-                              dtVentas.Rows(i).Item("tafact"),
-                            dtVentas.Rows(i).Item("tahact"), dtVentas.Rows(i).Item("tauact"),
-                            dtDetalle.Rows(j).Item("tbty5prod"), saldo,
-                            dtSaldos.Rows(k).Item("iclot"), dtSaldos.Rows(k).Item("icfven"))
-
-                            saldo = 0
-
-                        Else
-                            If (k < dtSaldos.Rows.Count - 1 Or inventario > 0) Then
                                 L_prGrabarTI002Venta(obs, cbDeposito.Value, dtDetalle.Rows(j).Item("tbnumi"),
-                            dtVentas.Rows(i).Item("tafact"),
-                          dtVentas.Rows(i).Item("tahact"), dtVentas.Rows(i).Item("tauact"),
-                          dtDetalle.Rows(j).Item("tbty5prod"), inventario,
-                          dtSaldos.Rows(k).Item("iclot"), dtSaldos.Rows(k).Item("icfven"))
-
-                                saldo = saldo - inventario
-
-                            Else
-                                L_prGrabarTI002Venta(obs, cbDeposito.Value, dtDetalle.Rows(j).Item("tbnumi"),
-                            dtVentas.Rows(i).Item("tafact"),
-                          dtVentas.Rows(i).Item("tahact"), dtVentas.Rows(i).Item("tauact"),
-                          dtDetalle.Rows(j).Item("tbty5prod"), saldo,
-                          dtSaldos.Rows(k).Item("iclot"), dtSaldos.Rows(k).Item("icfven"))
+                                  dtVentas.Rows(i).Item("tafact"),
+                                dtVentas.Rows(i).Item("tahact"), dtVentas.Rows(i).Item("tauact"),
+                                dtDetalle.Rows(j).Item("tbty5prod"), saldo,
+                                dtSaldos.Rows(k).Item("iclot"), dtSaldos.Rows(k).Item("icfven"))
 
                                 saldo = 0
+
+                            Else
+                                If (k < dtSaldos.Rows.Count - 1 Or inventario > 0) Then
+                                    L_prGrabarTI002Venta(obs, cbDeposito.Value, dtDetalle.Rows(j).Item("tbnumi"),
+                                dtVentas.Rows(i).Item("tafact"),
+                              dtVentas.Rows(i).Item("tahact"), dtVentas.Rows(i).Item("tauact"),
+                              dtDetalle.Rows(j).Item("tbty5prod"), inventario,
+                              dtSaldos.Rows(k).Item("iclot"), dtSaldos.Rows(k).Item("icfven"))
+
+                                    saldo = saldo - inventario
+
+                                Else
+                                    L_prGrabarTI002Venta(obs, cbDeposito.Value, dtDetalle.Rows(j).Item("tbnumi"),
+                                dtVentas.Rows(i).Item("tafact"),
+                              dtVentas.Rows(i).Item("tahact"), dtVentas.Rows(i).Item("tauact"),
+                              dtDetalle.Rows(j).Item("tbty5prod"), saldo,
+                              dtSaldos.Rows(k).Item("iclot"), dtSaldos.Rows(k).Item("icfven"))
+
+                                    saldo = 0
+                                End If
+
+
+
                             End If
 
 
 
-                        End If
+                            k += 1
+
+                        End While
+                    End If
 
 
-
-                        k += 1
-
-                    End While
 
                 Catch ex As Exception
                     Dim mensaje As String = ex.Message
