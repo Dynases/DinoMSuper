@@ -3059,7 +3059,30 @@ Public Class AccesoLogica
 
         Return _Tabla
     End Function
+    Public Shared Function L_fnObtenerTI0021() As DataTable
+        Dim _Tabla As DataTable
 
+        Dim _listParam As New List(Of Datos.DParametro)
+
+        _listParam.Add(New Datos.DParametro("@tipo", 43))
+        _listParam.Add(New Datos.DParametro("@ibuact", L_Usuario))
+        _Tabla = D_ProcedimientoConParam("sp_Mam_TI002", _listParam)
+
+        Return _Tabla
+    End Function
+
+    Public Shared Function L_fnEliminandoTI0021EgresoIngreso(deposito As Integer) As DataTable
+        Dim _Tabla As DataTable
+
+        Dim _listParam As New List(Of Datos.DParametro)
+
+        _listParam.Add(New Datos.DParametro("@tipo", 44))
+        _listParam.Add(New Datos.DParametro("@ibuact", L_Usuario))
+        _listParam.Add(New Datos.DParametro("@depositoInventario", deposito))
+        _Tabla = D_ProcedimientoConParam("sp_Mam_TI002", _listParam)
+
+        Return _Tabla
+    End Function
     Public Shared Function L_fnObteniendoDetalleCompra(numi As Integer) As DataTable
         Dim _Tabla As DataTable
 
@@ -3166,6 +3189,21 @@ Public Class AccesoLogica
 
         _listParam.Add(New Datos.DParametro("@tipo", Type))
         _listParam.Add(New Datos.DParametro("@ibid", numi))
+        _listParam.Add(New Datos.DParametro("@ibuact", L_Usuario))
+        _listParam.Add(New Datos.DParametro("@TI0021", "", detalle))
+        _Tabla = D_ProcedimientoConParam("sp_Mam_TI002", _listParam)
+
+        Return _Tabla
+    End Function
+
+    Public Shared Function L_prInsertarTi0021(numi As String, Type As Integer, detalle As DataTable, deposito As Integer) As DataTable
+        Dim _Tabla As DataTable
+
+        Dim _listParam As New List(Of Datos.DParametro)
+
+        _listParam.Add(New Datos.DParametro("@tipo", Type))
+        _listParam.Add(New Datos.DParametro("@ibid", numi))
+        _listParam.Add(New Datos.DParametro("@depositoInventario", deposito))
         _listParam.Add(New Datos.DParametro("@ibuact", L_Usuario))
         _listParam.Add(New Datos.DParametro("@TI0021", "", detalle))
         _Tabla = D_ProcedimientoConParam("sp_Mam_TI002", _listParam)

@@ -47,7 +47,7 @@ Public Class F_Inventario
     Public Sub Resetear()
         If (cbDeposito.SelectedIndex >= 0) Then
             L_fnResetearTI001(cbDeposito.Value) '' En este metodo colocamos todos los productos con stock 0 en el deposito seleccionado
-
+            ArmarMovimientosIngresosEgresos()
             ArmarCompras()
 
 
@@ -83,6 +83,40 @@ Public Class F_Inventario
         Next
         Dim img As Bitmap = New Bitmap(My.Resources.mensaje, 50, 50)
         ToastNotification.Show(Me, "Compras Generado Correctamente".ToUpper, img, 2000, eToastGlowColor.Green, eToastPosition.BottomCenter)
+
+    End Sub
+
+
+    Public Sub ArmarMovimientosIngresosEgresos()
+        Dim dtTI0021 As DataTable = L_fnObtenerTI0021()
+        '' Eliminando Referencias
+        L_fnEliminandoTI0021EgresoIngreso(cbDeposito.Value)
+        '' Insertando Registros TI0021
+        Dim Bin As New MemoryStream
+        Dim img As New Bitmap(My.Resources.delete, 28, 28)
+        img.Save(Bin, Imaging.ImageFormat.Png)
+        For i As Integer = 0 To dtTI0021.Rows.Count - 1 Step 1
+            Dim estado As Integer = dtTI0021.Rows(i).Item("estado")
+            If (estado = 0) Then
+
+                '              a.icid ,a.icibid ,a.iccprod ,b.yfcdprod1  as producto,a.iccant ,
+                'a.iclot ,a.icfvenc ,Cast(null as image ) as img,1 as estado,
+                '(Sum(inv.iccven )+a.iccant  ) as stock
+                'a.icid ,a.icibid ,a.iccprod ,b.cadesc as producto,a.iccant ,Cast(null as image ) as img,1 as estado
+
+                Dim detalleCopia As DataTable = dtTI0021.Copy
+                detalleCopia.Rows.Clear()
+                Dim numi As Integer = dtTI0021.Rows(i).Item("icibid")
+
+                detalleCopia.Rows.Add(0, numi, dtTI0021.Rows(i).Item("iccprod"), "", "", "", "",
+                                     dtTI0021.Rows(i).Item("iccant"),
+                                      dtTI0021.Rows(i).Item("iclot"),
+                                      dtTI0021.Rows(i).Item("icfvenc"), Bin.GetBuffer, estado, 0)
+                L_prInsertarTi0021(numi, 10, detalleCopia, cbDeposito.Value)
+            End If
+
+        Next
+
 
     End Sub
 
