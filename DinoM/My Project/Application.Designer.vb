@@ -32,7 +32,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.DinoM.F_Inventario
+            Me.MainForm = Global.DinoM.P_Principal
         End Sub
     End Class
 End Namespace

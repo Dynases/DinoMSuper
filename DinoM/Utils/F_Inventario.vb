@@ -65,7 +65,7 @@ Public Class F_Inventario
                 '    cbnumi As Integer, fact As Date, hact As String, uact As String, cbty5prod As Integer,
                 '    cbcmin As Double, cblote As String, cbfechavenc As Date)
                 Try
-                    Dim obs As String = "I - Compra numiprod: " + Str(dtDetalle.Rows(j).Item("cbty5prod")) + "|" + dtCompras.Rows(i).Item("proveedor")
+                    Dim obs As String = Str(dtCompras.Rows(i).Item("canumi")) + " - I - Compra numiprod: " + Str(dtDetalle.Rows(j).Item("cbty5prod")) + "|" + dtCompras.Rows(i).Item("proveedor")
 
                     L_prGrabarTI002(obs, cbDeposito.Value, dtCompras.Rows(i).Item("canumi"), dtCompras.Rows(i).Item("cafact"),
                                 dtCompras.Rows(i).Item("cahact"), dtCompras.Rows(i).Item("cauact"),
@@ -131,7 +131,7 @@ Public Class F_Inventario
                 '    cbcmin As Double, cblote As String, cbfechavenc As Date)
                 Try
 
-                    Dim obs As String = "I - Venta numiprod: " + Str(dtVentas.Rows(i).Item("tanumi")) + "|" + dtVentas.Rows(i).Item("cliente")
+                    Dim obs As String = Str(dtVentas.Rows(i).Item("tanumi")) + "- I - Venta numiprod: " + Str(dtDetalle.Rows(j).Item("tbty5prod")) + "|" + dtVentas.Rows(i).Item("cliente")
 
                     Dim dtSaldos As DataTable = L_fnObteniendoSaldosTI001(dtDetalle.Rows(j).Item("tbty5prod"), cbDeposito.Value)
                     Dim cantidad As Double = dtDetalle.Rows(j).Item("tbcmin")
