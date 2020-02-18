@@ -1265,11 +1265,102 @@ Public Class F0_Venta2
     Private Sub _prInsertarMontoModificar(ByRef tabla As DataTable)
         tabla.Rows.Add(tbCodigo.Text, tbMontoBs.Value, tbMontoDolar.Value, tbMontoTarej.Value, cbCambioDolar.Text, 2)
     End Sub
+    Public Function rearmarDetalle() As DataTable
+        Dim dt As DataTable = CType(grdetalle.DataSource, DataTable)
+        Dim dtDetalle As DataTable = dt.Copy
+        dtDetalle.Clear()
+        For i As Integer = 0 To dt.Rows.Count - 1 Step 1
+            Dim codProducto As Integer = dt.Rows(i).Item("tbty5prod")
+            Dim dtSaldos As DataTable = L_fnObteniendoSaldosTI001(codProducto, 1)
+            Dim cantidad As Double = dt.Rows(i).Item("tbcmin")
+            Dim saldo As Double = cantidad
+            Dim estado As Integer = dt.Rows(i).Item("estado")
+            Dim k As Integer = 0
+            If (estado >= 0) Then
+                If (dtSaldos.Rows.Count <= 0) Then
+                    dtDetalle.ImportRow(dt.Rows(i))
+                Else
+                    While (k <= dtSaldos.Rows.Count - 1 And saldo > 0)
+
+                        Dim inventario As Double = dtSaldos.Rows(k).Item("iccven")
+                        If (inventario >= saldo) Then
+                            dtDetalle.ImportRow(dt.Rows(i))
+                            Dim pos As Integer = dtDetalle.Rows.Count - 1
+
+                            Dim precio As Double = dtDetalle.Rows(pos).Item("tbpbas")
+                            dtDetalle.Rows(pos).Item("tbptot") = precio * saldo
+                            CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbtotdesc") = precio * saldo
+                            CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbcmin") = saldo
+
+                            Dim precioCosto As Double = dtDetalle.Rows(pos).Item("tbpcos")
+                            dtDetalle.Rows(pos).Item("tbptot2") = precioCosto * saldo
+                            dtDetalle.Rows(pos).Item("tblote") = dtSaldos.Rows(k).Item("iclot")
+                            dtDetalle.Rows(pos).Item("tbfechaVenc") = dtSaldos.Rows(k).Item("icfven")
+                            saldo = 0
+
+                        Else
+                            If (k < dtSaldos.Rows.Count - 1 Or inventario > 0) Then
+
+                                dtDetalle.ImportRow(dt.Rows(i))
+                                Dim pos As Integer = dtDetalle.Rows.Count - 1
+
+                                Dim precio As Double = dtDetalle.Rows(pos).Item("tbpbas")
+                                dtDetalle.Rows(pos).Item("tbptot") = precio * inventario
+                                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbtotdesc") = precio * inventario
+                                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbcmin") = inventario
+
+                                Dim precioCosto As Double = dtDetalle.Rows(pos).Item("tbpcos")
+                                dtDetalle.Rows(pos).Item("tbptot2") = precioCosto * inventario
+                                dtDetalle.Rows(pos).Item("tblote") = dtSaldos.Rows(k).Item("iclot")
+                                dtDetalle.Rows(pos).Item("tbfechaVenc") = dtSaldos.Rows(k).Item("icfven")
+
+                                saldo = saldo - inventario
+
+                            Else
+
+                                dtDetalle.ImportRow(dt.Rows(i))
+                                Dim pos As Integer = dtDetalle.Rows.Count - 1
+
+                                Dim precio As Double = dtDetalle.Rows(pos).Item("tbpbas")
+                                dtDetalle.Rows(pos).Item("tbptot") = precio * saldo
+                                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbtotdesc") = precio * saldo
+                                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbcmin") = saldo
+
+                                Dim precioCosto As Double = dtDetalle.Rows(pos).Item("tbpcos")
+                                dtDetalle.Rows(pos).Item("tbptot2") = precioCosto * saldo
+                                dtDetalle.Rows(pos).Item("tblote") = dtSaldos.Rows(k).Item("iclot")
+                                dtDetalle.Rows(pos).Item("tbfechaVenc") = dtSaldos.Rows(k).Item("icfven")
+
+
+                                saldo = 0
+                            End If
+
+
+
+                        End If
+
+
+
+                        k += 1
+
+                    End While
+                End If
+            End If
+
+
+        Next
+
+        Return dtDetalle
+
+    End Function
+
+
     Public Sub _GuardarNuevo()
         Dim numi As String = ""
         Dim tabla As DataTable = L_fnMostrarMontos(0)
         _prInsertarMontoNuevo(tabla)
-        Dim res As Boolean = L_fnGrabarVenta(numi, "", tbFechaVenta.Value.ToString("yyyy/MM/dd"), _CodEmpleado, IIf(swTipoVenta.Value = True, 1, 0), IIf(swTipoVenta.Value = True, Now.Date.ToString("yyyy/MM/dd"), tbFechaVenc.Value.ToString("yyyy/MM/dd")), _CodCliente, IIf(swMoneda.Value = True, 1, 0), "", tbMdesc.Value, tbIce.Value, tbTotalBs.Text, CType(grdetalle.DataSource, DataTable), cbSucursal.Value, 0, tabla)
+        Dim dtDetalle As DataTable = rearmarDetalle()
+        Dim res As Boolean = L_fnGrabarVenta(numi, "", tbFechaVenta.Value.ToString("yyyy/MM/dd"), _CodEmpleado, IIf(swTipoVenta.Value = True, 1, 0), IIf(swTipoVenta.Value = True, Now.Date.ToString("yyyy/MM/dd"), tbFechaVenc.Value.ToString("yyyy/MM/dd")), _CodCliente, IIf(swMoneda.Value = True, 1, 0), "", tbMdesc.Value, tbIce.Value, tbTotalBs.Text, dtDetalle, cbSucursal.Value, 0, tabla)
 
 
         If res Then
@@ -1328,7 +1419,8 @@ Public Class F0_Venta2
     Private Sub _prGuardarModificado()
         Dim tabla As DataTable = L_fnMostrarMontos(0)
         _prInsertarMontoModificar(tabla)
-        Dim res As Boolean = L_fnModificarVenta(tbCodigo.Text, tbFechaVenta.Value.ToString("yyyy/MM/dd"), _CodEmpleado, IIf(swTipoVenta.Value = True, 1, 0), IIf(swTipoVenta.Value = True, Now.Date.ToString("yyyy/MM/dd"), tbFechaVenc.Value.ToString("yyyy/MM/dd")), _CodCliente, IIf(swMoneda.Value = True, 1, 0), "", tbMdesc.Value, tbIce.Value, tbTotalBs.Text, CType(grdetalle.DataSource, DataTable), cbSucursal.Value, 0, tabla)
+        Dim dtDetalle As DataTable = rearmarDetalle()
+        Dim res As Boolean = L_fnModificarVenta(tbCodigo.Text, tbFechaVenta.Value.ToString("yyyy/MM/dd"), _CodEmpleado, IIf(swTipoVenta.Value = True, 1, 0), IIf(swTipoVenta.Value = True, Now.Date.ToString("yyyy/MM/dd"), tbFechaVenc.Value.ToString("yyyy/MM/dd")), _CodCliente, IIf(swMoneda.Value = True, 1, 0), "", tbMdesc.Value, tbIce.Value, tbTotalBs.Text, dtDetalle, cbSucursal.Value, 0, tabla)
         If res Then
             If (gb_FacturaEmite) Then
                 L_fnEliminarDatos("TFV001", "fvanumi=" + tbCodigo.Text.Trim)
