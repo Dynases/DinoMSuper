@@ -9,7 +9,7 @@ Public Class F_Inventario
 
 
     Private Sub _IniciarTodo()
-        Dim dbname As String = "BDPuertoAzul"
+        Dim dbname As String = "DBDinom"
         L_prAbrirConexion(gs_Ip, gs_UsuarioSql, gs_ClaveSql, dbname)
 
         _prCargarComboLibreriaDeposito(cbDeposito)
@@ -56,7 +56,7 @@ Public Class F_Inventario
     End Sub
 
     Public Sub ArmarCompras()
-        Dim dtCompras As DataTable = L_fnObtenerCabezeraCompras()
+        Dim dtCompras As DataTable = L_fnObtenerCabezeraCompras(cbDeposito.Value)
         For i As Integer = 0 To dtCompras.Rows.Count - 1 Step 1
             Dim dtDetalle As DataTable = L_fnObteniendoDetalleCompra(dtCompras.Rows(i).Item("canumi"))
 
@@ -88,7 +88,7 @@ Public Class F_Inventario
 
 
     Public Sub ArmarMovimientosIngresosEgresos()
-        Dim dtTI0021 As DataTable = L_fnObtenerTI0021()
+        Dim dtTI0021 As DataTable = L_fnObtenerTI0021(cbDeposito.Value)
         '' Eliminando Referencias
         L_fnEliminandoTI0021EgresoIngreso(cbDeposito.Value)
         '' Insertando Registros TI0021
@@ -121,7 +121,7 @@ Public Class F_Inventario
     End Sub
 
     Public Sub ArmarVentas()
-        Dim dtVentas As DataTable = L_fnObtenerCabezeraVentas()
+        Dim dtVentas As DataTable = L_fnObtenerCabezeraVentas(cbDeposito.Value)
         For i As Integer = 0 To dtVentas.Rows.Count - 1 Step 1
             Dim dtDetalle As DataTable = L_fnObteniendoDetalleVentas(dtVentas.Rows(i).Item("tanumi"))
 
@@ -223,5 +223,9 @@ Public Class F_Inventario
 
         btnEgresos.Enabled = False
         btnGenerar.Enabled = True
+    End Sub
+
+    Private Sub cbDeposito_ValueChanged(sender As Object, e As EventArgs) Handles cbDeposito.ValueChanged
+
     End Sub
 End Class

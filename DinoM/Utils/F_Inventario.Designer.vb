@@ -42,11 +42,10 @@ Partial Class F_Inventario
         Me.btnGenerar.Image = Global.DinoM.My.Resources.Resources.GRABACION_EXITOSA
         Me.btnGenerar.ImageFixedSize = New System.Drawing.Size(20, 20)
         Me.btnGenerar.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-        Me.btnGenerar.Location = New System.Drawing.Point(95, 181)
-        Me.btnGenerar.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnGenerar.Location = New System.Drawing.Point(71, 147)
         Me.btnGenerar.Name = "btnGenerar"
         Me.btnGenerar.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.btnGenerar.Size = New System.Drawing.Size(214, 68)
+        Me.btnGenerar.Size = New System.Drawing.Size(160, 55)
         Me.btnGenerar.Style = DevComponents.DotNetBar.eDotNetBarStyle.Office2010
         Me.btnGenerar.TabIndex = 264
         Me.btnGenerar.Text = "Ejecutar Ingresos"
@@ -56,14 +55,13 @@ Partial Class F_Inventario
         cbDeposito_DesignTimeLayout.LayoutString = resources.GetString("cbDeposito_DesignTimeLayout.LayoutString")
         Me.cbDeposito.DesignTimeLayout = cbDeposito_DesignTimeLayout
         Me.cbDeposito.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cbDeposito.Location = New System.Drawing.Point(223, 97)
-        Me.cbDeposito.Margin = New System.Windows.Forms.Padding(4)
+        Me.cbDeposito.Location = New System.Drawing.Point(167, 79)
         Me.cbDeposito.Name = "cbDeposito"
         Me.cbDeposito.Office2007ColorScheme = Janus.Windows.GridEX.Office2007ColorScheme.Custom
         Me.cbDeposito.Office2007CustomColor = System.Drawing.Color.DodgerBlue
         Me.cbDeposito.SelectedIndex = -1
         Me.cbDeposito.SelectedItem = Nothing
-        Me.cbDeposito.Size = New System.Drawing.Size(235, 26)
+        Me.cbDeposito.Size = New System.Drawing.Size(176, 22)
         Me.cbDeposito.TabIndex = 265
         Me.cbDeposito.VisualStyle = Janus.Windows.GridEX.VisualStyle.Office2007
         '
@@ -77,11 +75,10 @@ Partial Class F_Inventario
         Me.lbDepositoOrigen.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lbDepositoOrigen.Font = New System.Drawing.Font("Georgia", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbDepositoOrigen.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(85, Byte), Integer), CType(CType(139, Byte), Integer))
-        Me.lbDepositoOrigen.Location = New System.Drawing.Point(223, 73)
-        Me.lbDepositoOrigen.Margin = New System.Windows.Forms.Padding(4)
+        Me.lbDepositoOrigen.Location = New System.Drawing.Point(167, 59)
         Me.lbDepositoOrigen.Name = "lbDepositoOrigen"
         Me.lbDepositoOrigen.SingleLineColor = System.Drawing.SystemColors.Control
-        Me.lbDepositoOrigen.Size = New System.Drawing.Size(77, 20)
+        Me.lbDepositoOrigen.Size = New System.Drawing.Size(62, 16)
         Me.lbDepositoOrigen.TabIndex = 266
         Me.lbDepositoOrigen.Text = "Deposito:"
         '
@@ -97,24 +94,24 @@ Partial Class F_Inventario
         Me.btnEgresos.Image = Global.DinoM.My.Resources.Resources.GRABACION_EXITOSA
         Me.btnEgresos.ImageFixedSize = New System.Drawing.Size(20, 20)
         Me.btnEgresos.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-        Me.btnEgresos.Location = New System.Drawing.Point(345, 181)
-        Me.btnEgresos.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnEgresos.Location = New System.Drawing.Point(259, 147)
         Me.btnEgresos.Name = "btnEgresos"
         Me.btnEgresos.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.btnEgresos.Size = New System.Drawing.Size(214, 68)
+        Me.btnEgresos.Size = New System.Drawing.Size(160, 55)
         Me.btnEgresos.Style = DevComponents.DotNetBar.eDotNetBarStyle.Office2010
         Me.btnEgresos.TabIndex = 267
         Me.btnEgresos.Text = "Ejecutar Egresos"
         '
         'F_Inventario
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(749, 442)
+        Me.ClientSize = New System.Drawing.Size(562, 359)
         Me.Controls.Add(Me.btnEgresos)
         Me.Controls.Add(Me.cbDeposito)
         Me.Controls.Add(Me.lbDepositoOrigen)
         Me.Controls.Add(Me.btnGenerar)
+        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.Name = "F_Inventario"
         Me.Text = "F_Inventario"
         CType(Me.cbDeposito, System.ComponentModel.ISupportInitialize).EndInit()

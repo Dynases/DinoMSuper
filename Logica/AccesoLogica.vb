@@ -3036,36 +3036,39 @@ Public Class AccesoLogica
         Return _Tabla
     End Function
 
-    Public Shared Function L_fnObtenerCabezeraCompras() As DataTable
+    Public Shared Function L_fnObtenerCabezeraCompras(Deposito As Integer) As DataTable
         Dim _Tabla As DataTable
 
         Dim _listParam As New List(Of Datos.DParametro)
 
         _listParam.Add(New Datos.DParametro("@tipo", 36))
+        _listParam.Add(New Datos.DParametro("@depositoInventario", Deposito))
         _listParam.Add(New Datos.DParametro("@ibuact", L_Usuario))
         _Tabla = D_ProcedimientoConParam("sp_Mam_TI002", _listParam)
 
         Return _Tabla
     End Function
 
-    Public Shared Function L_fnObtenerCabezeraVentas() As DataTable
+    Public Shared Function L_fnObtenerCabezeraVentas(Deposito As Integer) As DataTable
         Dim _Tabla As DataTable
 
         Dim _listParam As New List(Of Datos.DParametro)
 
         _listParam.Add(New Datos.DParametro("@tipo", 39))
         _listParam.Add(New Datos.DParametro("@ibuact", L_Usuario))
+        _listParam.Add(New Datos.DParametro("@depositoInventario", Deposito))
         _Tabla = D_ProcedimientoConParam("sp_Mam_TI002", _listParam)
 
         Return _Tabla
     End Function
-    Public Shared Function L_fnObtenerTI0021() As DataTable
+    Public Shared Function L_fnObtenerTI0021(Deposito As Integer) As DataTable
         Dim _Tabla As DataTable
 
         Dim _listParam As New List(Of Datos.DParametro)
 
         _listParam.Add(New Datos.DParametro("@tipo", 43))
         _listParam.Add(New Datos.DParametro("@ibuact", L_Usuario))
+        _listParam.Add(New Datos.DParametro("@depositoInventario", Deposito))
         _Tabla = D_ProcedimientoConParam("sp_Mam_TI002", _listParam)
 
         Return _Tabla

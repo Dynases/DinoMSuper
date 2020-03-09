@@ -33,6 +33,9 @@ Partial Class F0_Usuarios
         Me.Tb_Nombre = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.Tb_Id = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btnSearch = New DevComponents.DotNetBar.ButtonX()
+        Me.tbVendedor = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.LabelX10 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX8 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX7 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX4 = New DevComponents.DotNetBar.LabelX()
@@ -46,9 +49,6 @@ Partial Class F0_Usuarios
         Me.tbSuc = New Janus.Windows.GridEX.EditControls.MultiColumnCombo()
         Me.GroupPanel1 = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.JGr_Buscador = New Janus.Windows.GridEX.GridEX()
-        Me.LabelX10 = New DevComponents.DotNetBar.LabelX()
-        Me.btnSearch = New DevComponents.DotNetBar.ButtonX()
-        Me.tbVendedor = New DevComponents.DotNetBar.Controls.TextBoxX()
         CType(Me.SuperTabPrincipal, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuperTabPrincipal.SuspendLayout()
         Me.SuperTabControlPanelRegistro.SuspendLayout()
@@ -361,6 +361,53 @@ Partial Class F0_Usuarios
         Me.Panel1.Size = New System.Drawing.Size(852, 175)
         Me.Panel1.TabIndex = 44
         '
+        'btnSearch
+        '
+        Me.btnSearch.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnSearch.BackColor = System.Drawing.Color.Transparent
+        Me.btnSearch.ColorTable = DevComponents.DotNetBar.eButtonColor.Flat
+        Me.btnSearch.Image = Global.DinoM.My.Resources.Resources.search
+        Me.btnSearch.ImageFixedSize = New System.Drawing.Size(28, 26)
+        Me.btnSearch.Location = New System.Drawing.Point(771, 124)
+        Me.btnSearch.Name = "btnSearch"
+        Me.btnSearch.Size = New System.Drawing.Size(30, 28)
+        Me.btnSearch.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnSearch.TabIndex = 239
+        Me.btnSearch.Visible = False
+        '
+        'tbVendedor
+        '
+        Me.tbVendedor.BackColor = System.Drawing.Color.White
+        '
+        '
+        '
+        Me.tbVendedor.Border.Class = "TextBoxBorder"
+        Me.tbVendedor.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.tbVendedor.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbVendedor.ForeColor = System.Drawing.Color.FromArgb(CType(CType(45, Byte), Integer), CType(CType(59, Byte), Integer), CType(CType(66, Byte), Integer))
+        Me.tbVendedor.Location = New System.Drawing.Point(553, 128)
+        Me.tbVendedor.Name = "tbVendedor"
+        Me.tbVendedor.PreventEnterBeep = True
+        Me.tbVendedor.ReadOnly = True
+        Me.tbVendedor.Size = New System.Drawing.Size(215, 22)
+        Me.tbVendedor.TabIndex = 237
+        '
+        'LabelX10
+        '
+        Me.LabelX10.BackColor = System.Drawing.Color.Transparent
+        '
+        '
+        '
+        Me.LabelX10.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX10.Font = New System.Drawing.Font("Georgia", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX10.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(85, Byte), Integer), CType(CType(139, Byte), Integer))
+        Me.LabelX10.Location = New System.Drawing.Point(372, 128)
+        Me.LabelX10.Name = "LabelX10"
+        Me.LabelX10.SingleLineColor = System.Drawing.SystemColors.Control
+        Me.LabelX10.Size = New System.Drawing.Size(90, 23)
+        Me.LabelX10.TabIndex = 236
+        Me.LabelX10.Text = "VENDEDOR:"
+        '
         'LabelX8
         '
         Me.LabelX8.BackColor = System.Drawing.Color.Transparent
@@ -604,53 +651,6 @@ Partial Class F0_Usuarios
         Me.JGr_Buscador.Size = New System.Drawing.Size(846, 252)
         Me.JGr_Buscador.TabIndex = 0
         Me.JGr_Buscador.VisualStyle = Janus.Windows.GridEX.VisualStyle.Office2007
-        '
-        'LabelX10
-        '
-        Me.LabelX10.BackColor = System.Drawing.Color.Transparent
-        '
-        '
-        '
-        Me.LabelX10.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX10.Font = New System.Drawing.Font("Georgia", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX10.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(85, Byte), Integer), CType(CType(139, Byte), Integer))
-        Me.LabelX10.Location = New System.Drawing.Point(372, 128)
-        Me.LabelX10.Name = "LabelX10"
-        Me.LabelX10.SingleLineColor = System.Drawing.SystemColors.Control
-        Me.LabelX10.Size = New System.Drawing.Size(90, 23)
-        Me.LabelX10.TabIndex = 236
-        Me.LabelX10.Text = "VENDEDOR:"
-        '
-        'btnSearch
-        '
-        Me.btnSearch.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnSearch.BackColor = System.Drawing.Color.Transparent
-        Me.btnSearch.ColorTable = DevComponents.DotNetBar.eButtonColor.Flat
-        Me.btnSearch.Image = Global.DinoM.My.Resources.Resources.search
-        Me.btnSearch.ImageFixedSize = New System.Drawing.Size(28, 26)
-        Me.btnSearch.Location = New System.Drawing.Point(771, 124)
-        Me.btnSearch.Name = "btnSearch"
-        Me.btnSearch.Size = New System.Drawing.Size(30, 28)
-        Me.btnSearch.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnSearch.TabIndex = 239
-        Me.btnSearch.Visible = False
-        '
-        'tbVendedor
-        '
-        Me.tbVendedor.BackColor = System.Drawing.Color.White
-        '
-        '
-        '
-        Me.tbVendedor.Border.Class = "TextBoxBorder"
-        Me.tbVendedor.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.tbVendedor.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tbVendedor.ForeColor = System.Drawing.Color.FromArgb(CType(CType(45, Byte), Integer), CType(CType(59, Byte), Integer), CType(CType(66, Byte), Integer))
-        Me.tbVendedor.Location = New System.Drawing.Point(553, 128)
-        Me.tbVendedor.Name = "tbVendedor"
-        Me.tbVendedor.PreventEnterBeep = True
-        Me.tbVendedor.ReadOnly = True
-        Me.tbVendedor.Size = New System.Drawing.Size(215, 22)
-        Me.tbVendedor.TabIndex = 237
         '
         'F0_Usuarios
         '
