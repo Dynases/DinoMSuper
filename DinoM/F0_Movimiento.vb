@@ -433,19 +433,12 @@ Public Class F0_Movimiento
     Private Sub _prCargarProductos()
         Dim dt As New DataTable
 
-
-
         If (Lote = True And cbConcepto.Value <> 1) Then
-                dt = L_prMovimientoListarProductosConLote(cbAlmacenOrigen.Value)  ''1=Almacen
-                actualizarSaldoSinLote(dt)
-
-
-            Else
-                dt = L_prMovimientoListarProductos(CType(grdetalle.DataSource, DataTable), cbAlmacenOrigen.Value)  ''1=Almacen
-
-            End If
-
-
+            dt = L_prMovimientoListarProductosConLote(cbAlmacenOrigen.Value)  ''1=Almacen
+            actualizarSaldoSinLote(dt)
+        Else
+            dt = L_prMovimientoListarProductos(CType(grdetalle.DataSource, DataTable), cbAlmacenOrigen.Value)  ''1=Almacen
+        End If
 
         'a.yfnumi  ,a.yfcdprod1  ,a.yfcdprod2 
         If (grproducto.RowCount > 0 And cbConcepto.Value = 1) Then
@@ -949,27 +942,35 @@ Public Class F0_Movimiento
     End Sub
     Public Sub InsertarProductosConLote()
 
-        '      a.icid ,a.icibid ,a.iccprod ,b.yfcdprod1  as producto,a.iccant ,
-        'a.iclot ,a.icfvenc ,Cast(null as image ) as img,1 as estado,
-        '(Sum(inv.iccven )+a.iccant  ) as stock
+        'Dim pos As Integer = -1
+        'grdetalle.Row = grdetalle.RowCount - 1
+        '_fnObtenerFilaDetalle(pos, grdetalle.GetValue("icid"))
+        'Dim posProducto As Integer = grproducto.Row
+        'FilaSelectLote = CType(grproducto.DataSource, DataTable).Rows(posProducto)
 
-        'a.yfnumi  ,a.yfcdprod1  ,a.yfcdprod2,Sum(b.iccven ) as stock 
+
+
+        'If (grproducto.GetValue("stock") > 0) Then
+        '    _prCargarLotesDeProductos(grproducto.GetValue("yfnumi"), grproducto.GetValue("yfcdprod1"))
+        '    'FilaSelectLote = CType(grproducto.DataSource, DataTable).Rows(0)
+        'Else
+        '    Dim img As Bitmap = New Bitmap(My.Resources.Mensaje, 50, 50)
+        '    ToastNotification.Show(Me, "El Producto: ".ToUpper + grproducto.GetValue("yfcdprod1") + " NO CUENTA CON STOCK DISPONIBLE", img, 5000, eToastGlowColor.Red, eToastPosition.BottomCenter)
+        '    FilaSelectLote = Nothing
+        'End If
+
         Dim pos As Integer = -1
         grdetalle.Row = grdetalle.RowCount - 1
-        _fnObtenerFilaDetalle(pos, grdetalle.GetValue("icid"))
+        _fnObtenerFilaDetalleProducto(pos, grproducto.GetValue("yfnumi"))
         Dim posProducto As Integer = grproducto.Row
-        FilaSelectLote = CType(grproducto.DataSource, DataTable).Rows(posProducto)
-
-
+        FilaSelectLote = CType(grproducto.DataSource, DataTable).Rows(pos)
         If (grproducto.GetValue("stock") > 0) Then
             _prCargarLotesDeProductos(grproducto.GetValue("yfnumi"), grproducto.GetValue("yfcdprod1"))
-            'FilaSelectLote = CType(grproducto.DataSource, DataTable).Rows(0)
         Else
-            Dim img As Bitmap = New Bitmap(My.Resources.Mensaje, 50, 50)
+            Dim img As Bitmap = New Bitmap(My.Resources.mensaje, 50, 50)
             ToastNotification.Show(Me, "El Producto: ".ToUpper + grproducto.GetValue("yfcdprod1") + " NO CUENTA CON STOCK DISPONIBLE", img, 5000, eToastGlowColor.Red, eToastPosition.BottomCenter)
             FilaSelectLote = Nothing
         End If
-
     End Sub
     Public Function _fnExisteProductoConLote(idprod As Integer, lote As String, fechaVenci As Date) As Boolean
         For i As Integer = 0 To CType(grdetalle.DataSource, DataTable).Rows.Count - 1 Step 1
@@ -987,7 +988,16 @@ Public Class F0_Movimiento
         Next
         Return False
     End Function
+    Public Sub _fnObtenerFilaDetalleProducto(ByRef pos As Integer, numi As Integer)
+        For i As Integer = 0 To CType(grproducto.DataSource, DataTable).Rows.Count - 1 Step 1
+            Dim _numi As Integer = CType(grproducto.DataSource, DataTable).Rows(i).Item("yfnumi")
+            If (_numi = numi) Then
+                pos = i
+                Return
+            End If
+        Next
 
+    End Sub
 
 
 #End Region
@@ -1423,12 +1433,7 @@ salirIf:
             _DesHabilitarProductos()
 
         End If
-
-
     End Sub
 
-    Private Sub grdetalle_FormattingRow(sender As Object, e As RowLoadEventArgs) Handles grdetalle.FormattingRow
-
-    End Sub
 #End Region
 End Class

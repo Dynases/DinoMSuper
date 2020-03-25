@@ -695,4 +695,12 @@ Public Class F0_Usuarios
             End If
         End If
     End Sub
+
+    Private Sub tbSuc_ValueChanged(sender As Object, e As EventArgs) Handles tbSuc.ValueChanged
+
+    End Sub
+
+    Private Sub JMC_Categoria_ValueChanged(sender As Object, e As EventArgs) Handles JMC_Categoria.ValueChanged
+
+    End Sub
 End Class
