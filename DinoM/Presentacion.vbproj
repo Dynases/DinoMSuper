@@ -485,6 +485,12 @@
       <DependentUpon>R_NotaDeVenta_012.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reporte\R_NotaVenta_7_5X100.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>R_NotaVenta_7_5X100.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reporte\R_Productos.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -923,6 +929,10 @@
     <EmbeddedResource Include="Reporte\R_NotaDeVenta_012.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>R_NotaDeVenta_012.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reporte\R_NotaVenta_7_5X100.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>R_NotaVenta_7_5X100.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reporte\R_Productos.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
