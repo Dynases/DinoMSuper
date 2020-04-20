@@ -46,25 +46,4 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 6
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://dinases.visualstudio.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Modelo\\Modelo.vbproj
-		SccProjectName1 = Modelo
-		SccLocalPath1 = Modelo
-		SccProjectUniqueName2 = DinoM\\Presentacion.vbproj
-		SccProjectName2 = DinoM
-		SccLocalPath2 = DinoM
-		SccProjectUniqueName3 = Datos\\Datos.vbproj
-		SccProjectName3 = Datos
-		SccLocalPath3 = Datos
-		SccProjectUniqueName4 = Logica\\Logica.vbproj
-		SccProjectName4 = Logica
-		SccLocalPath4 = Logica
-		SccProjectUniqueName5 = Facturacion\\Facturacion.vbproj
-		SccProjectName5 = Facturacion
-		SccLocalPath5 = Facturacion
-	EndGlobalSection
 EndGlobal

@@ -1137,6 +1137,7 @@ Public Class F0_Venta2
             Dim pos As Integer = -1
             _fnObtenerFilaDetalle(pos, lin)
             Dim cant As Double = grdetalle.GetValue("tbcmin")
+            'Dim cantidad = Format(cant,"0.00")
             Dim uni As Double = grdetalle.GetValue("tbpbas")
             Dim cos As Double = grdetalle.GetValue("tbpcos")
             Dim MontoDesc As Double = grdetalle.GetValue("tbdesc")
@@ -1148,6 +1149,7 @@ Public Class F0_Venta2
 
                 CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbptot") = TotalUnitario
                 CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbtotdesc") = TotalUnitario - MontoDesc
+
                 grdetalle.SetValue("tbptot", TotalUnitario)
                 grdetalle.SetValue("tbtotdesc", TotalUnitario - MontoDesc)
 
@@ -1168,7 +1170,7 @@ Public Class F0_Venta2
         Dim montodesc As Double = tbMdesc.Value
         Dim pordesc As Double = ((montodesc * 100) / grdetalle.GetTotal(grdetalle.RootTable.Columns("tbtotdesc"), AggregateFunction.Sum))
         tbPdesc.Value = pordesc
-        tbTotalBs.Text = grdetalle.GetTotal(grdetalle.RootTable.Columns("tbtotdesc"), AggregateFunction.Sum)
+        tbTotalBs.Text = Format(grdetalle.GetTotal(grdetalle.RootTable.Columns("tbtotdesc"), AggregateFunction.Sum), "0.00")
         montoDo = Convert.ToDecimal(tbTotalBs.Text) / IIf(cbCambioDolar.Text = "", 1, Convert.ToDecimal(cbCambioDolar.Text))
         tbTotalDo.Text = Format(montoDo, "0.00")
         tbIce.Value = grdetalle.GetTotal(grdetalle.RootTable.Columns("tbptot2"), AggregateFunction.Sum) * (gi_ICE / 100)
@@ -1282,6 +1284,7 @@ Public Class F0_Venta2
 
                                 Dim precio As Double = dtDetalle.Rows(pos).Item("tbpbas")
                                 dtDetalle.Rows(pos).Item("tbptot") = precio * saldo
+                                dtDetalle.Rows(pos).Item("tbtotdesc") = precio * saldo
                                 CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbtotdesc") = precio * saldo
                                 CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbcmin") = saldo
 
@@ -1299,6 +1302,7 @@ Public Class F0_Venta2
 
                                     Dim precio As Double = dtDetalle.Rows(pos).Item("tbpbas")
                                     dtDetalle.Rows(pos).Item("tbptot") = precio * inventario
+                                    dtDetalle.Rows(pos).Item("tbtotdesc") = precio * saldo
                                     CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbtotdesc") = precio * inventario
                                     CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbcmin") = inventario
 
@@ -1316,6 +1320,7 @@ Public Class F0_Venta2
 
                                     Dim precio As Double = dtDetalle.Rows(pos).Item("tbpbas")
                                     dtDetalle.Rows(pos).Item("tbptot") = precio * saldo
+                                    dtDetalle.Rows(pos).Item("tbtotdesc") = precio * saldo
                                     CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbtotdesc") = precio * saldo
                                     CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbcmin") = saldo
 
@@ -1349,40 +1354,47 @@ Public Class F0_Venta2
 
 
     Public Sub _GuardarNuevo()
-        Dim numi As String = ""
-        Dim tabla As DataTable = L_fnMostrarMontos(0)
-        _prInsertarMontoNuevo(tabla)
-        Dim dtDetalle As DataTable = rearmarDetalle()
-        Dim res As Boolean = L_fnGrabarVenta(numi, "", tbFechaVenta.Value.ToString("yyyy/MM/dd"), _CodEmpleado, IIf(swTipoVenta.Value = True, 1, 0), IIf(swTipoVenta.Value = True, Now.Date.ToString("yyyy/MM/dd"), tbFechaVenc.Value.ToString("yyyy/MM/dd")), _CodCliente, IIf(swMoneda.Value = True, 1, 0), "", tbMdesc.Value, tbIce.Value, tbTotalBs.Text, dtDetalle, cbSucursal.Value, 0, tabla)
+        Try
+            Dim numi As String = ""
+            Dim tabla As DataTable = L_fnMostrarMontos(0)
+            _prInsertarMontoNuevo(tabla)
+            Dim dtDetalle As DataTable = rearmarDetalle()
+            _prCalcularPrecioTotal()
+
+            Dim res As Boolean = L_fnGrabarVenta(numi, "", tbFechaVenta.Value.ToString("yyyy/MM/dd"), _CodEmpleado, IIf(swTipoVenta.Value = True, 1, 0), IIf(swTipoVenta.Value = True, Now.Date.ToString("yyyy/MM/dd"), tbFechaVenc.Value.ToString("yyyy/MM/dd")), _CodCliente, IIf(swMoneda.Value = True, 1, 0), "", tbMdesc.Value, tbIce.Value, tbTotalBs.Text, dtDetalle, cbSucursal.Value, 0, tabla)
 
 
-        If res Then
-            'res = P_fnGrabarFacturarTFV001(numi)
-            If _CodCliente <> 86 Then
-                If (gb_FacturaEmite) Then
-                    P_fnGenerarFactura(numi)
+            If res Then
+                'res = P_fnGrabarFacturarTFV001(numi)
+                If _CodCliente <> 86 Then
+                    If (gb_FacturaEmite) Then
+                        P_fnGenerarFactura(numi)
+                    End If
+                Else
+                    _prImiprimirNotaVenta(numi)
                 End If
+
+
+                Dim img As Bitmap = New Bitmap(My.Resources.checked, 50, 50)
+                ToastNotification.Show(Me, "Código de Venta ".ToUpper + tbCodigo.Text + " Grabado con Exito.".ToUpper,
+                                          img, 2000,
+                                          eToastGlowColor.Green,
+                                          eToastPosition.TopCenter
+                                          )
+
+                _prCargarVenta()
+                _Limpiar()
+                Table_Producto = Nothing
+
             Else
-                _prImiprimirNotaVenta(numi)
+                Dim img As Bitmap = New Bitmap(My.Resources.cancel, 50, 50)
+                ToastNotification.Show(Me, "La Venta no pudo ser insertado".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
+
             End If
+        Catch ex As Exception
+            MostrarMensajeError(ex.Message)
+        End Try
 
-
-            Dim img As Bitmap = New Bitmap(My.Resources.checked, 50, 50)
-            ToastNotification.Show(Me, "Código de Venta ".ToUpper + tbCodigo.Text + " Grabado con Exito.".ToUpper,
-                                      img, 2000,
-                                      eToastGlowColor.Green,
-                                      eToastPosition.TopCenter
-                                      )
-
-            _prCargarVenta()
-            _Limpiar()
-            Table_Producto = Nothing
-
-        Else
-            Dim img As Bitmap = New Bitmap(My.Resources.cancel, 50, 50)
-            ToastNotification.Show(Me, "La Venta no pudo ser insertado".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
-
-        End If
 
     End Sub
     Public Sub _prImiprimirNotaVenta(numi As String)
@@ -1917,13 +1929,13 @@ Public Class F0_Venta2
                         'objrep.PrintTicket("EPSON TM-T20II Receipt")
                     End If
                 End If
-                If (grabarPDF) Then
-                    'Copia de Factura en PDF
-                    If (Not Directory.Exists(gs_CarpetaRaiz + "\Facturas")) Then
-                        Directory.CreateDirectory(gs_CarpetaRaiz + "\Facturas")
-                    End If
-                    objrep.ExportToDisk(ExportFormatType.PortableDocFormat, gs_CarpetaRaiz + "\Facturas\" + CStr(_NumFac) + "_" + CStr(_Autorizacion) + ".pdf")
-                End If
+                'If (grabarPDF) Then
+                '    'Copia de Factura en PDF
+                '    If (Not Directory.Exists(gs_CarpetaRaiz + "\Facturas")) Then
+                '        Directory.CreateDirectory(gs_CarpetaRaiz + "\Facturas")
+                '    End If
+                '    objrep.ExportToDisk(ExportFormatType.PortableDocFormat, gs_CarpetaRaiz + "\Facturas\" + CStr(_NumFac) + "_" + CStr(_Autorizacion) + ".pdf")
+                'End If
             End If
             '  L_Actualiza_Dosificacion(_numidosif, _NumFac, numi)
         Catch ex As Exception
@@ -2630,8 +2642,9 @@ salirIf:
                 If pos = -1 Then
                     _fnObtenerFilaDetalle(pos, grdetalle.GetValue("tbnumi"))
                 End If
-                Dim cantidad = total / CDbl(fila(0).ItemArray(15))
+                Dim cantidad = Format(total / CDbl(fila(0).ItemArray(15)), "0.00")
                 Dim precio = fila(0).ItemArray(15)
+                total = cantidad * precio
                 CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbty5prod") = fila(0).ItemArray(0)
                 CType(grdetalle.DataSource, DataTable).Rows(pos).Item("codigo") = fila(0).ItemArray(1)
                 CType(grdetalle.DataSource, DataTable).Rows(pos).Item("yfcbarra") = fila(0).ItemArray(2)
@@ -2650,7 +2663,7 @@ salirIf:
                 End If
                 ''Modif
                 CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbpcos") = fila(0).ItemArray(16)
-                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbptot2") = fila(0).ItemArray(16)
+                CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbptot2") = fila(0).ItemArray(16) * cantidad
                 '
                 CType(grdetalle.DataSource, DataTable).Rows(pos).Item("stock") = fila(0).ItemArray(17) - cantidad
                 'CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tblote") = grProductos.GetValue("iclot")
