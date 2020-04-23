@@ -137,8 +137,8 @@ Public Class AccesoLogica
         Dim _Err As Boolean
         Dim Sql, _where As String
 
-        Sql = "yaprog = '" + _desc + "' , " + _
-        "yatit = '" + _direc + "' , " + _
+        Sql = "yaprog = '" + _desc + "' , " +
+        "yatit = '" + _direc + "' , " +
         "yamod = " + _categ
 
         _where = "yanumi = " + _numi
@@ -2229,26 +2229,26 @@ Public Class AccesoLogica
                                           Optional _Alm As String = "", Optional _Numi2 As String = "")
         Dim Sql As String
         Try
-            Sql = IIf(_Fecha.Equals(""), "", "fvafec = '" + _Fecha + "', ") + _
-              IIf(_Nfact.Equals(""), "", "fvanfac = " + _Nfact + ", ") + _
-              IIf(_NAutoriz.Equals(""), "", "fvaautoriz = " + _NAutoriz + ", ") + _
-              IIf(_Est.Equals(""), "", "fvaest = " + _Est) + _
-              IIf(_NitCli.Equals(""), "", "fvanitcli = '" + _NitCli + "', ") + _
-              IIf(_CodCli.Equals(""), "", "fvacodcli = " + _CodCli + ", ") + _
-              IIf(_DesCli1.Equals(""), "", "fvadescli1 = '" + _DesCli1 + "', ") + _
-              IIf(_DesCli2.Equals(""), "", "fvadescli2 = '" + _DesCli2 + "', ") + _
-              IIf(_A.Equals(""), "", "fvastot = " + _A + ", ") + _
-              IIf(_B.Equals(""), "", "fvaimpsi = " + _B + ", ") + _
-              IIf(_C.Equals(""), "", "fvaimpeo = " + _C + ", ") + _
-              IIf(_D.Equals(""), "", "fvaimptc = " + _D + ", ") + _
-              IIf(_E.Equals(""), "", "fvasubtotal = " + _E + ", ") + _
-              IIf(_F.Equals(""), "", "fvadesc = " + _F + ", ") + _
-              IIf(_G.Equals(""), "", "fvatotal = " + _G + ", ") + _
-              IIf(_H.Equals(""), "", "fvadebfis = " + _H + ", ") + _
-              IIf(_CodCon.Equals(""), "", "fvaccont = '" + _CodCon + "', ") + _
-              IIf(_FecLim.Equals(""), "", "fvaflim = '" + _FecLim + "', ") + _
-              IIf(_Imgqr.Equals(""), "", "fvaimgqr = '" + _Imgqr + "', ") + _
-              IIf(_Alm.Equals(""), "", "fvaalm = " + _Alm + ", ") + _
+            Sql = IIf(_Fecha.Equals(""), "", "fvafec = '" + _Fecha + "', ") +
+              IIf(_Nfact.Equals(""), "", "fvanfac = " + _Nfact + ", ") +
+              IIf(_NAutoriz.Equals(""), "", "fvaautoriz = " + _NAutoriz + ", ") +
+              IIf(_Est.Equals(""), "", "fvaest = " + _Est) +
+              IIf(_NitCli.Equals(""), "", "fvanitcli = '" + _NitCli + "', ") +
+              IIf(_CodCli.Equals(""), "", "fvacodcli = " + _CodCli + ", ") +
+              IIf(_DesCli1.Equals(""), "", "fvadescli1 = '" + _DesCli1 + "', ") +
+              IIf(_DesCli2.Equals(""), "", "fvadescli2 = '" + _DesCli2 + "', ") +
+              IIf(_A.Equals(""), "", "fvastot = " + _A + ", ") +
+              IIf(_B.Equals(""), "", "fvaimpsi = " + _B + ", ") +
+              IIf(_C.Equals(""), "", "fvaimpeo = " + _C + ", ") +
+              IIf(_D.Equals(""), "", "fvaimptc = " + _D + ", ") +
+              IIf(_E.Equals(""), "", "fvasubtotal = " + _E + ", ") +
+              IIf(_F.Equals(""), "", "fvadesc = " + _F + ", ") +
+              IIf(_G.Equals(""), "", "fvatotal = " + _G + ", ") +
+              IIf(_H.Equals(""), "", "fvadebfis = " + _H + ", ") +
+              IIf(_CodCon.Equals(""), "", "fvaccont = '" + _CodCon + "', ") +
+              IIf(_FecLim.Equals(""), "", "fvaflim = '" + _FecLim + "', ") +
+              IIf(_Imgqr.Equals(""), "", "fvaimgqr = '" + _Imgqr + "', ") +
+              IIf(_Alm.Equals(""), "", "fvaalm = " + _Alm + ", ") +
               IIf(_Numi2.Equals(""), "", "fvanumi2 = " + _Numi2 + ", ")
             Sql = Sql.Trim
             If (Sql.Substring(Sql.Length - 1, 1).Equals(",")) Then
@@ -2277,7 +2277,7 @@ Public Class AccesoLogica
         Dim _Tabla As DataTable
         Dim _Ds As New DataSet
         Dim _Where As String
-        _Where = " fvanumi = " + _Numi + " and fvanumi2 = " + _Numi2
+        _Where = " fvanumi = " + _Numi + " and fvanumi = " + _Numi2
 
         _Tabla = D_Datos_Tabla("*", "VR_GO_Factura", _Where)
         _Ds.Tables.Add(_Tabla)
@@ -2338,7 +2338,7 @@ Public Class AccesoLogica
             _Err = D_Insertar_Datos("TS001", Sql)
         Else
             If (_Nom1 <> _Nom01) Or (_Nom2 <> _Nom02) Then
-                Sql = "sanom1 = '" + _Nom1 + "' " + _
+                Sql = "sanom1 = '" + _Nom1 + "' " +
                       IIf(_Nom02.ToString.Trim.Equals(""), "", ", sanom2 = '" + _Nom2 + "', ")
                 _Err = D_Modificar_Datos("TS001", Sql, "sanit = " + _Nit)
             End If
@@ -3919,7 +3919,7 @@ Public Class AccesoLogica
     End Function
 #End Region
 #Region "REPORTES VS VENTAS"
-   
+
 
     Public Shared Function L_prVentasVsCostosGeneralAlmacenVendedor(fechaI As String, fechaF As String) As DataTable
         Dim _Tabla As DataTable
@@ -4091,7 +4091,7 @@ Public Class AccesoLogica
             _listParam.Add(New Datos.DParametro("@almacen", CodAlmacen))
             _listParam.Add(New Datos.DParametro("@Meses", "", dt))
         End If
-    
+
         _Tabla = D_ProcedimientoConParam("sp_Mam_VentasGraficas", _listParam)
 
         Return _Tabla
@@ -4113,7 +4113,7 @@ Public Class AccesoLogica
                 _listParam.Add(New Datos.DParametro("@Anho", Anho))
                 _listParam.Add(New Datos.DParametro("@yduact", L_Usuario))
             End If
-           
+
         Else
 
             If (CodAlmacen.Equals("50")) Then
@@ -4631,7 +4631,7 @@ Public Class AccesoLogica
         Dim _listParam As New List(Of Datos.DParametro)
 
         _listParam.Add(New Datos.DParametro("@tipo", 2))
-         _listParam.Add(New Datos.DParametro("@panumi", _panumi))
+        _listParam.Add(New Datos.DParametro("@panumi", _panumi))
         _listParam.Add(New Datos.DParametro("@paalm", _almacen))
         _listParam.Add(New Datos.DParametro("@pafdoc", _pafdoc))
         _listParam.Add(New Datos.DParametro("@paven", _paven))
@@ -4835,7 +4835,7 @@ Public Class AccesoLogica
 
         Return _Tabla
     End Function
-  
+
     Public Shared Function L_fnDetalleFactura(_numi As String) As DataTable
         Dim _Tabla As DataTable
 
@@ -5031,8 +5031,8 @@ Public Class AccesoLogica
 
         Return _Tabla
     End Function
-   
-   
+
+
     Public Shared Function L_fnSaldoDetalle(_numi As Integer) As DataTable
         Dim _Tabla As DataTable
 
@@ -5046,8 +5046,8 @@ Public Class AccesoLogica
         Return _Tabla
     End Function
 
- 
-    
+
+
     Public Shared Function L_fnEliminarSaldos(numi As String, ByRef mensaje As String) As Boolean
         Dim _resultado As Boolean
         If L_fnbValidarEliminacion(numi, "TV002", "tfnumi", mensaje) = True Then
