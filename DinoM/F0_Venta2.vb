@@ -355,7 +355,7 @@ Public Class F0_Venta2
             tbMontoDolar.Value = tMonto.Rows(0).Item("tgMontDol").ToString
             tbMontoTarej.Value = tMonto.Rows(0).Item("tgMontTare").ToString
             cbCambioDolar.Text = tMonto.Rows(0).Item("tgCambioDol").ToString
-            'tbTotalDo.Text = Convert.ToDecimal(tbTotalBs.Text) / IIf(cbCambioDolar.Text = "", 1, Convert.ToDecimal(cbCambioDolar.Text))
+
             If Convert.ToDecimal(tbTotalBs.Text) <> 0 And Convert.ToDecimal(txtMontoPagado1.Text) >= Convert.ToDecimal(tbTotalBs.Text) Then
                 txtCambio1.Text = Convert.ToDecimal(txtMontoPagado1.Text) - Convert.ToDecimal(tbTotalBs.Text)
             Else
@@ -1209,50 +1209,64 @@ Public Class F0_Venta2
 
     End Sub
     Public Function _ValidarCampos() As Boolean
-        If (_CodCliente <= 0) Then
-            Dim img As Bitmap = New Bitmap(My.Resources.mensaje, 50, 50)
-            ToastNotification.Show(Me, "Por Favor Seleccione un Cliente con Ctrl+Enter".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
-            tbCliente.Focus()
-            Return False
-
-        End If
-        If (_CodEmpleado <= 0) Then
-            Dim img As Bitmap = New Bitmap(My.Resources.mensaje, 50, 50)
-            ToastNotification.Show(Me, "Por Favor Seleccione un Vendedor con Ctrl+Enter".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
-            tbVendedor.Focus()
-            Return False
-        End If
-        If (cbSucursal.SelectedIndex < 0) Then
-            Dim img As Bitmap = New Bitmap(My.Resources.mensaje, 50, 50)
-            ToastNotification.Show(Me, "Por Favor Seleccione una Sucursal".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
-            cbSucursal.Focus()
-            Return False
-        End If
-        'Validar datos de factura
-        'If (TbNit.Text = String.Empty) Then
-        '    Dim img As Bitmap = New Bitmap(My.Resources.Mensaje, 50, 50)
-        '    ToastNotification.Show(Me, "Por Favor ponga el nit del cliente.".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
-        '    tbVendedor.Focus()
-        '    Return False
-        'End If
-
-        'If (TbNombre1.Text = String.Empty) Then
-        '    Dim img As Bitmap = New Bitmap(My.Resources.Mensaje, 50, 50)
-        '    ToastNotification.Show(Me, "Por Favor ponga la razon social del cliente.".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
-        '    tbVendedor.Focus()
-        '    Return False
-        'End If
-
-        If (grdetalle.RowCount = 1) Then
-            grdetalle.Row = grdetalle.RowCount - 1
-            If (grdetalle.GetValue("tbty5prod") = 0) Then
+        Try
+            If (_CodCliente <= 0) Then
                 Dim img As Bitmap = New Bitmap(My.Resources.mensaje, 50, 50)
-                ToastNotification.Show(Me, "Por Favor Seleccione  un detalle de producto".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
+                ToastNotification.Show(Me, "Por Favor Seleccione un Cliente con Ctrl+Enter".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
+                tbCliente.Focus()
+                Return False
+
+            End If
+            If (_CodEmpleado <= 0) Then
+                Dim img As Bitmap = New Bitmap(My.Resources.mensaje, 50, 50)
+                ToastNotification.Show(Me, "Por Favor Seleccione un Vendedor con Ctrl+Enter".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
+                tbVendedor.Focus()
                 Return False
             End If
+            If (cbSucursal.SelectedIndex < 0) Then
+                Dim img As Bitmap = New Bitmap(My.Resources.mensaje, 50, 50)
+                ToastNotification.Show(Me, "Por Favor Seleccione una Sucursal".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
+                cbSucursal.Focus()
+                Return False
+            End If
+            If (Convert.ToDecimal(txtMontoPagado1.Text) = 0) Then
+                Throw New Exception("El monto Pagado debe ser mayor 0")
+                Return False
+            End If
+            If (Convert.ToDecimal(txtMontoPagado1.Text) < Convert.ToDecimal(tbTotalBs.Text)) Then
+                Throw New Exception("El monto Pagado debe ser mayor al monto Total")
+                Return False
+            End If
+            'Validar datos de factura
+            'If (TbNit.Text = String.Empty) Then
+            '    Dim img As Bitmap = New Bitmap(My.Resources.Mensaje, 50, 50)
+            '    ToastNotification.Show(Me, "Por Favor ponga el nit del cliente.".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
+            '    tbVendedor.Focus()
+            '    Return False
+            'End If
 
-        End If
-        Return True
+            'If (TbNombre1.Text = String.Empty) Then
+            '    Dim img As Bitmap = New Bitmap(My.Resources.Mensaje, 50, 50)
+            '    ToastNotification.Show(Me, "Por Favor ponga la razon social del cliente.".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
+            '    tbVendedor.Focus()
+            '    Return False
+            'End If
+
+            If (grdetalle.RowCount = 1) Then
+                grdetalle.Row = grdetalle.RowCount - 1
+                If (grdetalle.GetValue("tbty5prod") = 0) Then
+                    Dim img As Bitmap = New Bitmap(My.Resources.mensaje, 50, 50)
+                    ToastNotification.Show(Me, "Por Favor Seleccione  un detalle de producto".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
+                    Return False
+                End If
+
+            End If
+            Return True
+        Catch ex As Exception
+            MostrarMensajeError(ex.Message)
+            Return False
+        End Try
+
     End Function
     Private Sub _prInsertarMontoNuevo(ByRef tabla As DataTable)
         tabla.Rows.Add(0, tbMontoBs.Value, tbMontoDolar.Value, tbMontoTarej.Value, cbCambioDolar.Text, 0)
@@ -1415,23 +1429,27 @@ Public Class F0_Venta2
         Try
             Dim numi As String = ""
             Dim tabla As DataTable = L_fnMostrarMontos(0)
+            Dim factura = gb_FacturaEmite
             _prInsertarMontoNuevo(tabla)
             ''Verifica si existe estock para los productos
             'If _prExisteStockParaProducto() Then
             Dim dtDetalle As DataTable = rearmarDetalle()
                 Dim res As Boolean = L_fnGrabarVenta(numi, "", tbFechaVenta.Value.ToString("yyyy/MM/dd"), _CodEmpleado, IIf(swTipoVenta.Value = True, 1, 0), IIf(swTipoVenta.Value = True, Now.Date.ToString("yyyy/MM/dd"), tbFechaVenc.Value.ToString("yyyy/MM/dd")), _CodCliente, IIf(swMoneda.Value = True, 1, 0), "", tbMdesc.Value, tbIce.Value, tbTotalBs.Text, dtDetalle, cbSucursal.Value, 0, tabla)
                 If res Then
-                    'res = P_fnGrabarFacturarTFV001(numi)
+                'res = P_fnGrabarFacturarTFV001(numi)
+                'Emite factura
+                If (gb_FacturaEmite) Then
                     If _CodCliente <> 86 Then
-                        If (gb_FacturaEmite) Then
-                            P_fnGenerarFactura(numi)
-                        End If
+                        P_fnGenerarFactura(numi)
                     Else
                         _prImiprimirNotaVenta(numi)
                     End If
+                Else
+                    _prImiprimirNotaVenta(numi)
+                End If
 
 
-                    Dim img As Bitmap = New Bitmap(My.Resources.checked, 50, 50)
+                Dim img As Bitmap = New Bitmap(My.Resources.checked, 50, 50)
                     ToastNotification.Show(Me, "Código de Venta ".ToUpper + tbCodigo.Text + " Grabado con Exito.".ToUpper,
                                               img, 2000,
                                               eToastGlowColor.Green,
@@ -3381,12 +3399,16 @@ salirIf:
     Private Sub btnImprimir_Click(sender As Object, e As EventArgs) Handles btnImprimir.Click
         Try
             If (Not _fnAccesible()) Then
-                If _CodCliente = 86 Then
-                    _prImiprimirNotaVenta(tbCodigo.Text)
-                    Return
-                End If
+
                 If (gb_FacturaEmite) Then
-                    If (Not P_fnValidarFacturaVigente()) Then
+                    If tbCodigo.Text = String.Empty Then
+                        Throw New Exception("Venta no encontrada")
+                    End If
+                    If _CodCliente <> 86 Then
+                        _prImiprimirNotaVenta(tbCodigo.Text)
+                        Return
+                    ElseIf (Not P_fnValidarFacturaVigente()) Then
+
                         Dim img As Bitmap = New Bitmap(My.Resources.WARNING, 50, 50)
 
                         ToastNotification.Show(Me, "No se puede imprimir la factura con numero ".ToUpper + tbNroFactura.Text + ", su factura esta anulada".ToUpper,
@@ -3395,8 +3417,10 @@ salirIf:
                                               eToastPosition.TopCenter)
                         Exit Sub
                     End If
+                    ReimprimirFactura(tbCodigo.Text, True, True)
+                Else
+                    _prImiprimirNotaVenta(tbCodigo.Text)
                 End If
-                ReimprimirFactura(tbCodigo.Text, True, True) '_Codigo de a tabla TV001
             End If
         Catch ex As Exception
             MostrarMensajeError(ex.Message)
@@ -3406,13 +3430,6 @@ salirIf:
     Private Sub TbNit_KeyPress(sender As Object, e As KeyPressEventArgs) Handles tbNit.KeyPress
         g_prValidarTextBox(1, e)
     End Sub
-
-
-    'Private Sub ButtonX1_Click(sender As Object, e As EventArgs) Handles ButtonX1.Click
-    '    If (Not _fnAccesible()) Then
-    '        P_GenerarReporte(tbCodigo.Text)
-    '    End If
-    'End Sub
 
     Private Sub swTipoVenta_Leave(sender As Object, e As EventArgs) Handles swTipoVenta.Leave
         grdetalle.Select()
