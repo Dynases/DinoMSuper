@@ -1274,7 +1274,6 @@ Public Class F0_Venta2
         contar = 0
         Try
             For i As Integer = 0 To dt.Rows.Count - 1 Step 1
-
                 Dim codProducto As Integer = dt.Rows(i).Item("tbty5prod")
                 dt.DefaultView.RowFilter = "tbty5prod =  '" + codProducto.ToString() + "'"
                 cantidadRepetido = dt.DefaultView.Count()
@@ -1291,7 +1290,8 @@ Public Class F0_Venta2
                     dtSaldos.DefaultView.Sort = "icfven ASC"
                     dtSaldos = dtSaldos.DefaultView.ToTable
                 End If
-
+                'dtSaldos.DefaultView.RowFilter = "iccven >  '" + 0.ToString() + "'"
+                'dtSaldos = dtSaldos.DefaultView.ToTable
                 Dim cantidad As Double = dt.Rows(i).Item("tbcmin")
                 Dim saldo As Double = cantidad
                 Dim estado As Integer = dt.Rows(i).Item("estado")
@@ -1325,7 +1325,7 @@ Public Class F0_Venta2
 
                             Else
                                 'Cuando el Invetanrio es menor
-                                If (k < dtSaldos.Rows.Count - 1 And inventario > 0) Then
+                                If (k <= dtSaldos.Rows.Count - 1 And inventario > 0) Then
 
                                     dtDetalle.ImportRow(dt.Rows(i))
                                     Dim pos As Integer = dtDetalle.Rows.Count - 1
@@ -1346,30 +1346,24 @@ Public Class F0_Venta2
                                     saldo = saldo - inventario
                                     'Actualiza el inventario en la Tabla
                                     dtSaldos.Rows(k).Item("iccven") = dtSaldos.Rows(k).Item("iccven") - inventario
-                                Else
-
-                                    'dtDetalle.ImportRow(dt.Rows(i))
-                                    'Dim pos As Integer = dtDetalle.Rows.Count - 1
-
-                                    'Dim precio As Double = dtDetalle.Rows(pos).Item("tbpbas")
-                                    'Dim total As Decimal = CStr(Format(precio * saldo, "####0.00"))
-                                    'dtDetalle.Rows(pos).Item("tbptot") = total
-                                    'dtDetalle.Rows(pos).Item("tbtotdesc") = total
-                                    ''CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbtotdesc") = total
-                                    ''CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbcmin") = saldo
-                                    'dtDetalle.Rows(pos).Item("tbcmin") = saldo
-
-                                    'Dim precioCosto As Double = dtDetalle.Rows(pos).Item("tbpcos")
-                                    'dtDetalle.Rows(pos).Item("tbptot2") = precioCosto * saldo
-                                    'dtDetalle.Rows(pos).Item("tblote") = dtSaldos.Rows(k).Item("iclot")
-                                    'dtDetalle.Rows(pos).Item("tbfechaVenc") = dtSaldos.Rows(k).Item("icfven")
-
-                                    'saldo = 0
-                                    'ResultadoInventario = IIf(saldo = 0, False, True)
                                 End If
                             End If
                             k += 1
                         End While
+                        If saldo <> 0 Then
+                            dtDetalle.ImportRow(dt.Rows(i))
+                            Dim pos As Integer = dtDetalle.Rows.Count - 1
+                            Dim precio As Double = dtDetalle.Rows(pos).Item("tbpbas")
+                            Dim total As Decimal = CStr(Format(precio * saldo, "####0.00"))
+                            dtDetalle.Rows(pos).Item("tbptot") = total
+                            dtDetalle.Rows(pos).Item("tbtotdesc") = total
+                            dtDetalle.Rows(pos).Item("tbcmin") = saldo
+                            Dim precioCosto As Double = dtDetalle.Rows(pos).Item("tbpcos")
+                            dtDetalle.Rows(pos).Item("tbptot2") = precioCosto * saldo
+                            dtDetalle.Rows(pos).Item("tblote") = dtSaldos.Rows(k - 1).Item("iclot")
+                            dtDetalle.Rows(pos).Item("tbfechaVenc") = dtSaldos.Rows(k - 1).Item("icfven")
+                            saldo = 0
+                        End If
                     End If
                 End If
             Next
@@ -1379,43 +1373,81 @@ Public Class F0_Venta2
             Return dtDetalle
         End Try
     End Function
+    Private Function _prExisteStockParaProducto() As Boolean
+        Dim dtSaldos As DataTable
+        Dim aux As Integer = 0
+        Dim detalle = CType(grdetalle.DataSource, DataTable)
+        Dim Lmensaje As List(Of String) = New List(Of String)
+        detalle.DefaultView.RowFilter = "estado >= '" + 0.ToString() + "'"
+        detalle = detalle.DefaultView.ToTable
+        For Each fila As DataRow In detalle.Rows
+            Dim idProducto = fila.Item("tbty5prod")
+            If aux <> idProducto Then
+                dtSaldos = L_fnObteniendoSaldosTI001(fila.Item("tbty5prod"), 1)
+                Dim inventario = dtSaldos.Compute("SUM(iccven)", String.Empty)
 
+                detalle.DefaultView.RowFilter = "tbty5prod = '" + fila.Item("tbty5prod").ToString() + "'"
+                Dim productoRepeditos = detalle.DefaultView.ToTable
+                Dim saldo = productoRepeditos.Compute("SUM(tbcmin)", String.Empty)
+                'Dim saldo = fila.Item("tbcmin")
+                If inventario < saldo Then
+                    Dim mensaje As String = "No existe stock para el producto: " + fila.Item("producto") + " stock actual = " + inventario.ToString()
+                    Lmensaje.Add(mensaje)
+                    'Throw New Exception("No existe stock para el producto:" + fila.Item("producto") + " stock actual =" + inventario)
+                End If
+            End If
+            aux = idProducto
+            'dtSaldos.Select = "icfven ASC"
+            'dtSaldos = dtSaldos.DefaultView.ToTable
+        Next
+        If Lmensaje.Count > 0 Then
+            Dim mensaje = ""
+            For Each item As String In Lmensaje
+                mensaje = mensaje + "- " + item + vbCrLf
+            Next
+            MostrarMensajeError(mensaje)
+            Return False
+        End If
+        Return True
+    End Function
 
     Public Sub _GuardarNuevo()
         Try
             Dim numi As String = ""
             Dim tabla As DataTable = L_fnMostrarMontos(0)
             _prInsertarMontoNuevo(tabla)
+            ''Verifica si existe estock para los productos
+            'If _prExisteStockParaProducto() Then
             Dim dtDetalle As DataTable = rearmarDetalle()
-
-            Dim res As Boolean = L_fnGrabarVenta(numi, "", tbFechaVenta.Value.ToString("yyyy/MM/dd"), _CodEmpleado, IIf(swTipoVenta.Value = True, 1, 0), IIf(swTipoVenta.Value = True, Now.Date.ToString("yyyy/MM/dd"), tbFechaVenc.Value.ToString("yyyy/MM/dd")), _CodCliente, IIf(swMoneda.Value = True, 1, 0), "", tbMdesc.Value, tbIce.Value, tbTotalBs.Text, dtDetalle, cbSucursal.Value, 0, tabla)
-            If res Then
-                'res = P_fnGrabarFacturarTFV001(numi)
-                If _CodCliente <> 86 Then
-                    If (gb_FacturaEmite) Then
-                        P_fnGenerarFactura(numi)
+                Dim res As Boolean = L_fnGrabarVenta(numi, "", tbFechaVenta.Value.ToString("yyyy/MM/dd"), _CodEmpleado, IIf(swTipoVenta.Value = True, 1, 0), IIf(swTipoVenta.Value = True, Now.Date.ToString("yyyy/MM/dd"), tbFechaVenc.Value.ToString("yyyy/MM/dd")), _CodCliente, IIf(swMoneda.Value = True, 1, 0), "", tbMdesc.Value, tbIce.Value, tbTotalBs.Text, dtDetalle, cbSucursal.Value, 0, tabla)
+                If res Then
+                    'res = P_fnGrabarFacturarTFV001(numi)
+                    If _CodCliente <> 86 Then
+                        If (gb_FacturaEmite) Then
+                            P_fnGenerarFactura(numi)
+                        End If
+                    Else
+                        _prImiprimirNotaVenta(numi)
                     End If
+
+
+                    Dim img As Bitmap = New Bitmap(My.Resources.checked, 50, 50)
+                    ToastNotification.Show(Me, "Código de Venta ".ToUpper + tbCodigo.Text + " Grabado con Exito.".ToUpper,
+                                              img, 2000,
+                                              eToastGlowColor.Green,
+                                              eToastPosition.TopCenter
+                                              )
+
+                    _prCargarVenta()
+                    _Limpiar()
+                    Table_Producto = Nothing
+
                 Else
-                    _prImiprimirNotaVenta(numi)
+                    Dim img As Bitmap = New Bitmap(My.Resources.cancel, 50, 50)
+                    ToastNotification.Show(Me, "La Venta no pudo ser insertado".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
+
                 End If
-
-
-                Dim img As Bitmap = New Bitmap(My.Resources.checked, 50, 50)
-                ToastNotification.Show(Me, "Código de Venta ".ToUpper + tbCodigo.Text + " Grabado con Exito.".ToUpper,
-                                          img, 2000,
-                                          eToastGlowColor.Green,
-                                          eToastPosition.TopCenter
-                                          )
-
-                _prCargarVenta()
-                _Limpiar()
-                Table_Producto = Nothing
-
-            Else
-                Dim img As Bitmap = New Bitmap(My.Resources.cancel, 50, 50)
-                ToastNotification.Show(Me, "La Venta no pudo ser insertado".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
-
-            End If
+            'End If
         Catch ex As Exception
             MostrarMensajeError(ex.Message)
         End Try
@@ -3134,7 +3166,8 @@ salirIf:
                     If (grdetalle.GetValue("tbcmin") > 0) Then
 
                         Dim cant As Integer = grdetalle.GetValue("tbcmin")
-                        Dim stock As Integer = grdetalle.GetValue("stock")
+
+                        Dim stock As Double = grdetalle.GetValue("stock")
                         If (cant > stock) And stock <> -9999 Then
                             Dim lin As Integer = grdetalle.GetValue("tbnumi")
                             Dim pos As Integer = -1

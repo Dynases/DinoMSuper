@@ -382,7 +382,7 @@ Public Class F1_Proveedor
             nameImg = "Default.jpg"
 
             Dim img As Bitmap = New Bitmap(My.Resources.checked, 50, 50)
-            ToastNotification.Show(Me, "Código de Cliente ".ToUpper + tbCodigoOriginal.Text + " Grabado con Exito.".ToUpper,
+            ToastNotification.Show(Me, "Código de Proveedor ".ToUpper + tbCodigoOriginal.Text + " Grabado con Exito.".ToUpper,
                                       img, 2000,
                                       eToastGlowColor.Green,
                                       eToastPosition.TopCenter
@@ -391,7 +391,7 @@ Public Class F1_Proveedor
 
         Else
             Dim img As Bitmap = New Bitmap(My.Resources.cancel, 50, 50)
-            ToastNotification.Show(Me, "El producto no pudo ser insertado".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
+            ToastNotification.Show(Me, "El Proveedor no pudo ser insertado".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
 
         End If
         Return res
@@ -420,7 +420,7 @@ Public Class F1_Proveedor
             nameImg = "Default.jpg"
 
             Dim img As Bitmap = New Bitmap(My.Resources.checked, 50, 50)
-            ToastNotification.Show(Me, "Código de Cliente ".ToUpper + tbCodigoOriginal.Text + " modificado con Exito.".ToUpper,
+            ToastNotification.Show(Me, "Código de Proveedor ".ToUpper + tbCodigoOriginal.Text + " modificado con Exito.".ToUpper,
                                       img, 2000,
                                       eToastGlowColor.Green,
                                       eToastPosition.TopCenter)
@@ -428,7 +428,7 @@ Public Class F1_Proveedor
             _PMPrimerRegistro()
         Else
             Dim img As Bitmap = New Bitmap(My.Resources.cancel, 50, 50)
-            ToastNotification.Show(Me, "EL Cliente no pudo ser modificado".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
+            ToastNotification.Show(Me, "EL Proveedor no pudo ser modificado".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
 
         End If
         Return res
@@ -472,7 +472,7 @@ Public Class F1_Proveedor
 
                 Dim img As Bitmap = New Bitmap(My.Resources.checked, 50, 50)
 
-                ToastNotification.Show(Me, "Código de Cliente ".ToUpper + tbCodigoOriginal.Text + " eliminado con Exito.".ToUpper,
+                ToastNotification.Show(Me, "Código de Proveedor ".ToUpper + tbCodigoOriginal.Text + " eliminado con Exito.".ToUpper,
                                           img, 2000,
                                           eToastGlowColor.Green,
                                           eToastPosition.TopCenter)
@@ -492,7 +492,7 @@ Public Class F1_Proveedor
 
         If tbNombre.Text = String.Empty Then
             tbNombre.BackColor = Color.Red
-            MEP.SetError(tbNombre, "ingrese el nombre del Usuario!".ToUpper)
+            MEP.SetError(tbNombre, "ingrese el nombre del Proveedor!".ToUpper)
             _ok = False
         Else
             tbNombre.BackColor = Color.White
@@ -686,21 +686,13 @@ Public Class F1_Proveedor
 
     Private Sub Gmc_Cliente_DoubleClick(sender As Object, e As EventArgs) Handles Gmc_Cliente.DoubleClick
         If (btnGrabar.Enabled = True) Then
-
-
             _Overlay.Markers.Clear()
-
             Dim gm As GMapControl = CType(sender, GMapControl)
             Dim hj As MouseEventArgs = CType(e, MouseEventArgs)
             Dim plg As PointLatLng = gm.FromLocalToLatLng(hj.X, hj.Y)
             _latitud = plg.Lat
             _longitud = plg.Lng
-            ''  MsgBox("latitud:" + Str(plg.Lat) + "   Logitud:" + Str(plg.Lng))
-
             P_AgregarPunto(plg, "", "")
-
-            '' _ListPuntos.Add(plg)
-            'Btnx_ChekGetPoint.Visible = False
         End If
     End Sub
 
