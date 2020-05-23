@@ -3404,7 +3404,7 @@ salirIf:
                     If tbCodigo.Text = String.Empty Then
                         Throw New Exception("Venta no encontrada")
                     End If
-                    If _CodCliente <> 86 Then
+                    If _CodCliente = 86 Then
                         _prImiprimirNotaVenta(tbCodigo.Text)
                         Return
                     ElseIf (Not P_fnValidarFacturaVigente()) Then
