@@ -2099,7 +2099,7 @@ Public Class F0_Venta2
         _Fecha = Split(_FechaAct, "-")
         _FechaPar = "Cochabamba, " + _Fecha(0).Trim + " De " + _Meses(_Fecha(1) - 1).Trim + " Del " + _Fecha(2).Trim
 
-        Dim objrep As New R_NotaVenta_MediaCarta
+        Dim objrep As New R_NotaVenta_7_5X100
         objrep.SetDataSource(dt)
         'objrep.SetParameterValue("Literal1", li)
         'objrep.SetParameterValue("usuario", gs_user)
