@@ -787,17 +787,13 @@ Public Class F0_Movimiento
     End Sub
     Sub _prGuardarTraspaso()
         Dim numi As String = ""
-        Dim res As Boolean = L_prMovimientoChoferGrabar(numi, tbFecha.Value.ToString("yyyy/MM/dd"), cbConcepto.Value, tbObservacion.Text, cbAlmacenOrigen.Value, cbDepositoDestino.Value, 0)
+        Dim res As Boolean = L_prMovimientoChoferGrabar(numi, tbFecha.Value.ToString("yyyy/MM/dd"), cbConcepto.Value, tbObservacion.Text, cbAlmacenOrigen.Value, cbDepositoDestino.Value, 0, CType(grdetalle.DataSource, DataTable))
         If res Then
-            If (numi <> String.Empty) Then
-                _prGardarDetalleAbm(numi)
-            End If
+
             Dim numDestino As String = ""
-            Dim resDestino As Boolean = L_prMovimientoChoferGrabar(numDestino, tbFecha.Value.ToString("yyyy/MM/dd"), 5, tbObservacion.Text, cbDepositoDestino.Value, cbAlmacenOrigen.Value, numi)
+            Dim resDestino As Boolean = L_prMovimientoChoferGrabar(numDestino, tbFecha.Value.ToString("yyyy/MM/dd"), 5, tbObservacion.Text, cbDepositoDestino.Value, cbAlmacenOrigen.Value, numi, CType(grdetalle.DataSource, DataTable))
             If resDestino Then
-                If (numDestino <> String.Empty) Then
-                    _prGardarDetalleAbm(numDestino)
-                End If
+
                 _prCargarVenta()
 
                 _Limpiar()
@@ -823,11 +819,9 @@ Public Class F0_Movimiento
 
         End If
         Dim numi As String = ""
-        Dim res As Boolean = L_prMovimientoChoferGrabar(numi, tbFecha.Value.ToString("yyyy/MM/dd"), cbConcepto.Value, tbObservacion.Text, cbAlmacenOrigen.Value, 0, 0)
+        Dim res As Boolean = L_prMovimientoChoferGrabar(numi, tbFecha.Value.ToString("yyyy/MM/dd"), cbConcepto.Value, tbObservacion.Text, cbAlmacenOrigen.Value, 0, 0, CType(grdetalle.DataSource, DataTable))
         If res Then
-            If (numi <> String.Empty) Then
-                _prGardarDetalleAbm(numi)
-            End If
+
             _prCargarVenta()
 
             _Limpiar()
@@ -838,17 +832,16 @@ Public Class F0_Movimiento
                                       eToastPosition.TopCenter
                                       )
         Else
-            Dim img As Bitmap = New Bitmap(My.Resources.CANCEL, 50, 50)
+            Dim img As Bitmap = New Bitmap(My.Resources.cancel, 50, 50)
             ToastNotification.Show(Me, "El Movimiento no pudo ser insertado".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
         End If
 
 
     End Sub
     Private Sub _prGuardarModificado()
-        Dim res As Boolean = L_prMovimientoModificar(tbCodigo.Text, tbFecha.Value.ToString("yyyy/MM/dd"), cbConcepto.Value, tbObservacion.Text, cbAlmacenOrigen.Value)
+        Dim res As Boolean = L_prMovimientoModificar(tbCodigo.Text, tbFecha.Value.ToString("yyyy/MM/dd"), cbConcepto.Value, tbObservacion.Text, cbAlmacenOrigen.Value, CType(grdetalle.DataSource, DataTable))
         If res Then
 
-            _prGardarDetalleAbm(tbCodigo.Text)
             _prCargarVenta()
 
             _prSalir()

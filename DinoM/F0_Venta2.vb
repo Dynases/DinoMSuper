@@ -1166,15 +1166,30 @@ Public Class F0_Venta2
     End Sub
     Public Sub _prCalcularPrecioTotal()
         'grdetalle.UpdateData()
+
+
+
+        Dim TotalDescuento As Double = 0
+        Dim TotalCosto As Double = 0
+        Dim dt As DataTable = CType(grdetalle.DataSource, DataTable)
+        For i As Integer = 0 To dt.Rows.Count - 1 Step 1
+
+            If (dt.Rows(i).Item("estado") >= 0) Then
+                TotalDescuento = TotalDescuento + dt.Rows(i).Item("tbtotdesc")
+                TotalCosto = TotalDescuento + dt.Rows(i).Item("tbptot2")
+            End If
+        Next
         Dim montoDo As Decimal
         Dim montodesc As Double = tbMdesc.Value
-        Dim pordesc As Double = ((montodesc * 100) / grdetalle.GetTotal(grdetalle.RootTable.Columns("tbtotdesc"), AggregateFunction.Sum))
+        Dim pordesc As Double = ((montodesc * 100) / TotalDescuento)
         tbPdesc.Value = pordesc
-        Dim total = Convert.ToDouble(Format(grdetalle.GetTotal(grdetalle.RootTable.Columns("tbtotdesc"), AggregateFunction.Sum), "0.00"))
-        tbTotalBs.Text = total.ToString()
+        Dim subtotal = Convert.ToDouble(Format(TotalDescuento, "0.00"))
+        tbSubTotal.Value = subtotal
+
+        tbTotalBs.Text = tbSubTotal.Value - montodesc
         montoDo = Convert.ToDecimal(tbTotalBs.Text) / IIf(cbCambioDolar.Text = "", 1, Convert.ToDecimal(cbCambioDolar.Text))
         tbTotalDo.Text = Format(montoDo, "0.00")
-        tbIce.Value = grdetalle.GetTotal(grdetalle.RootTable.Columns("tbptot2"), AggregateFunction.Sum) * (gi_ICE / 100)
+        tbIce.Value = TotalCosto * (gi_ICE / 100)
         'If (gb_FacturaIncluirICE = True) Then
         '    'tbTotal21.Value = grdetalle.GetTotal(grdetalle.RootTable.Columns("tbtotdesc"), AggregateFunction.Sum) - montodesc + tbIce.Value
         '    tbTotalBs.Text = grdetalle.GetTotal(grdetalle.RootTable.Columns("tbtotdesc"), AggregateFunction.Sum) - montodesc + tbIce.Value
@@ -1182,6 +1197,8 @@ Public Class F0_Venta2
         '    'tbTotal2.Text = grdetalle.GetTotal(grdetalle.RootTable.Columns("tbtotdesc"), AggregateFunction.Sum) - montodesc
         '    'tbTotalBs.Text = Convert.ToDecimal(tbTotalBs.Text) - montodesc
         'End If
+
+        calcularCambio()
     End Sub
     Public Sub _prEliminarFila()
         If (grdetalle.Row >= 0) Then
@@ -1268,6 +1285,16 @@ Public Class F0_Venta2
         End Try
 
     End Function
+    Sub calcularCambio()
+        If tbMontoBs.Value <> 0 And tbMontoBs.Text <> String.Empty Then
+            txtMontoPagado1.Text = tbMontoBs.Value + (tbMontoDolar.Value * IIf(cbCambioDolar.Text = "", 0, Convert.ToDecimal(cbCambioDolar.Text))) + tbMontoTarej.Value
+            If Convert.ToDecimal(tbTotalBs.Text) <> 0 And Convert.ToDecimal(txtMontoPagado1.Text) >= Convert.ToDecimal(tbTotalBs.Text) Then
+                txtCambio1.Text = Convert.ToDecimal(txtMontoPagado1.Text) - Convert.ToDecimal(tbTotalBs.Text)
+            Else
+                txtCambio1.Text = "0.00"
+            End If
+        End If
+    End Sub
     Private Sub _prInsertarMontoNuevo(ByRef tabla As DataTable)
         tabla.Rows.Add(0, tbMontoBs.Value, tbMontoDolar.Value, tbMontoTarej.Value, cbCambioDolar.Text, 0)
     End Sub
@@ -1288,98 +1315,103 @@ Public Class F0_Venta2
         contar = 0
         Try
             For i As Integer = 0 To dt.Rows.Count - 1 Step 1
-                Dim codProducto As Integer = dt.Rows(i).Item("tbty5prod")
-                dt.DefaultView.RowFilter = "tbty5prod =  '" + codProducto.ToString() + "'"
-                cantidadRepetido = dt.DefaultView.Count()
-                If IdAux <> codProducto Then
-                    contar = 1
-                Else
-                    contar += 1
-                End If
-                IdAux = codProducto
 
-                'Evita llamar a saldo cada iteracion
-                If contar = 1 Then
-                    dtSaldos = L_fnObteniendoSaldosTI001(codProducto, 1)
-                    dtSaldos.DefaultView.Sort = "icfven ASC"
-                    dtSaldos = dtSaldos.DefaultView.ToTable
-                End If
-                'dtSaldos.DefaultView.RowFilter = "iccven >  '" + 0.ToString() + "'"
-                'dtSaldos = dtSaldos.DefaultView.ToTable
-                Dim cantidad As Double = dt.Rows(i).Item("tbcmin")
-                Dim saldo As Double = cantidad
-                Dim estado As Integer = dt.Rows(i).Item("estado")
-                Dim k As Integer = 0
-                If (estado >= 0) Then
-                    If (dtSaldos.Rows.Count <= 0) Then
-                        dtDetalle.ImportRow(dt.Rows(i))
+                If (dt.Rows(i).Item("estado") >= 0) Then
+                    Dim codProducto As Integer = dt.Rows(i).Item("tbty5prod")
+                    dt.DefaultView.RowFilter = "tbty5prod =  '" + codProducto.ToString() + "'"
+                    cantidadRepetido = dt.DefaultView.Count()
+                    If IdAux <> codProducto Then
+                        contar = 1
                     Else
-                        While (k <= dtSaldos.Rows.Count - 1 And saldo > 0)
+                        contar += 1
+                    End If
+                    IdAux = codProducto
 
-                            Dim inventario As Double = dtSaldos.Rows(k).Item("iccven")
-                            If (inventario >= saldo) Then
-                                dtDetalle.ImportRow(dt.Rows(i))
-                                Dim pos As Integer = dtDetalle.Rows.Count - 1
+                    'Evita llamar a saldo cada iteracion
+                    If contar = 1 Then
+                        dtSaldos = L_fnObteniendoSaldosTI001(codProducto, 1)
+                        dtSaldos.DefaultView.Sort = "icfven ASC"
+                        dtSaldos = dtSaldos.DefaultView.ToTable
+                    End If
+                    'dtSaldos.DefaultView.RowFilter = "iccven >  '" + 0.ToString() + "'"
+                    'dtSaldos = dtSaldos.DefaultView.ToTable
+                    Dim cantidad As Double = dt.Rows(i).Item("tbcmin")
+                    Dim saldo As Double = cantidad
+                    Dim estado As Integer = dt.Rows(i).Item("estado")
+                    Dim k As Integer = 0
+                    If (estado >= 0) Then
+                        If (dtSaldos.Rows.Count <= 0) Then
+                            dtDetalle.ImportRow(dt.Rows(i))
+                        Else
+                            While (k <= dtSaldos.Rows.Count - 1 And saldo > 0)
 
-                                Dim precio As Double = dtDetalle.Rows(pos).Item("tbpbas")
-                                Dim total As Decimal = CStr(Format(precio * saldo, "####0.00"))
-
-                                dtDetalle.Rows(pos).Item("tbptot") = total
-                                dtDetalle.Rows(pos).Item("tbtotdesc") = total
-                                'CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbtotdesc") = total
-                                'CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbcmin") = saldo
-                                dtDetalle.Rows(pos).Item("tbcmin") = saldo
-
-                                Dim precioCosto As Double = dtDetalle.Rows(pos).Item("tbpcos")
-                                dtDetalle.Rows(pos).Item("tbptot2") = precioCosto * saldo
-                                dtDetalle.Rows(pos).Item("tblote") = dtSaldos.Rows(k).Item("iclot")
-                                dtDetalle.Rows(pos).Item("tbfechaVenc") = dtSaldos.Rows(k).Item("icfven")
-                                dtSaldos.Rows(k).Item("iccven") = inventario - saldo
-                                saldo = 0
-
-                            Else
-                                'Cuando el Invetanrio es menor
-                                If (k <= dtSaldos.Rows.Count - 1 And inventario > 0) Then
-
+                                Dim inventario As Double = dtSaldos.Rows(k).Item("iccven")
+                                If (inventario >= saldo) Then
                                     dtDetalle.ImportRow(dt.Rows(i))
                                     Dim pos As Integer = dtDetalle.Rows.Count - 1
 
                                     Dim precio As Double = dtDetalle.Rows(pos).Item("tbpbas")
-                                    Dim total As Decimal = CStr(Format(precio * inventario, "####0.00"))
+                                    Dim total As Decimal = CStr(Format(precio * saldo, "####0.00"))
+
                                     dtDetalle.Rows(pos).Item("tbptot") = total
                                     dtDetalle.Rows(pos).Item("tbtotdesc") = total
                                     'CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbtotdesc") = total
-                                    'CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbcmin") = inventario
-                                    dtDetalle.Rows(pos).Item("tbcmin") = inventario
+                                    'CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbcmin") = saldo
+                                    dtDetalle.Rows(pos).Item("tbcmin") = saldo
 
                                     Dim precioCosto As Double = dtDetalle.Rows(pos).Item("tbpcos")
-                                    dtDetalle.Rows(pos).Item("tbptot2") = precioCosto * inventario
+                                    dtDetalle.Rows(pos).Item("tbptot2") = precioCosto * saldo
                                     dtDetalle.Rows(pos).Item("tblote") = dtSaldos.Rows(k).Item("iclot")
                                     dtDetalle.Rows(pos).Item("tbfechaVenc") = dtSaldos.Rows(k).Item("icfven")
+                                    dtSaldos.Rows(k).Item("iccven") = inventario - saldo
+                                    saldo = 0
 
-                                    saldo = saldo - inventario
-                                    'Actualiza el inventario en la Tabla
-                                    dtSaldos.Rows(k).Item("iccven") = dtSaldos.Rows(k).Item("iccven") - inventario
+                                Else
+                                    'Cuando el Invetanrio es menor
+                                    If (k <= dtSaldos.Rows.Count - 1 And inventario > 0) Then
+
+                                        dtDetalle.ImportRow(dt.Rows(i))
+                                        Dim pos As Integer = dtDetalle.Rows.Count - 1
+
+                                        Dim precio As Double = dtDetalle.Rows(pos).Item("tbpbas")
+                                        Dim total As Decimal = CStr(Format(precio * inventario, "####0.00"))
+                                        dtDetalle.Rows(pos).Item("tbptot") = total
+                                        dtDetalle.Rows(pos).Item("tbtotdesc") = total
+                                        'CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbtotdesc") = total
+                                        'CType(grdetalle.DataSource, DataTable).Rows(pos).Item("tbcmin") = inventario
+                                        dtDetalle.Rows(pos).Item("tbcmin") = inventario
+
+                                        Dim precioCosto As Double = dtDetalle.Rows(pos).Item("tbpcos")
+                                        dtDetalle.Rows(pos).Item("tbptot2") = precioCosto * inventario
+                                        dtDetalle.Rows(pos).Item("tblote") = dtSaldos.Rows(k).Item("iclot")
+                                        dtDetalle.Rows(pos).Item("tbfechaVenc") = dtSaldos.Rows(k).Item("icfven")
+
+                                        saldo = saldo - inventario
+                                        'Actualiza el inventario en la Tabla
+                                        dtSaldos.Rows(k).Item("iccven") = dtSaldos.Rows(k).Item("iccven") - inventario
+                                    End If
                                 End If
+                                k += 1
+                            End While
+                            If saldo <> 0 Then
+                                dtDetalle.ImportRow(dt.Rows(i))
+                                Dim pos As Integer = dtDetalle.Rows.Count - 1
+                                Dim precio As Double = dtDetalle.Rows(pos).Item("tbpbas")
+                                Dim total As Decimal = CStr(Format(precio * saldo, "####0.00"))
+                                dtDetalle.Rows(pos).Item("tbptot") = total
+                                dtDetalle.Rows(pos).Item("tbtotdesc") = total
+                                dtDetalle.Rows(pos).Item("tbcmin") = saldo
+                                Dim precioCosto As Double = dtDetalle.Rows(pos).Item("tbpcos")
+                                dtDetalle.Rows(pos).Item("tbptot2") = precioCosto * saldo
+                                dtDetalle.Rows(pos).Item("tblote") = dtSaldos.Rows(k - 1).Item("iclot")
+                                dtDetalle.Rows(pos).Item("tbfechaVenc") = dtSaldos.Rows(k - 1).Item("icfven")
+                                saldo = 0
                             End If
-                            k += 1
-                        End While
-                        If saldo <> 0 Then
-                            dtDetalle.ImportRow(dt.Rows(i))
-                            Dim pos As Integer = dtDetalle.Rows.Count - 1
-                            Dim precio As Double = dtDetalle.Rows(pos).Item("tbpbas")
-                            Dim total As Decimal = CStr(Format(precio * saldo, "####0.00"))
-                            dtDetalle.Rows(pos).Item("tbptot") = total
-                            dtDetalle.Rows(pos).Item("tbtotdesc") = total
-                            dtDetalle.Rows(pos).Item("tbcmin") = saldo
-                            Dim precioCosto As Double = dtDetalle.Rows(pos).Item("tbpcos")
-                            dtDetalle.Rows(pos).Item("tbptot2") = precioCosto * saldo
-                            dtDetalle.Rows(pos).Item("tblote") = dtSaldos.Rows(k - 1).Item("iclot")
-                            dtDetalle.Rows(pos).Item("tbfechaVenc") = dtSaldos.Rows(k - 1).Item("icfven")
-                            saldo = 0
                         End If
                     End If
                 End If
+
+
             Next
             Return dtDetalle
         Catch ex As Exception
