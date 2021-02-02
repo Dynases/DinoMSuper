@@ -163,49 +163,42 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\DotNetBar for Windows Forms\DevComponents.TreeGX.dll</HintPath>
     </Reference>
-    <Reference Include="FlashControlV71, Version=1.0.3187.32366, Culture=neutral, PublicKeyToken=692fbea5521e1304">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\SAP BusinessObjects\Crystal Reports for .NET Framework 4.0\Common\SAP BusinessObjects Enterprise XI 4.0\win32_x86\dotnet\FlashControlV71.dll</HintPath>
+    <Reference Include="FlashControlV71">
+      <HintPath>C:\librerias\FlashControlV71.dll</HintPath>
     </Reference>
     <Reference Include="Gma.QrCodeNet.Encoding">
-      <HintPath>C:\librerias\Gma.QrCodeNet.Encoding.dll</HintPath>
+      <HintPath>C:\librerias\QrCode\Gma.QrCodeNet.Encoding.dll</HintPath>
     </Reference>
     <Reference Include="GMap.NET.Core">
-      <HintPath>C:\librerias\GMap.NET.Core.dll</HintPath>
+      <HintPath>C:\librerias\Gmap\GMap.NET.Core.dll</HintPath>
     </Reference>
     <Reference Include="GMap.NET.WindowsForms">
-      <HintPath>C:\librerias\GMap.NET.WindowsForms.dll</HintPath>
+      <HintPath>C:\librerias\Gmap\GMap.NET.WindowsForms.dll</HintPath>
     </Reference>
-    <Reference Include="Interop.AcroPDFLib">
-      <HintPath>..\..\..\..\DINASES\Librerias\PDF\Interop.AcroPDFLib.dll</HintPath>
+    <Reference Include="Interop.AcroPDFLib.1.0">
+      <HintPath>C:\librerias\PDF\Interop.AcroPDFLib.1.0.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Janus.Data.v3, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\librerias\Janus.Data.v3.dll</HintPath>
+    <Reference Include="Janus.Data.v3">
+      <HintPath>C:\librerias\Janus\Janus.Data.v3.dll</HintPath>
     </Reference>
-    <Reference Include="Janus.Windows.CalendarCombo.v3, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\librerias\Janus.Windows.CalendarCombo.v3.dll</HintPath>
+    <Reference Include="Janus.Windows.CalendarCombo.v3">
+      <HintPath>C:\librerias\Janus\Janus.Windows.CalendarCombo.v3.dll</HintPath>
     </Reference>
-    <Reference Include="Janus.Windows.Common.v3, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\librerias\Janus.Windows.Common.v3.dll</HintPath>
+    <Reference Include="Janus.Windows.Common.v3">
+      <HintPath>C:\librerias\Janus\Janus.Windows.Common.v3.dll</HintPath>
     </Reference>
-    <Reference Include="Janus.Windows.GridEX.v3, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\librerias\Janus.Windows.GridEX.v3.dll</HintPath>
+    <Reference Include="Janus.Windows.GridEX.v3">
+      <HintPath>C:\librerias\Janus\Janus.Windows.GridEX.v3.dll</HintPath>
     </Reference>
-    <Reference Include="Janus.Windows.Ribbon.v3, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\librerias\Janus.Windows.Ribbon.v3.dll</HintPath>
+    <Reference Include="Janus.Windows.Ribbon.v3">
+      <HintPath>C:\librerias\Janus\Janus.Windows.Ribbon.v3.dll</HintPath>
     </Reference>
-    <Reference Include="Janus.Windows.UI.v3, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\librerias\Janus.Windows.UI.v3.dll</HintPath>
+    <Reference Include="Janus.Windows.UI.v3">
+      <HintPath>C:\librerias\Janus\Janus.Windows.UI.v3.dll</HintPath>
     </Reference>
     <Reference Include="OnBarcode.Barcode.WinForms">
-      <HintPath>C:\librerias\OnBarcode.Barcode.WinForms.dll</HintPath>
+      <HintPath>C:\librerias\QrCode\OnBarcode.Barcode.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="SAPBusinessObjects.WPF.Viewer, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
