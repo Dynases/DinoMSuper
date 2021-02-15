@@ -64,13 +64,14 @@ Public Class MetodoDatos
         Dim _adaptador As New SqlDataAdapter 'SqlDataAdapter()
             _adaptador.SelectCommand = Comando
 
-            _adaptador.Fill(_tabla)
-            'Catch ex As Exception
-            '    MsgBox(ex.Message)
-            '    'Finally
-            '    '    Comando.Connection.Close()
-            'End Try
-            Return _tabla
+        _adaptador.Fill(_tabla)
+        Comando.CommandTimeout = 0
+        'Catch ex As Exception
+        '    MsgBox(ex.Message)
+        '    'Finally
+        '    '    Comando.Connection.Close()
+        'End Try
+        Return _tabla
     End Function
 
 End Class

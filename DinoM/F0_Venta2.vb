@@ -1276,8 +1276,19 @@ Public Class F0_Venta2
                     ToastNotification.Show(Me, "Por Favor Seleccione  un detalle de producto".ToUpper, img, 2000, eToastGlowColor.Red, eToastPosition.BottomCenter)
                     Return False
                 End If
-
             End If
+
+            'Validación para controlar caducidad de Dosificacion
+            If tbNit.Text <> String.Empty Then
+                Dim fecha As String = Now.Date
+                Dim dtDosificacion As DataSet = L_Dosificacion("1", "1", fecha)
+                If dtDosificacion.Tables(0).Rows.Count = 0 Then
+                    Dim img As Bitmap = New Bitmap(My.Resources.mensaje, 50, 50)
+                    ToastNotification.Show(Me, "La Dosificación para las facturas ya caducó, ingrese nueva dosificación".ToUpper, img, 3500, eToastGlowColor.Red, eToastPosition.BottomCenter)
+                    Return False
+                End If
+            End If
+
             Return True
         Catch ex As Exception
             MostrarMensajeError(ex.Message)
@@ -1858,8 +1869,8 @@ Public Class F0_Venta2
             objrep.SetParameterValue("EDuenho", _Ds2.Tables(0).Rows(0).Item("scnom").ToString) '?
             'objrep.SetParameterValue("URLImageLogo", gs_CarpetaRaiz + "\LogoFactura.jpg")
             'objrep.SetParameterValue("URLImageMarcaAgua", gs_CarpetaRaiz + "\MarcaAguaFactura.jpg")
-            objrep.SetParameterValue("ENota", "''" + "ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAÍS EL USO ILÍCITO DE ÉSTA SERÁ SANCIONADO DE ACUERDO A LA LEY" + "''")
-            objrep.SetParameterValue("ELey", "''" + "Ley N° 453: " + "El proveedor debe brindar atención sin discriminación, con respeto, calidez y cordialidad a los usuarios y consumidores." + "''")
+            objrep.SetParameterValue("ENota", _Ds1.Tables(0).Rows(0).Item("sbnota").ToString)
+            objrep.SetParameterValue("ELey", _Ds1.Tables(0).Rows(0).Item("sbnota2").ToString)
 
             If (_Ds3.Tables(0).Rows(0).Item("cbvp")) Then 'Vista Previa de la Ventana de Vizualización 1 = True 0 = False
                 P_Global.Visualizador.CrGeneral.ReportSource = objrep 'Comentar
@@ -2014,8 +2025,8 @@ Public Class F0_Venta2
                 objrep.SetParameterValue("EDuenho", _Ds2.Tables(0).Rows(0).Item("scnom").ToString) '?
                 'objrep.SetParameterValue("URLImageLogo", gs_CarpetaRaiz + "\LogoFactura.jpg")
                 'objrep.SetParameterValue("URLImageMarcaAgua", gs_CarpetaRaiz + "\MarcaAguaFactura.jpg")
-                objrep.SetParameterValue("ENota", "''" + "ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAÍS EL USO ILÍCITO DE ÉSTA SERÁ SANCIONADO DE ACUERDO A LA LEY" + "''")
-                objrep.SetParameterValue("ELey", "''" + "Ley N° 453: " + "El proveedor debe brindar atención sin discriminación, con respeto, calidez y cordialidad a los usuarios y consumidores." + "''")
+                objrep.SetParameterValue("ENota", _Ds1.Tables(0).Rows(0).Item("sbnota").ToString)
+                objrep.SetParameterValue("ELey", _Ds1.Tables(0).Rows(0).Item("sbnota2").ToString)
 
                 If (_Ds3.Tables(0).Rows(0).Item("cbvp")) Then 'Vista Previa de la Ventana de Vizualización 1 = True 0 = False
                     P_Global.Visualizador.CrGeneral.ReportSource = objrep 'Comentar
