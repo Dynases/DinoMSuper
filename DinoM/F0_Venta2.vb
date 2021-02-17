@@ -1793,7 +1793,11 @@ Public Class F0_Venta2
         'Literal 
         _TotalLi = _Ds.Tables(0).Rows(0).Item("fvastot") - _Ds.Tables(0).Rows(0).Item("fvadesc")
         _TotalDecimal = _TotalLi - Math.Truncate(_TotalLi)
-        _TotalDecimal2 = CDbl(_TotalDecimal) * 100
+        '_TotalDecimal2 = CDbl(_TotalDecimal) * 100
+
+        Dim dec() As String
+        dec = _TotalDecimal.Split(".")
+        _TotalDecimal2 = dec(1)
 
         'Dim li As String = Facturacion.ConvertirLiteral.A_fnConvertirLiteral(CDbl(_Total) - CDbl(_TotalDecimal)) + " con " + IIf(_TotalDecimal2.Equals("0"), "00", _TotalDecimal2) + "/100 Bolivianos"
         _Literal = Facturacion.ConvertirLiteral.A_fnConvertirLiteral(CDbl(_TotalLi) - CDbl(_TotalDecimal)) + "  " + IIf(_TotalDecimal2.Equals("0"), "00", _TotalDecimal2) + "/100 Bolivianos"
@@ -1948,8 +1952,11 @@ Public Class F0_Venta2
             '_TotalLi = "2740.38"
             _TotalLi = _Ds.Tables(0).Rows(0).Item("fvastot") - _Ds.Tables(0).Rows(0).Item("fvadesc")
             _TotalDecimal = _TotalLi - Math.Truncate(_TotalLi)
-            '_TotalDecimal = "0.93"
-            _TotalDecimal2 = CDbl(_TotalDecimal) * 100
+            '_TotalDecimal2 = CDbl(_TotalDecimal) * 100
+
+            Dim dec() As String
+            dec = _TotalDecimal.Split(".")
+            _TotalDecimal2 = dec(1)
 
             'Dim li As String = Facturacion.ConvertirLiteral.A_fnConvertirLiteral(CDbl(_Total) - CDbl(_TotalDecimal)) + " con " + IIf(_TotalDecimal2.Equals("0"), "00", _TotalDecimal2) + "/100 Bolivianos"
             _Literal = Facturacion.ConvertirLiteral.A_fnConvertirLiteral(CDbl(_TotalLi) - CDbl(_TotalDecimal)) + "  " + IIf(_TotalDecimal2.Equals("0"), "00", _TotalDecimal2) + "/100 Bolivianos"
@@ -2106,10 +2113,15 @@ Public Class F0_Venta2
             P_Global.Visualizador.Close()
         End If
         Dim ParteEntera As Long
-        Dim ParteDecimal As Decimal
+        Dim ParteDecimal As String
         ParteEntera = Int(total)
         ParteDecimal = Math.Round(total - ParteEntera, 2)
-        Dim li As String = Facturacion.ConvertirLiteral.A_fnConvertirLiteral(CDbl(ParteEntera)) + " con " +
+
+        Dim dec() As String
+        dec = ParteDecimal.Split(".")
+        ParteDecimal = dec(1)
+
+        Dim li As String = Facturacion.ConvertirLiteral.A_fnConvertirLiteral(CDbl(ParteEntera)) + "  " +
         IIf(ParteDecimal.ToString.Equals("0"), "00", ParteDecimal.ToString) + "/100 Bolivianos"
 
         ParteEntera = Int(totald)
@@ -2144,7 +2156,7 @@ Public Class F0_Venta2
 
         Dim objrep As New R_NotaVenta_7_5X100
         objrep.SetDataSource(dt)
-        'objrep.SetParameterValue("Literal1", li)
+        objrep.SetParameterValue("Literal1", li)
         'objrep.SetParameterValue("usuario", gs_user)
 
         objrep.SetParameterValue("ECasaMatriz", _Ds2.Tables(0).Rows(0).Item("scsuc").ToString)
