@@ -69,7 +69,7 @@ FuncErr:
         ElseIf nNumero = 15 Then
             A_fnDecenas = "quince"
         ElseIf nNumero >= 16 And nNumero < 20 Then
-            A_fnDecenas = "diez y " & fnUnidades(nNumero - 10)
+            A_fnDecenas = "dieci" & fnUnidades(nNumero - 10)
         ElseIf nNumero >= 20 And nNumero < 30 Then
             A_fnDecenas = "veint" & IIf((nNumero - 20) = 0, "e", "i" & fnUnidades(nNumero - 20, bMl))
         ElseIf nNumero >= 30 And nNumero < 40 Then

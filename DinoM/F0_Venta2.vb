@@ -1319,7 +1319,7 @@ Public Class F0_Venta2
 
         dt = CType(grdetalle.DataSource, DataTable)
         'Ordena el detalle por codigo importante
-        dt.DefaultView.Sort = "tbty5prod ASC"
+        'dt.DefaultView.Sort = "tbty5prod ASC"
         dt = dt.DefaultView.ToTable
         dtDetalle = dt.Copy
         dtDetalle.Clear()
@@ -3204,9 +3204,9 @@ salirIf:
                         tbPdesc.Value = pordesc
                         tbIce.Value = grdetalle.GetTotal(grdetalle.RootTable.Columns("tbptot2"), AggregateFunction.Sum) * (gi_ICE / 100)
                         If (gb_FacturaIncluirICE = True) Then
-                            tbPrueba.Value = grdetalle.GetTotal(grdetalle.RootTable.Columns("tbtotdesc"), AggregateFunction.Sum) - montodesc + tbIce.Value
+                            tbTotalBs.Text = grdetalle.GetTotal(grdetalle.RootTable.Columns("tbtotdesc"), AggregateFunction.Sum) - montodesc + tbIce.Value
                         Else
-                            tbPrueba.Value = grdetalle.GetTotal(grdetalle.RootTable.Columns("tbtotdesc"), AggregateFunction.Sum) - montodesc
+                            tbTotalBs.Text = grdetalle.GetTotal(grdetalle.RootTable.Columns("tbtotdesc"), AggregateFunction.Sum) - montodesc
                         End If
 
                     End If
@@ -3681,6 +3681,7 @@ salirIf:
             MostrarMensajeError(ex.Message)
         End Try
     End Sub
+
 
     'Private Sub TbNombre1_KeyDown(sender As Object, e As KeyEventArgs) Handles TbNombre1.KeyDown
     '    If (e.KeyData = Keys.Enter) Then
