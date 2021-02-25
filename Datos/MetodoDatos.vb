@@ -33,7 +33,7 @@ Public Class MetodoDatos
             _adaptador.SelectCommand = Comando
 
             _adaptador.Fill(_tabla)
-            'Comando.CommandTimeout = 0
+            Comando.CommandTimeout = 0
         Catch ex As Exception
             MsgBox(ex.Message)
             'Finally
@@ -66,7 +66,7 @@ Public Class MetodoDatos
             _adaptador.SelectCommand = Comando
 
         _adaptador.Fill(_tabla)
-        'Comando.CommandTimeout = 0
+        Comando.CommandTimeout = 0
         'Catch ex As Exception
         '    MsgBox(ex.Message)
         '    'Finally

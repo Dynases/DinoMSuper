@@ -498,6 +498,12 @@
     <Compile Include="Pr_VentasAtendidas.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Reporte\R_Factura_7_5x100Subsidio.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>R_Factura_7_5x100Subsidio.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reporte\R_NotaVenta_MediaCarta.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -962,6 +968,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pr_VentasAtendidas.resx">
       <DependentUpon>Pr_VentasAtendidas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reporte\R_Factura_7_5x100Subsidio.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>R_Factura_7_5x100Subsidio.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reporte\R_NotaVenta_MediaCarta.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

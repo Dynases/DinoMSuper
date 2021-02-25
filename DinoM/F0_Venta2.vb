@@ -1841,7 +1841,13 @@ Public Class F0_Venta2
             If (gi_FacturaTipo = 1) Then
                 'objrep = New R_FacturaG
             ElseIf (gi_FacturaTipo = 2) Then
-                objrep = New R_Factura_7_5x100
+
+                If tbNit.Text = 176688020 Then
+                    objrep = New R_Factura_7_5x100Subsidio
+                Else
+                    objrep = New R_Factura_7_5x100
+                End If
+
                 'If (Not _Ds.Tables(0).Rows.Count = gi_FacturaCantidadItems) Then
                 '    For index = _Ds.Tables(0).Rows.Count To gi_FacturaCantidadItems - 1
                 '        'Insertamos la primera fila con el saldo Inicial
@@ -1949,7 +1955,6 @@ Public Class F0_Venta2
             _Cod_Control = ControlCode.generateControlCode(_Autorizacion, _NumFac, _Nit, _Fechainv, CStr(_TotalCC), _Key)
 
             'Literal 
-            '_TotalLi = "2740.38"
             _TotalLi = _Ds.Tables(0).Rows(0).Item("fvastot") - _Ds.Tables(0).Rows(0).Item("fvadesc")
             _TotalDecimal = _TotalLi - Math.Truncate(_TotalLi)
             '_TotalDecimal2 = CDbl(_TotalDecimal) * 100
@@ -2000,7 +2005,12 @@ Public Class F0_Venta2
                 If (gi_FacturaTipo = 1) Then
                     'objrep = New R_FacturaG
                 ElseIf (gi_FacturaTipo = 2) Then
-                    objrep = New R_Factura_7_5x100
+                    If tbNit.Text = 176688020 Then
+                        objrep = New R_Factura_7_5x100Subsidio
+                    Else
+                        objrep = New R_Factura_7_5x100
+                    End If
+
                     'If (Not _Ds.Tables(0).Rows.Count = gi_FacturaCantidadItems) Then
                     '    For index = _Ds.Tables(0).Rows.Count To gi_FacturaCantidadItems - 1
                     '        'Insertamos la primera fila con el saldo Inicial
