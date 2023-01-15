@@ -66,7 +66,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AxInterop.AcroPDFLib">
-      <HintPath>C:\librerias\AxInterop.AcroPDFLib.dll</HintPath>
+      <HintPath>C:\libreriasDiego\PDF\AxInterop.AcroPDFLib.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.CrystalReports.Design, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -140,46 +140,52 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\DotNetBar for Windows Forms\DevComponents.TreeGX.dll</HintPath>
     </Reference>
-    <Reference Include="FlashControlV71, Version=1.0.3187.32366, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="FlashControlV71, Version=1.0.3187.32366, Culture=neutral, PublicKeyToken=692fbea5521e1304">
+      <HintPath>C:\libreriasDiego\FlashControlV71.dll</HintPath>
+    </Reference>
     <Reference Include="Gma.QrCodeNet.Encoding">
-      <HintPath>C:\librerias\Gma.QrCodeNet.Encoding.dll</HintPath>
+      <HintPath>C:\libreriasDiego\QrCode\Gma.QrCodeNet.Encoding.dll</HintPath>
     </Reference>
     <Reference Include="GMap.NET.Core">
-      <HintPath>C:\librerias\GMap.NET.Core.dll</HintPath>
+      <HintPath>C:\libreriasDiego\Gmap\GMap.NET.Core.dll</HintPath>
     </Reference>
     <Reference Include="GMap.NET.WindowsForms">
-      <HintPath>C:\librerias\GMap.NET.WindowsForms.dll</HintPath>
+      <HintPath>C:\libreriasDiego\Gmap\GMap.NET.WindowsForms.dll</HintPath>
     </Reference>
     <Reference Include="Interop.AcroPDFLib">
-      <HintPath>C:\librerias\Interop.AcroPDFLib.dll</HintPath>
+      <HintPath>C:\libreriasDiego\PDF\Interop.AcroPDFLib.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.AcroPDFLib.1.0">
+      <HintPath>C:\libreriasDiego\PDF\Interop.AcroPDFLib.1.0.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Janus.Data.v3, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\librerias\Janus.Data.v3.dll</HintPath>
+      <HintPath>C:\libreriasDiego\Janus\Janus.Data.v3.dll</HintPath>
     </Reference>
     <Reference Include="Janus.Windows.CalendarCombo.v3, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\librerias\Janus.Windows.CalendarCombo.v3.dll</HintPath>
+      <HintPath>C:\libreriasDiego\Janus\Janus.Windows.CalendarCombo.v3.dll</HintPath>
     </Reference>
     <Reference Include="Janus.Windows.Common.v3, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\librerias\Janus.Windows.Common.v3.dll</HintPath>
+      <HintPath>C:\libreriasDiego\Janus\Janus.Windows.Common.v3.dll</HintPath>
     </Reference>
     <Reference Include="Janus.Windows.GridEX.v3, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\librerias\Janus.Windows.GridEX.v3.dll</HintPath>
+      <HintPath>C:\libreriasDiego\Janus\Janus.Windows.GridEX.v3.dll</HintPath>
     </Reference>
     <Reference Include="Janus.Windows.Ribbon.v3, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\librerias\Janus.Windows.Ribbon.v3.dll</HintPath>
+      <HintPath>C:\libreriasDiego\Janus\Janus.Windows.Ribbon.v3.dll</HintPath>
     </Reference>
     <Reference Include="Janus.Windows.UI.v3, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\librerias\Janus.Windows.UI.v3.dll</HintPath>
+      <HintPath>C:\libreriasDiego\Janus\Janus.Windows.UI.v3.dll</HintPath>
     </Reference>
     <Reference Include="OnBarcode.Barcode.WinForms">
-      <HintPath>C:\librerias\OnBarcode.Barcode.WinForms.dll</HintPath>
+      <HintPath>C:\libreriasDiego\QrCode\OnBarcode.Barcode.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
